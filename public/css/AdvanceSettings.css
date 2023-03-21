@@ -1,0 +1,55 @@
+.body-container{
+    flex-direction: column;
+    display: flex;
+}
+
+.price-wrap{
+    position:relative;
+}
+
+.price-code{
+    position:absolute;
+    left:8px;
+	top:10px;
+}
+
+.wrap{
+    padding:10px 20px;
+	border:solid 1px #ccc;
+	border-radius:5px;
+}
+
+.productHidden{
+    display: block
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.main--searchContainter{
+    display: flex;
+    flex-direction: column;
+    margin: 5px
+}
+
+.main--buttonContainer{
+    display: flex;
+    margin: 5px;
+    justify-content: flex-end;
+}
+
+.buttonContainer--button{
+    margin: 5px 2px;
+}
+
+.main--editableContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.editable-List{
+    display: flex;
+    flex-direction: row;
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/Format.css">
+    <link rel="stylesheet" href="../css/AdvanceSettings.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="main">
+        <div class="header">
+            <div class="logo">
+                <a href="Home.html">
+                    <img src="../images/logo1-1.png" alt="HTML5" class="logo">
+                </a>
+            </div>
+
+            <div class="centerHeader">
+                <div class="accessibilities goods">
+                    <a href="OrderProducts.html" class="itemSeparate">
+                        <button>Order Products</button>
+                    </a>
+    
+                    <a href="MakeAppointment.html" class="itemSeparate">
+                        <button>Make Appointment</button>
+                    </a>
+                </div>
+
+                <div class="accessibilities others">
+                    <a href="ViewFinances.html" class="itemSeparate">
+                        <button>View Finances</button>
+                    </a>
+    
+                    <a href="ViewBookings.html" class="itemSeparate">
+                        <button>View Bookings</button>
+                    </a>
+
+                    <a href="ViewDeliveries.html" class="itemSeparate">
+                        <button>View Delivery</button>
+                    </a>
+    
+                    <a href="AdvanceSettings.html" class="itemSeparate">
+                        <button>Advance Settings</button>
+                    </a>
+                </div>
+            </div>
+        
+            <div class="accessibilities profile">
+                    <a href="AccountDetails.html" class="userContent itemSeparate" id="userContent">
+                        <img src="../images/user.png" alt="HTML5" class="userLogo">
+                        <div class="userDetails">
+                            <label id="username">Username</label>
+                            <label id="userType">Account</label>
+                        </div>
+                    </a>
+
+                    <a href="index.html" class="itemSeparate">
+                        <button>Log Out</button>
+                    </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main divBody">
+        <div class="contentBody">
+            <div class="body-container">
+
+                <div class="main-body">
+                    <div class="product-main">
+                        <h1>PRODUCT</h1>
+                        <div class="main--searchContainter">
+                            <input type="text" id="txtsearchProduct" placeholder="Search Product" onkeyup="keyPressProductSearch()">
+                            <select id="allProductList" class="item wrap" size="5"  onload="fillListProduct()" onchange="getInfoFromClickedProductList()"></select>
+                        </div>
+                        
+                        <div class="main--buttonContainer">
+                            <button class="buttonContainer--button" id="addProductClick" class="item" onclick="addProduct()">add</button>
+                            <button class="buttonContainer--button" id="editProductClick" class="item" onclick="editProduct()">edit</button>
+                            <button class="buttonContainer--button" id="deleteProductClick" class="item" onclick="deleteProduct()">delete</button>
+                            <button class="buttonContainer--button" id="closeProductClick" class="item" onclick="closeProduct()" style="display: none;">close</button>
+                        </div>
+                        
+                        <div class="main--editableContainer" id="editableProduct">
+                            <input type="text" name="name" id="productName" placeholder="Product Name" class="item wrap" disabled="true">
+                            <div class="price-wrap">
+                                <span class="price-code">₱</span>
+                                <input type="number" name="price" id="productPrice" class="item wrap" placeholder="Product Price" disabled="true"/>
+                            </div>
+                            <textarea id="productDescription" cols="25" rows="5" placeholder="Product Description" disabled="true"></textarea>
+        
+                            <div class="editable-List">
+                                <select id="productCategoryList" class="item wrap" size="1" onload="" disabled="true"></select>
+                                <button id="addProductCategoryToDatabase" class="item" disabled="true">+</button>
+                            </div>
+        
+                            <div id="productCategoryHidden" style="display: none;">
+                                <div class="product-main--searchContainter">
+                                    <input type="text" name="productCategory" id="txtsearchProductCategory" placeholder="Search Product Category" onkeyup="keyPressProductCategorySearch()">
+                                    <select id="allProductCategory" class="item wrap" size="3"></select>
+                                </div>
+                                
+                                
+                                <div class="main--buttonContainer">
+                                    <button id="addProductCategory" style="display: none;" class="buttonContainer--button">cancel</button>
+                                    <button id="editProductCategory" class="buttonContainer--button">edit</button>
+                                    <button id="deleteProductCategory" class="buttonContainer--button">delete</button>
+                                </div>
+                                <div>
+                                    <input type="text" name="productCategory" id="productCategory" placeholder="Product Category">
+                                    <button id="productCategoryClick">+</button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <button  id="saveProductClick" class="product-saveButton" style="display: none;">save</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-main">
+                        <h1>SERVICE</h1>
+                        <div class="main--searchContainter">
+                            <input type="text" id="txtSearchService" placeholder="Search Service" onkeyup="keyPressServiceSearch()">
+                            <select id="allServiceList" class="item wrap" size="5" onload="fillListService()" onchange="getInfoFromClickedServiceList()"></select>
+                        </div>
+                        
+                        <div class="main--buttonContainer">
+                            <button class="buttonContainer--button" id="addServiceClick" class="item" onclick="addService()">add</button>
+                            <button class="buttonContainer--button" id="editServiceClick" class="item" onclick="editService()">edit</button>
+                            <button class="buttonContainer--button" id="deleteServiceClick" class="item" onclick="deleteService()">delete</button>
+                            <button class="buttonContainer--button" id="closeServiceClick" class="item" onclick="closeService()" style="display: none;">close</button>
+                        </div>
+                        
+                        <div class="main--editableContainer" id="editableService">
+                            <input type="text" name="name" id="serviceName" placeholder="Service Name" class="item wrap" disabled="true">
+                            <div class="price-wrap">
+                                <span class="price-code">₱</span>
+                                <input type="number" name="price" id="servicePrice" class="item wrap" placeholder="Service Price" disabled="true"/>
+                            </div>
+                            <div class="price-wrap">
+                                <input type="number" id="serviceDuration" class="item wrap" placeholder="Service Duration" disabled="true"/>
+                                <span>min</span>
+                            </div>
+                            <textarea id="serviceDescription" cols="25" rows="5" placeholder="Service Description" disabled="true"></textarea>
+        
+                            <div class="editable-List">
+                                <select id="serviceCategoryList" class="item wrap" size="1" onload="fillListServiceCategory()" disabled="true"></select>
+                                <button id="addServiceCategoryToDatabase" class="item" disabled="true">+</button>
+                            </div>
+        
+                            <div id="serviceCategoryHidden" style="display: none;">
+                                <div class="service-main--searchContainter">
+                                    <input type="text" name="serviceCategory" id="txtsearchServiceCategory" placeholder="Search Service Category" onkeyup="keyPressServiceCategorySearch()">
+                                    <select id="allServiceCategory" class="item wrap" size="3"></select>
+                                </div>
+                                
+                                
+                                <div class="main--buttonContainer">
+                                    <button id="addServiceCategory" style="display: none;" class="buttonContainer--button">cancel</button>
+                                    <button id="editServiceCategory" class="buttonContainer--button">edit</button>
+                                    <button id="deleteServiceCategory" class="buttonContainer--button">delete</button>
+                                </div>
+                                <div>
+                                    <input type="text" name="serviceCategory" id="serviceCategory" placeholder="Service Category">
+                                    <button id="serviceCategoryClick">+</button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <button  id="saveServiceClick" class="service-saveButton" style="display: none;">save</button>
+                        </div>
+                        
+                    </div>
+        
+                    <div class="Customer">
+                        <h1>CUSTOMER</h1>
+                        <div class="main--searchContainter">
+                            <input type="text" id="txtSearchCustomer" placeholder="Search Customer" onkeyup="keyPressCustomerSearch()">
+                            <select id="allCustomerList" class="item wrap" size="5"  onload="fillListCustomer()" onchange="getInfoFromClickedCustomerList()"></select>
+                        </div>
+                        
+                        <div class="main--editableContainer" id="editableCustomer">
+                            <input type="text" name="name" id="customerFirstName" placeholder="Customer First Name" class="item wrap" disabled="true">
+                            <input type="text" name="name" id="customerLastName" placeholder="Customer Last Name" class="item wrap" disabled="true">
+                            <input type="birthday" name="name" id="customerBirthday" placeholder="Customer Birthday" class="item wrap" disabled="true">
+                            <input type="text" name="name" id="customerPhone" placeholder="Customer Phone" class="item wrap" disabled="true">
+                            <input type="email" name="name" id="customerEmail" placeholder="Customer Email" class="item wrap" disabled="true">
+                            <input type="text" name="name" id="customerStatus" placeholder="Customer Status" class="item wrap" disabled="true">
+                        </div>
+        
+                    <div class="Employee">
+                        <h1>EMPLOYEE</h1>
+                        
+                        <div class="main--searchContainter">
+                            <input type="text" id="txtSearchEmployee" placeholder="Search Employee" onkeyup="keyPressEmployeeSearch()">
+                            <select id="allEmployeeList" class="item wrap" size="5" onload="" onchange="getInfoFromClickedEmployeeList()"></select>
+                        </div>
+                        
+                        <div class="main--editableContainer" id="editableEmployee">
+                            <input type="text" name="name" id="employeeFirstName" placeholder="Employee First Name" class="item wrap" disabled="true">
+                            <input type="text" name="name" id="employeeLastName" placeholder="Employee Last Name" class="item wrap" disabled="true">
+                            <input type="birthday" name="name" id="employeeBirthday" placeholder="Employee Birthday" class="item wrap" disabled="true">
+                            <input type="text" name="name" id="employeePhone" placeholder="Employee Phone" class="item wrap" disabled="true">
+                            <input type="email" name="name" id="employeeEmail" placeholder="Employee Email" class="item wrap" disabled="true">
+
+                            <div>
+                                <select type="text" name="name" id="employeeAccess" placeholder="Empoyee Access" class="item wrap" disabled="true"></select>
+                                <div class="price-wrap">
+                                    <span class="price-code">₱</span>
+                                    <input type="text" name="name" id="employeeSalary" placeholder="Empoyee Salary" class="item wrap" disabled="true">
+                                </div>
+                                <select type="text" name="name" id="employeeShift" placeholder="Empoyee Shift" class="item wrap" disabled="true"></select>
+                            </div>
+                            
+                            <div class="main--buttonContainer">
+                                <button class="buttonContainer--button" id="addEmployeeClick" class="item" onclick="addEmployee()">add</button>
+                                <button class="buttonContainer--button" id="editEmployeeClick" class="item" onclick="editEmployee()">edit</button>
+                                <button class="buttonContainer--button" id="deleteEmployeeClick" class="item" onclick="removeEmployee()">remove</button>
+                                <button class="buttonContainer--button" id="saveEmployeeClick" class="item" onclick="saveEmployee()" style="display: none;">save</button>
+                                <button class="buttonContainer--button" id="closeEmployeeClick" class="item" onclick="closeEmployee()" style="display: none;">close</button>
+                            </div>
+
+                            <div class="main--editableContainer" id="editableCustomerEmployee" style="display:none;">
+                                <input type="text" name="employeeSearch" id="txtsearchCustomerEmployee" placeholder="Search Customer" onkeyup="keyPressCustomerEmployeeSearch()">
+                                <div class="service-main--searchContainter">
+                                    <select id="allCustomerEmployee" class="item wrap" size="3"></select>
+                                    <button id="addCustomerToEmployee" onclick="customerToEmployee()">+</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+            
+            <script src="./AdvanceSettings.js" type="text/javascript"></script>
+            <script src="./AdvanceSettingsService.js" type="text/javascript"></script>
+            <script src="./AdvanceSettingsProducts.js" type="text/javascript"></script>
+            <script src="./AdvanceSettingsCustomer.js" type="text/javascript"></script>
+            <script src="./AdvanceSettingsEmployee.js" type="text/javascript"></script>
+        </div>
+    </div>
+
+</body>
+</html>

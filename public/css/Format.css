@@ -1,0 +1,96 @@
+body{
+    font-family: 'Mulish', sans-serif;
+}
+.main {
+    height: 100%;
+    position: fixed;
+    top: 0;
+ }
+
+header{
+    left: 0;
+    width: 15%;
+    background-color: #1abc9c;
+    display: flex;
+}
+
+.divBody{
+    right: 0;
+    width: 85%;
+    background-color: aquamarine;
+}
+
+.header{
+    margin: 0 auto;
+}
+
+.centerHeader{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+img.logo{
+    width: 80%;
+    height: auto;
+}
+
+.accessibilities {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.contentBody {
+    padding: 20px;
+}
+
+.accessibilities,div.logo {
+    text-align: center;
+}
+
+div.profile{
+    position: absolute;
+   bottom: 5px;
+   border-top: 5px;
+}
+
+.userLogo{
+    width: 15%;
+    height: auto;
+    padding: 10px;
+}
+
+.userContent{
+    display: flex;
+    flex-direction: row;
+    background: white;
+}
+
+.userDetails{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    text-align: start;
+}
+
+.itemSeparate{
+    background-color: white;
+    margin: 5px;
+    width: 100%;
+}
+
+.divBody{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+
+
+
+
+
