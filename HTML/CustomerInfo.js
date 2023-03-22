@@ -8,10 +8,11 @@ async function addCustomer() {
     var email = document.getElementById("email").value;
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
+    var coPassword = document.getElementById("confirmPassword").value;
     var status = await getStatus(birthday);
     var isDeleted = false;
 
-    var data = {firstName, lastName, birthday, phone, address, email, username, password, status, isDeleted};
+    var data = {firstName, lastName, birthday, phone, address, email, username, password, coPassword, status, isDeleted};
     
     if(await missingData(data)) {
         alert('There are missing or incorrect data. Please check again');
@@ -73,6 +74,7 @@ async function missingData(data){
     if(!validateEmail(data.email)) {
         return true;
     }
+    if(!validatePassword(data.password, data.coPassword))
     
     return false;
 }
@@ -85,4 +87,10 @@ function validatePhoneNumber(number) {
 function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // regular expression for email validation
     return regex.test(email);
-  }
+}
+
+function validatePassword(password, coPassword){
+if(password === coPassword) return true;
+
+return false;
+}
