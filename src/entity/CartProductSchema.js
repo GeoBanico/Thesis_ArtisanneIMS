@@ -1,36 +1,34 @@
 const EntitySchema = require("typeorm").EntitySchema;
-const BookService = require("../model/BookService").BookService;
-const Book = require("../model/Book").Book;
-const Service = require("../model/Service").Service;
-const BookStatus = require("../model/BookStatus").BookStatus; 
+const Cart = require("../model/Cart").Cart;
+const CartProduct = require("../model/CartProduct").CartProduct;
+const DeliveryStatus = require("../model/DeliveryStatus").DeliveryStatus;
 
 module.exports = new EntitySchema({
-    name: "BookService",
-    target: BookService,
+    name: "CartProduct",
+    target: CartProduct,
     columns: {
         id: {
             primary: true,
             type: "int",
             generated: true
         },
-        serviceId: {
+        productId: {
             type: "int",
-            nullable: true
         },
-        bookId: {
+        cartId: {
             type: "int",
         }
     },
     relations: {
-        books: {
-            target: "Book",
+        carts: {
+            target: "Customer",
             type: "many-to-one",
             joinColumn: true,
             joinTable: true,
             cascade: true
         },
-        services: {
-            target: "Service",
+        products: {
+            target: "Product",
             type: "many-to-one",
             joinColumn: true,
             joinTable: true,

@@ -1,16 +1,17 @@
 class Cart {
-    constructor(id, customerId, productId, deliveryStatusId, orderNumber, dateOrdered, dateDelivered, isDeleted, customers, products, deliveryStatuses) {
+    constructor(id, customerId, cartProductId, deliveryStatusId, orderNumber, dateOrdered, dateDelivered, isDeleted, customers, cartProducts, deliveryStatuses) {
         this.id = id;
-        this.customerId = customerId;
-        this.productId = productId;
-        this.deliveryStatusId = deliveryStatusId;
         this.orderNumber = orderNumber;
         this.dateOrdered = dateOrdered;
         this.dateDelivered = dateDelivered;
         this.isDeleted = isDeleted;
 
+        this.customerId = customerId;
+        this.cartProductId = cartProductId;
+        this.deliveryStatusId = deliveryStatusId;
+
         this.customers = customers;
-        this.products = products;
+        this.cartProducts = cartProducts;
         this.deliveryStatuses = deliveryStatuses;
     }
 }

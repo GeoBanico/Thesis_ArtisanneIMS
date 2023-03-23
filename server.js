@@ -225,8 +225,8 @@ app.post('/searchSpecificProductCategory', async(req, res) => {
 app.post('/searchAllProductCategory', async(req, res) => {
     const data = req.body
 
-    const selectAll = await productServer.selectProductTypeAll(data);
-    
+    const selectAll = await productServer.selectProductTypeAll();
+
     res.json(selectAll);
 });
 
@@ -378,3 +378,13 @@ async function sameDuplicateGoods(goods, res){
         });
     }
 }
+
+//----------------------------------------
+//-------------------- BOOKING -----------
+//----------------------------------------
+const bookingServer = require('./public/javascript/BookingServer');
+app.post('/confirmBooking', async(req, res) => {
+    const data = req.body
+
+    await bookingServer.insertBooking(data);
+});

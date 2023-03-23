@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
+    <link rel="stylesheet" href="../css/ViewFinances.css">
     <title>Document</title>
 </head>
 <body>
@@ -65,7 +66,68 @@
     <div class="main divBody">
         <div class="contentBody">
             <h1>View Finances</h1>
+            <button id="addFinance">add</button>
+            <div id="hiddenAdd">
+                <input type="date" name="receiptDate" id="receiptDate">
+                <select name="orderList" id="orderList"></select>
+                <label for="totalOrder">Total:</label>
+                <input type="text" id="totalOrder">
+                <br>
+                <button id="showService">add Service</button>
+                <button id="showProduct">add Product</button>
+                <button id="saveFinance">save</button>
+                <div id="hiddenService">
+                    <input type="text" id="serviceSearch" placeholder="Search Service">
+                    <select name="serviceList" id="serviceList"></select>
+                    <button id="addServiceToReceipt">add</button>
+                </div>
+                <div id="hiddenProduct">
+                    <input type="text" id="receiptId">
+                    <input type="text" id="productSearch" placeholder="Search Product">
+                    <select name="productList" id="productList"></select>
+                    <button id="addProductToReceipt">add</button>
+                </div>
+            </div>
         </div>
+
+        <div>
+            <h3>Search By:</h3>
+        <div id="searches">
+            <div>
+                <label for="searchByDate">Date:</label>
+                <input type="date" value="" id="searchByDate">
+                <label for="searchByMonth">Month</label>
+                <input type="month" value="" id="searchByMonth">
+                <label for="searchByYear">Year</label>
+                <select name="" id="searchByYear"></select>
+            </div>
+            
+            <div>
+                <label for="servicesTable">Services</label>
+                <table id="servicesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Product Name</th>
+                            <th>Product Price</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <label for="productTable">Products</label>
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Product Name</th>
+                            <th>Product Price</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        </div>
+        
     </div>
     <script src="./ViewFinances.js" type="text/javascript"></script>
 </body>

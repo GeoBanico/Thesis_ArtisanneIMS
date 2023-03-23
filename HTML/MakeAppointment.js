@@ -150,7 +150,6 @@ async function callServiceDetails(id){
     const response = await fetch('/searchAServiceById', options);
     const dataStream = await response.json();
     
-    console.log(dataStream);
     document.getElementById("orderName").value = dataStream.name;
     document.getElementById("servicePrice").value = dataStream.price;
     document.getElementById("serviceDescription").value = dataStream.description;
@@ -158,32 +157,74 @@ async function callServiceDetails(id){
 }
 
 function bookNowClick(){
-    document.getElementById("bookNow").style.display = "none";
-    document.getElementById("hideBookNow").style.display = "block";
-}
+    var value = document.getElementById("orderName").value;
+    var selectBox = document.getElementById("serviceList");
 
-function cancelBooking(){
-    document.getElementById("bookNow").style.display = "block";
-    document.getElementById("hideBookNow").style.display = "none";
-}
-
-async function confirmBooking(){
-    var name = document.getElementById("orderName").value;
-    if(name == '') {
-        alert('Kindly select a service');
+    if (value == '') {
+        alert('Please select a service to book');
+        return
+    }
+    if(theSameBookService(selectBox, value)) {
+        alert('You already booked this service');
         return
     }
 
-    var data = { name };
+    document.getElementById("hideBookNow").style.display = "block";
+    var option = document.createElement("option");
+    option.text = value;
+    option.value = value;
+    selectBox.add(option);
+}
+
+function theSameBookService(selectBox, value){
+    var hasTheSame = false;
+    for (let i = 0; i < selectBox.length; i++) {
+        if(selectBox[i].value == value) hasTheSame = true;
+    }
+
+    return hasTheSame;
+}
+
+function removeBooking(){
+    var serviceList = document.getElementById("serviceList")
+    var selectedService = document.getElementById("serviceList").value;
+
+    if(selectedService == '') {
+        alert('Kindly select one of your booked services');
+        return
+    }
+
+    if(confirm(`Do you want to remove this product: ${selectedService}?`) == false) return
+
+    for (let i = 0; i < serviceList.length; i++) {
+        if(serviceList.options[i].value == selectedService) serviceList.remove(i);
+    }
+
+    if(document.getElementById("serviceList").length == 0) {
+        document.getElementById("hideBookNow").style.display = "none";
+    }
+}
+
+async function confirmBooking(){
+    if(confirm(`Confirm Booking? \nNote: the services of this booking is not changeable`) == false) return
+
+    var customerUsername = document.getElementById("username").innerHTML;
+
+    var serviceList = document.getElementById("serviceList");
+    var servicesBooked = [];
+    
+    for (let i = 0; i < serviceList.length; i++) {
+       servicesBooked.push(serviceList.options[i].value);
+    }
+
+    var data = {customerUsername , servicesBooked};
+
     const options =  {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
         body: JSON.stringify(data)
         };
     
-    const response = await fetch('/searchAService', options);
+    const response = await fetch('/confirmBooking', options);
     const dataStream = await response.json();
-
-    
-
 }

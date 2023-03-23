@@ -65,6 +65,21 @@
     <div class="main divBody">
         <div class="contentBody">
             <h1>View Bookings</h1>
+            <div id="searchesDiv">
+                <h3>Search by:</h3>
+                <input type="button" value="All">
+                <label for="searchByDate">Date:</label>
+                <select name="searchByDate" id="searchByDate"></select>
+                <label for="searchByStatus">Status:</label>
+                <select name="searchByStatus" id="searchByStatus"></select><br>
+
+                <select name="bookingList" id="bookingList"></select><br>
+
+                <input type="text" placeholder="Customer Name" id="customerName">   
+                <input type="text" placeholder="Booking Date" id="bookingDate"><br>
+                <textarea name="customerOrder" id="customerOrder" cols="30" rows="2"></textarea><br>
+                <select name="orderStatus" id="orderStatus"></select>
+            </div>
         </div>
     </div>
     <script src="./ViewBookings.js" type="text/javascript"></script>

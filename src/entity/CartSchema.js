@@ -1,7 +1,7 @@
 const EntitySchema = require("typeorm").EntitySchema;
 const Cart = require("../model/Cart").Cart;
 const Customer = require("../model/Customer").Customer;
-const Product = require("../model/Product").Product;
+const CartProduct = require("../model/CartProduct").CartProduct;
 const DeliveryStatus = require("../model/DeliveryStatus").DeliveryStatus;
 
 module.exports = new EntitySchema({
@@ -16,9 +16,9 @@ module.exports = new EntitySchema({
         customerId: {
             type: "int"
         },
-        productId: {
+        cartProductId: {
             type: "int",
-            
+            nullable: true
         },
         deliveryStatusId: {
             type: "int",
@@ -30,7 +30,8 @@ module.exports = new EntitySchema({
             type: "datetime"
         },
         dateDelivered: {
-            type: "datetime"
+            type: "datetime",
+            nullable: true
         },
         isDeleted: {
             type: "bit"
@@ -44,12 +45,13 @@ module.exports = new EntitySchema({
             joinTable: true,
             cascade: true
         },
-        products: {
-            target: "Product",
-            type: "many-to-one",
+        cartProducts: {
+            target: "CartProduct",
+            type: "one-to-many",
             joinColumn: true,
             joinTable: true,
-            cascade: true
+            cascade: true,
+            nullable: true
         },
         deliveryStatuses: {
             target: "DeliveryStatus",

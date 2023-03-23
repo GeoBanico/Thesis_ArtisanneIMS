@@ -71,9 +71,18 @@
                 
             </div>
             <div id="serviceDetails" class="rightSide">
-                <div>
-                    <button id="bookNow" onclick="bookNowClick()">Book Now</button>
+                <div id="hideBookNow" style="display: none;">
+                    <select name="" id="serviceList" size="5"></select><br>
+                    <label for="selectBookingDate">Select a booking date:</label>
+                    <input type="date" id="selectBookingDate">
+                    <br>
+                    <label for="selectBookingTime">Select a booking time:</label>
+                    <select id="selectBookingTime"></select>
+                    <br>
+                    <button id="cancel" onclick="removeBooking()">Remove Booking</button>
+                    <button id="confirmBooking" onclick="confirmBooking()">Confirm Booking</button>
                 </div>
+
                 <div>
                     <input type="text" id="orderName" class="item wrap" placeholder="Service Name"  disabled="true">
                     <div class="price-wrap">
@@ -83,19 +92,9 @@
                     <textarea id="serviceDescription" cols="25" rows="5" placeholder="Service Description" disabled="true"></textarea><br>
                     <input type="text" name="name" id="serviceCategory" placeholder="Service Category" class="item wrap" disabled="true">
                 </div>
-
-                <div id="hideBookNow" style="display: none;">
-                    <label for="selectBookingDate">Select a booking date:</label>
-                    <input type="date" id="selectBookingDate">
-                    <br>
-                    <label for="selectBookingTime">Select a booking time:</label>
-                    <select id="selectBookingTime"></select>
-                    <br>
-                    <button id="confirmBooking" onclick="confirmBooking()">Confirm Booking</button>
-                    <button id="cancel" onclick="cancelBooking()">cancel</button>
+                <div>
+                    <button id="bookNow" onclick="bookNowClick()">Book Now</button>
                 </div>
-
-
             </div>
         </div>
         

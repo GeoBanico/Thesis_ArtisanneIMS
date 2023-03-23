@@ -158,7 +158,7 @@ const editProduct = async(newProduct) => {
         const edit = config.then(async function (connection) {
             const productRep = connection.getRepository(Product);
             const productToUpdate = await productRep.findOneBy({
-                name: newProduct.name,
+                name: newProduct.oldName,
                 isDeleted: false
             })
 
