@@ -148,10 +148,27 @@ const config = require('../../src/index'),
         }
     }
 
+    const getAllReceipts = async() => {
+        try {
+            const get = config.then(async function (connection){
+                
+                const receiptRepo = connection.getRepository(Receipt)
+                const allReceipt = await receiptRepo.find()
+
+                return allReceipt;
+            })
+    
+            return get;
+        } catch (error) {
+            console.log('Insert Customer ERROR: '+error);
+        }
+    }
+
 
 module.exports = {
     insertReceipt,
     getAllServiceReceipts,
     getAllProductReceipts,
+    getAllReceipts,
     //getUserCart,
 }

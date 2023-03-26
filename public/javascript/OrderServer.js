@@ -192,6 +192,24 @@ const changeOrderStatus = async(data) =>{
 
             await cartRepo.save(getCart);
 
+            //CANCELED
+            // if(status.type == 'Canceled'){
+            //     const cartProdRepo = connection.getRepository(CartProduct);
+            //     const cartProd = await cartProdRepo.find({
+            //         where: {cartId: data.cartId},
+            //         relations: ["products", "carts"]
+            //     })
+
+
+            //     cartProd.forEach(obj => {
+            //         Object.entries(obj).forEach(([key, value]) => {
+            //             if(key === 'boughtquantity') {
+                            
+            //             }
+            //         });
+            //     });
+            // }
+
             return '';
         })
 

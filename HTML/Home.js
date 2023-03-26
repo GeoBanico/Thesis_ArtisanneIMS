@@ -19,4 +19,6 @@ function getUserDetails(){
 
     document.getElementById('username').innerHTML = currentUser.username;
     document.getElementById('userType').innerHTML = currentUser.userType;
+    
+    if(currentUser.userType == 'Customer') document.getElementById('forEmployee').style.display = 'none';
 } 

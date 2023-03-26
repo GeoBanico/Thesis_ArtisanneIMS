@@ -23,6 +23,7 @@ function getHrs(){
 }
 
 function getUserDetails(){
+    console.log('start')
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
         const [name, value] = cookie.split("=");
@@ -37,6 +38,8 @@ function getUserDetails(){
 
     document.getElementById('username').innerHTML = currentUser.username;
     document.getElementById('userType').innerHTML = currentUser.userType;
+    
+    if(currentUser.userType == 'Customer') document.getElementById('forEmployee').style.display = 'none';
 } 
 
 function clearServices() {

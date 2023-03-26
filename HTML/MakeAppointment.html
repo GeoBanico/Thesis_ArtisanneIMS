@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
-    <link rel="stylesheet" href="../css/AdvanceSettings.css">
-    <link rel="stylesheet" href="../css/CustomerOrderBook.css">
+    <!-- <link rel="stylesheet" href="../css/AdvanceSettings.css">
+    <link rel="stylesheet" href="../css/CustomerOrderBook.css"> -->
     <title>Document</title>
 </head>
 <body>
@@ -27,8 +27,8 @@
 
         <ul>
             <li><a href="OrderProducts.html" class="itemSeparate">Order Products</a></li>
-            <li><a href="OrderProducts.html" class="itemSeparate">Make Appointment</a></li>
-            <li>
+            <li><a href="MakeAppointment.html" class="itemSeparate">Make Appointment</a></li>
+            <li id="forEmployee">
                 <a href="#" class="itemSeparate">Advance Settings</a>
                 <ul class="dropdown">
                     <li><a href="ViewFinances.html" class="itemSeparate">View Finances</a></li>
@@ -41,40 +41,43 @@
     </nav>
 
     <div class="main divBody">
-        <h1>Book A Service</h1>
-        <div class="divContent">
-            <div id="insertServices">
-                
-            </div>
-            <div id="serviceDetails" class="rightSide">
-                <div id="hideBookNow" style="display: none;">
-                    <select name="" id="serviceList" size="5"></select><br>
-                    <label for="selectBookingDate">Select a booking date:</label>
-                    <input type="date" id="selectBookingDate">
-                    <br>
-                    <label for="selectBookingTime">Select a booking time:</label>
-                    <select id="selectBookingTime"></select>
-                    <br>
-                    <button id="cancel" onclick="removeBooking()">Remove Booking</button>
-                    <button id="confirmBooking" onclick="confirmBooking()">Confirm Booking</button>
+        <div class="contentBody">
+            <h1>Book A Service</h1>
+            <div class="divContent">
+                <div id="insertServices">
+                    
                 </div>
-
-                <div>
-                    <input type="text" id="orderName" class="item wrap" placeholder="Service Name"  disabled="true">
-                    <div class="price-wrap">
-                        <span class="price-code">₱</span>
-                        <input type="number" name="price" id="servicePrice" class="item wrap" placeholder="Service Price" disabled="true"/>
+                <div id="serviceDetails" class="rightSide">
+                    <div id="hideBookNow" style="display: none;">
+                        <select name="" id="serviceList" size="5"></select><br>
+                        <label for="selectBookingDate">Select a booking date:</label>
+                        <input type="date" id="selectBookingDate">
+                        <br>
+                        <label for="selectBookingTime">Select a booking time:</label>
+                        <select id="selectBookingTime"></select>
+                        <br>
+                        <button id="cancel" onclick="removeBooking()">Remove Booking</button>
+                        <button id="confirmBooking" onclick="confirmBooking()">Confirm Booking</button>
                     </div>
-                    <textarea id="serviceDescription" cols="25" rows="5" placeholder="Service Description" disabled="true"></textarea><br>
-                    <input type="text" name="name" id="serviceCategory" placeholder="Service Category" class="item wrap" disabled="true">
-                </div>
-                <div>
-                    <button id="bookNow" onclick="bookNowClick()">Book Now</button>
+
+                    <div>
+                        <input type="text" id="orderName" class="item wrap" placeholder="Service Name"  disabled="true">
+                        <div class="price-wrap">
+                            <span class="price-code">₱</span>
+                            <input type="number" name="price" id="servicePrice" class="item wrap" placeholder="Service Price" disabled="true"/>
+                        </div>
+                        <textarea id="serviceDescription" cols="25" rows="5" placeholder="Service Description" disabled="true"></textarea><br>
+                        <input type="text" name="name" id="serviceCategory" placeholder="Service Category" class="item wrap" disabled="true">
+                    </div>
+                    <div>
+                        <button id="bookNow" onclick="bookNowClick()">Book Now</button>
+                    </div>
                 </div>
             </div>
+            
         </div>
-        
     </div>
+        
     <script src="./MakeAppointment.js" type="text/javascript"></script>
 </body>
 </html>

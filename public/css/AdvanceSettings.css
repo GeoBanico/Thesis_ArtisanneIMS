@@ -1,8 +1,3 @@
-.body-container{
-    flex-direction: column;
-    display: flex;
-}
-
 .price-wrap{
     position:relative;
 }
@@ -21,11 +16,6 @@
 
 .productHidden{
     display: block
-}
-
-.main {
-    display: flex;
-    flex-direction: column;
 }
 
 .main--searchContainter{

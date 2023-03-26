@@ -26,7 +26,7 @@
 
         <ul>
             <li><a href="OrderProducts.html" class="itemSeparate">Order Products</a></li>
-            <li><a href="OrderProducts.html" class="itemSeparate">Make Appointment</a></li>
+            <li><a href="MakeAppointment.html" class="itemSeparate">Make Appointment</a></li>
             <li>
                 <a href="#" class="itemSeparate">Advance Settings</a>
                 <ul class="dropdown">
@@ -47,7 +47,7 @@
                     <div class="product-main">
                         <h1>PRODUCT</h1>
                         <div class="main--searchContainter">
-                            <input type="text" id="txtsearchProduct" placeholder="Search Product" onkeyup="keyPressProductSearch()">
+                            <input type="text" id="txtsearchProduct" placeholder="Search Product" onkeyup="keyPressProductSearch()"><br>
                             <select id="allProductList" class="item wrap" size="5"  onload="fillListProduct()" onchange="getInfoFromClickedProductList()"></select>
                         </div>
                         
@@ -64,7 +64,7 @@
                                 <span class="price-code">₱</span>
                                 <input type="number" name="price" id="productPrice" class="item wrap" placeholder="Product Price" disabled="true"/>
                             </div>
-                            <input type="number" name="price" id="productQuantity" class="item wrap" placeholder="Product Quantity" disabled="true"/>
+                            <input type="number" name="price" id="productQuantity" class="item wrap" placeholder="Product Quantity" disabled="true"/><br>
                             <textarea id="productDescription" cols="25" rows="5" placeholder="Product Description" disabled="true"></textarea>
         
                             <div class="editable-List">
@@ -99,7 +99,7 @@
                     <div class="service-main">
                         <h1>SERVICE</h1>
                         <div class="main--searchContainter">
-                            <input type="text" id="txtSearchService" placeholder="Search Service" onkeyup="keyPressServiceSearch()">
+                            <input type="text" id="txtSearchService" placeholder="Search Service" onkeyup="keyPressServiceSearch()"><br>
                             <select id="allServiceList" class="item wrap" size="5" onload="fillListService()" onchange="getInfoFromClickedServiceList()"></select>
                         </div>
                         
@@ -155,7 +155,7 @@
                     <div class="Customer">
                         <h1>CUSTOMER</h1>
                         <div class="main--searchContainter">
-                            <input type="text" id="txtSearchCustomer" placeholder="Search Customer" onkeyup="keyPressCustomerSearch()">
+                            <input type="text" id="txtSearchCustomer" placeholder="Search Customer" onkeyup="keyPressCustomerSearch()"><br>
                             <select id="allCustomerList" class="item wrap" size="5"  onload="fillListCustomer()" onchange="getInfoFromClickedCustomerList()"></select>
                         </div>
                         
@@ -172,7 +172,7 @@
                         <h1>EMPLOYEE</h1>
                         
                         <div class="main--searchContainter">
-                            <input type="text" id="txtSearchEmployee" placeholder="Search Employee" onkeyup="keyPressEmployeeSearch()">
+                            <input type="text" id="txtSearchEmployee" placeholder="Search Employee" onkeyup="keyPressEmployeeSearch()"><br>
                             <select id="allEmployeeList" class="item wrap" size="5" onload="" onchange="getInfoFromClickedEmployeeList()"></select>
                         </div>
                         

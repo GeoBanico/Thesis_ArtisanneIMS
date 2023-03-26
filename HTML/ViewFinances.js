@@ -291,15 +291,36 @@ async function saveReceipt(){
     alert('Receipt Saved');
 }
 
+function reset(){
+    getAllReceipts()
+    
+    //Empty Service List
+    var selectDate = document.getElementById("allServiceList");
+    while(selectDate.options.length > 0){ selectDate.remove(0); }
+
+    //Empty Product List
+    var selectDate = document.getElementById("allProductList");
+    while(selectDate.options.length > 0){ selectDate.remove(0); }
+
+    //Empty Date
+    document.getElementById("receiptDate").value = '';
+    document.getElementById("discountGiven").value = '';
+    document.getElementById("productQuantity").value = '';
+
+    document.getElementById("currentTotal").innerHTML = '';
+    document.getElementById("totalOrder").innerHTML = '';
+}
+
 //GET RECEIPTS
 
 async function getAllReceipts(){
     await getAllServiceReceipts();
     await getAllProductReceipts();
+    await getAllReceiptsList();
 
     fillDate();
-    fillMonth();
-    fillYear();
+    // fillMonth();
+    // fillYear();
 }
 var getServiceList = {}
 async function getAllServiceReceipts(){
@@ -327,14 +348,31 @@ async function getAllProductReceipts(){
     console.log(getProductList);
 }
 
+var getReceiptList = {}
+async function getAllReceiptsList(){
+    const options = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+    }
+
+    const response = await fetch('/getAllReceipts', options);
+    const dataStream = await response.json()
+    getReceiptList = dataStream;
+    console.log(getReceiptList);
+}
+
 //FILL RECEIPTS
 async function fillTableReceiptsByAll(){
     //SERVICE
     var currDate = '';
-    var servicesStore = '';
-    var servicePriceStore = '';
+    var servicesStore = 0;
+    var servicePriceStore = 0;
+
+    var serviceTotal = 0;
+    var productTotal = 0;
 
     var table = document.getElementById("servicesTable");
+    table.innerHTML = '';
     getServiceList.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'receipts') {
@@ -342,8 +380,8 @@ async function fillTableReceiptsByAll(){
                 currDate = dateSplit[0];
             }
             if(key == 'services') {
-                servicesStore = `${value.name}\n`;
-                servicePriceStore = `${value.price}\n`
+                servicesStore = `${value.name}`;
+                servicePriceStore = `${value.price}`
             }
         });
 
@@ -354,7 +392,11 @@ async function fillTableReceiptsByAll(){
         name.innerHTML = servicesStore;
         let price = row.insertCell(2);
         price.innerHTML = servicePriceStore;
+
+        serviceTotal += parseInt(servicePriceStore);
     });
+    
+    document.getElementById("displayTotalService").innerHTML = serviceTotal;
     
     //PRODUCT
     currDate = '';
@@ -362,6 +404,7 @@ async function fillTableReceiptsByAll(){
     var productsStore = '';
     var productPriceStore = '';
     var tableProd = document.getElementById("productTable");
+    tableProd.innerHTML = '';
     getProductList.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'boughtQuantity') {
@@ -386,8 +429,118 @@ async function fillTableReceiptsByAll(){
         let price = row.insertCell(2);
         price.innerHTML = productPriceStore;
         let quan = row.insertCell(3);
-        quan.innerHTML = productPriceStore;
+        quan.innerHTML = productQuantity;
+
+        productTotal += parseInt(productQuantity) * parseInt(productPriceStore);
     });
+
+    document.getElementById("displayTotalProduct").innerHTML = productTotal;
+
+    var discountTotal  = 0;
+    getReceiptList.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key == 'discount') {
+                discountTotal += parseInt(value)
+            } 
+        });
+    });
+    document.getElementById("displayTotalDiscount").innerHTML = discountTotal;
+
+    var total = parseInt(serviceTotal) + parseInt(productTotal) - parseInt(discountTotal);
+    document.getElementById("displayTotal").innerHTML = total;
+}
+
+function fillTableReceiptsByDate(date){
+    //SERVICE
+    var currDate = '';
+    var servicesStore = 0;
+    var servicePriceStore = 0;
+
+    var serviceTotal = 0;
+    var productTotal = 0;
+
+    var table = document.getElementById("servicesTable");
+    table.innerHTML = '';
+    getServiceList.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key == 'receipts') {
+                var dateSplit = value.date.split("T");
+                currDate = dateSplit[0];
+            }
+            if(key == 'services') {
+                servicesStore = `${value.name}`;
+                servicePriceStore = `${value.price}`
+            }
+        });
+
+        if(currDate == date){
+            let row = table.insertRow();
+            let date = row.insertCell(0);
+            date.innerHTML = currDate;
+            let name = row.insertCell(1);
+            name.innerHTML = servicesStore;
+            let price = row.insertCell(2);
+            price.innerHTML = servicePriceStore;
+    
+            serviceTotal += parseInt(servicePriceStore);
+        }
+    });
+    
+    document.getElementById("displayTotalService").innerHTML = serviceTotal;
+    
+    //PRODUCT
+    currDate = '';
+    var productQuantity = '';
+    var productsStore = '';
+    var productPriceStore = '';
+    var tableProd = document.getElementById("productTable");
+    tableProd.innerHTML = '';
+    getProductList.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key == 'boughtQuantity') {
+                productQuantity = `${value}`
+            } 
+            if(key == 'receipts') {
+                var dateSplit = value.date.split("T");
+                currDate = dateSplit[0];
+            }
+            if(key == 'products') {
+                productsStore = `${value.name}`;
+                productPriceStore = `${value.price}`
+            }
+            prevDate = currDate;
+        });
+        
+        if(currDate == date){
+            let row = tableProd.insertRow();
+            let date = row.insertCell(0);
+            date.innerHTML = currDate;
+            let name = row.insertCell(1);
+            name.innerHTML = productsStore;
+            let price = row.insertCell(2);
+            price.innerHTML = productPriceStore;
+            let quan = row.insertCell(3);
+            quan.innerHTML = productQuantity;
+
+            productTotal += parseInt(productQuantity) * parseInt(productPriceStore);
+        }
+        
+    });
+
+    document.getElementById("displayTotalProduct").innerHTML = productTotal;
+
+    var discountTotal = 0;
+    getReceiptList.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key == 'discount') {
+                discountTotal += parseInt(value)
+            } 
+        });
+    });
+    document.getElementById("displayTotalDiscount").innerHTML = discountTotal;
+
+    var total = parseInt(serviceTotal) + parseInt(productTotal) - parseInt(discountTotal);
+    document.getElementById("displayTotal").innerHTML = total;
 }
 
 function fillDate(){
@@ -422,70 +575,76 @@ function fillDate(){
     selectDate.value='';
 }
 
-function fillMonth(){
-    var allMonths = [];
-
-    getServiceList.forEach(obj => {
-        Object.entries(obj).forEach(async([key, value]) => {
-            if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                var setDate = `${(new Date(dateSplit[0])).getMonth()}-${(new Date(dateSplit[0])).getFullYear()}`
-                if(!allMonths.includes(setDate)) allMonths.push(setDate);
-            }
-        });
-    });
-
-    getProductList.forEach(obj => {
-        Object.entries(obj).forEach(async([key, value]) => {
-            if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                var setDate = `${(new Date(dateSplit[0])).getMonth()}-${(new Date(dateSplit[0])).getFullYear()}`
-                if(!allMonths.includes(setDate)) allMonths.push(setDate);
-            }
-        });
-    });
-
-    var selectDate = document.getElementById("searchByMonth");
-    while(selectDate.options.length > 0){ selectDate.remove(0); }
-    for (let i = 0; i < allMonths.length; i++) {
-        var option = document.createElement("option");
-        option.text = allMonths[i];
-        option.value = allMonths[i];
-        selectDate.add(option);
-    }
-    selectDate.value='';
+function searchByDate(){
+    var date = document.getElementById("searchByDate").value;
+    fillTableReceiptsByDate(date)
 }
 
-function fillYear(){
-    var allYear = [];
+// function fillMonth(){
+//     var allMonths = [];
 
-    getServiceList.forEach(obj => {
-        Object.entries(obj).forEach(async([key, value]) => {
-            if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                var setDate = (new Date(dateSplit[0])).getFullYear()
-                if(!allYear.includes(setDate)) allYear.push(setDate);
-            }
-        });
-    });
+//     getServiceList.forEach(obj => {
+//         Object.entries(obj).forEach(async([key, value]) => {
+//             if(key == 'receipts') {
+//                 var dateSplit = value.date.split("T");
+//                 var setDate = `${(new Date(dateSplit[0])).getMonth()}-${(new Date(dateSplit[0])).getFullYear()}`
+//                 if(!allMonths.includes(setDate)) allMonths.push(setDate);
+//             }
+//         });
+//     });
 
-    getProductList.forEach(obj => {
-        Object.entries(obj).forEach(async([key, value]) => {
-            if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                var setDate = (new Date(dateSplit[0])).getFullYear()
-                if(!allYear.includes(setDate)) allYear.push(setDate);
-            }
-        });
-    });
+//     getProductList.forEach(obj => {
+//         Object.entries(obj).forEach(async([key, value]) => {
+//             if(key == 'receipts') {
+//                 var dateSplit = value.date.split("T");
+//                 var setDate = `${(new Date(dateSplit[0])).getMonth()}-${(new Date(dateSplit[0])).getFullYear()}`
+//                 if(!allMonths.includes(setDate)) allMonths.push(setDate);
+//             }
+//         });
+//     });
 
-    var selectDate = document.getElementById("searchByYear");
-    while(selectDate.options.length > 0){ selectDate.remove(0); }
-    for (let i = 0; i < allYear.length; i++) {
-        var option = document.createElement("option");
-        option.text = allYear[i];
-        option.value = allYear[i];
-        selectDate.add(option);
-    }
-    selectDate.value='';
-}
+//     var selectDate = document.getElementById("searchByMonth");
+//     while(selectDate.options.length > 0){ selectDate.remove(0); }
+//     for (let i = 0; i < allMonths.length; i++) {
+//         var option = document.createElement("option");
+//         option.text = allMonths[i];
+//         option.value = allMonths[i];
+//         selectDate.add(option);
+//     }
+//     selectDate.value='';
+// }
+
+// function fillYear(){
+//     var allYear = [];
+
+//     getServiceList.forEach(obj => {
+//         Object.entries(obj).forEach(async([key, value]) => {
+//             if(key == 'receipts') {
+//                 var dateSplit = value.date.split("T");
+//                 var setDate = (new Date(dateSplit[0])).getFullYear()
+//                 if(!allYear.includes(setDate)) allYear.push(setDate);
+//             }
+//         });
+//     });
+
+//     getProductList.forEach(obj => {
+//         Object.entries(obj).forEach(async([key, value]) => {
+//             if(key == 'receipts') {
+//                 var dateSplit = value.date.split("T");
+//                 var setDate = (new Date(dateSplit[0])).getFullYear()
+//                 if(!allYear.includes(setDate)) allYear.push(setDate);
+//             }
+//         });
+//     });
+
+//     var selectDate = document.getElementById("searchByYear");
+//     while(selectDate.options.length > 0){ selectDate.remove(0); }
+//     for (let i = 0; i < allYear.length; i++) {
+//         var option = document.createElement("option");
+//         option.text = allYear[i];
+//         option.value = allYear[i];
+//         selectDate.add(option);
+//     }
+//     selectDate.value='';
+// }
+

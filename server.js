@@ -504,3 +504,10 @@ app.post('/getAllProductReceipts', async(req, res) => {
 
     res.json(checkQuantity);
 });
+
+app.post('/getAllReceipts', async(req, res) => {
+    const data = req.body
+    const allReceipt = await financeServer.getAllReceipts(data);
+
+    res.json(allReceipt);
+});

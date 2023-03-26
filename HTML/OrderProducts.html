@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
-    <link rel="stylesheet" href="../css/CustomerOrderBook.css">
-    <link rel="stylesheet" href="../css/AdvanceSettings.css">
+    <!-- <link rel="stylesheet" href="../css/CustomerOrderBook.css">
+    <link rel="stylesheet" href="../css/AdvanceSettings.css"> -->
     <title>Document</title>
 </head>
 <body>
@@ -27,8 +27,8 @@
 
         <ul>
             <li><a href="OrderProducts.html" class="itemSeparate">Order Products</a></li>
-            <li><a href="OrderProducts.html" class="itemSeparate">Make Appointment</a></li>
-            <li>
+            <li><a href="MakeAppointment.html" class="itemSeparate">Make Appointment</a></li>
+            <li id="forEmployee">
                 <a href="#" class="itemSeparate">Advance Settings</a>
                 <ul class="dropdown">
                     <li><a href="ViewFinances.html" class="itemSeparate">View Finances</a></li>
@@ -41,40 +41,41 @@
     </nav>
 
     <div class="main divBody">
-        <h1>Order Products</h1>
-        <div class="divContent">
-            <div id="insertProducts">
-                
-            </div>
-            <div id="productDetails" class="rightSide">
-                <div id="hideOrderNow" style="display: none;">
-                    <h3>CART</h3>
-                    <select name="" id="productList" size="5"></select><br>
-                    <button id="cancel" onclick="removeProduct()">Remove Product</button>
-                    <button id="buyNow" onclick="buyNow()">Buy Now</button>
+        <div class="contentBody">
+            <h1>Order Products</h1>
+            <div class="divContent">
+                <div id="insertProducts" class="container">
+                    
                 </div>
-
-                <div>
-                    <input type="text" id="orderName" class="item wrap" placeholder="Product Name"  disabled="true">
-                    <div class="price-wrap">
-                        <span class="price-code">₱</span>
-                        <input type="number" name="price" id="productPrice" class="item wrap" placeholder="Product Price" disabled="true"/>
+                <div id="productDetails" class="rightSide container">
+                    <div id="hideOrderNow" style="display: none;">
+                        <h3>CART</h3>
+                        <select name="" id="productList" size="5"></select><br>
+                        <button id="cancel" onclick="removeProduct()">Remove Product</button>
+                        <button id="buyNow" onclick="buyNow()">Buy Now</button>
                     </div>
-                    <textarea id="productDescription" cols="25" rows="5" placeholder="Product Description" disabled="true"></textarea><br>
-                    <input type="text" name="name" id="productCategory" placeholder="Product Category" class="item wrap" disabled="true">
-                </div>
-                <div>
-                    <label for="productQuantityLeft">Quantity Left:</label>
-                    <input type="text" name="name" id="productQuantityLeft" class="item wrap" disabled="true"><br>
-                    <label for="productQuantity">Quantity:</label>
-                    <button onclick="subQuantity()">-</button>
-                    <input type="number" name="name" id="productQuantity" value="1" class="item wrap" disabled="true">
-                    <button onclick="addQuantity()">+</button>
-                    <button id="addToCart" onclick="addToCart()">Add To Cart Now</button>
+
+                    <div>
+                        <input type="text" id="orderName" class="item wrap" placeholder="Product Name"  disabled="true">
+                        <div class="price-wrap">
+                            <span class="price-code">₱</span>
+                            <input type="number" name="price" id="productPrice" class="item wrap" placeholder="Product Price" disabled="true"/>
+                        </div>
+                        <textarea id="productDescription" cols="25" rows="5" placeholder="Product Description" disabled="true"></textarea><br>
+                        <input type="text" name="name" id="productCategory" placeholder="Product Category" class="item wrap" disabled="true">
+                    </div>
+                    <div>
+                        <label for="productQuantityLeft">Quantity Left:</label>
+                        <input type="text" name="name" id="productQuantityLeft" class="item wrap" disabled="true"><br>
+                        <label for="productQuantity">Quantity:</label>
+                        <button onclick="subQuantity()">-</button>
+                        <input type="number" name="name" id="productQuantity" value="1" class="item wrap" disabled="true">
+                        <button onclick="addQuantity()">+</button>
+                        <button id="addToCart" onclick="addToCart()">Add To Cart Now</button>
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
     <script src="./OrderProducts.js" type="text/javascript"></script>
 </body>
