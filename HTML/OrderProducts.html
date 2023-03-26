@@ -71,24 +71,31 @@
                 
             </div>
             <div id="productDetails" class="rightSide">
-                <div>
+                <div id="hideOrderNow" style="display: none;">
                     <h3>CART</h3>
-                    <select id="cartProductList"></select>
+                    <select name="" id="productList" size="5"></select><br>
+                    <button id="cancel" onclick="removeProduct()">Remove Product</button>
+                    <button id="buyNow" onclick="buyNow()">Buy Now</button>
                 </div>
+
                 <div>
-                    <h4 id="orderName"></h4>
+                    <input type="text" id="orderName" class="item wrap" placeholder="Product Name"  disabled="true">
                     <div class="price-wrap">
                         <span class="price-code">₱</span>
                         <input type="number" name="price" id="productPrice" class="item wrap" placeholder="Product Price" disabled="true"/>
                     </div>
                     <textarea id="productDescription" cols="25" rows="5" placeholder="Product Description" disabled="true"></textarea><br>
-                    <input type="text" name="name" id="productCategory" placeholder="Product Name" class="item wrap" disabled="true">
+                    <input type="text" name="name" id="productCategory" placeholder="Product Category" class="item wrap" disabled="true">
                 </div>
                 <div>
-                    <button id="addCart" onclick="addProductToCart()">Add To Cart</button>
+                    <label for="productQuantityLeft">Quantity Left:</label>
+                    <input type="text" name="name" id="productQuantityLeft" class="item wrap" disabled="true"><br>
+                    <label for="productQuantity">Quantity:</label>
+                    <button onclick="subQuantity()">-</button>
+                    <input type="number" name="name" id="productQuantity" value="1" class="item wrap" disabled="true">
+                    <button onclick="addQuantity()">+</button>
+                    <button id="addToCart" onclick="addToCart()">Add To Cart Now</button>
                 </div>
-
-
             </div>
         </div>
         

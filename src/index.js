@@ -15,50 +15,49 @@ const Product = require("./model/Product").Product;
 const ProductCategory = require("./model/ProductCategory").ProductCategory;
 const ProductReceipt = require("./model/ProductReceipt").ProductReceipt;
 const Receipt = require("./model/Receipt").Receipt;
-const ReceiptDesc = require("./model/ReceiptDesc").ReceiptDesc;
 const Service = require("./model/Service").Service;
 const ServiceCategory = require("./model/ServiceCategory").ServiceCategory;
 const ServiceReceipt = require("./model/ServiceReceipt").ServiceReceipt
 
-typeorm.createConnection({
-    type: "mssql",
-    host: "banico-server.database.windows.net",
-    username: "banico",
-    password: "Destiny@1222",
-    database: "Artisanne",
-    authentication: {
-        type: 'default'
-    },
-    options: {
-        encrypt: true
-    },
-    synchronize: true,
-    logging: false,
-    entities: [
-        require("./entity/BookSchema"),
-        require("./entity/BookServiceSchema"),
-        require("./entity/BookStatusSchema"),
-        require("./entity/CartSchema"),
-        require("./entity/CartProductSchema"),
-        require("./entity/CustomerSchema"),
-        require("./entity/CustomerStatusSchema"),
-        require("./entity/DeliveryStatusSchema"),
-        require("./entity/EmployeeAccessSchema"),
-        require("./entity/EmployeeSchema"),
-        require("./entity/EmployeeShiftSchema"),
-        require("./entity/ProductCategorySchema"),
-        require("./entity/ProductReceiptSchema"),
-        require("./entity/ProductSchema"),
-        require("./entity/ReceiptDescSchema"),
-        require("./entity/ReceiptSchema"),
-        require("./entity/ServiceCategorySchema"),
-        require("./entity/ServiceReceiptSchema"),
-        require("./entity/ServiceSchema"),
-    ]
-})
-.catch(function(error) {
-    console.log("Error: ", error);
-})
+// typeorm.createConnection({
+//     type: "mssql",
+//     host: "banico-server.database.windows.net",
+//     username: "banico",
+//     password: "Destiny@1222",
+//     database: "Artisanne",
+//     authentication: {
+//         type: 'default'
+//     },
+//     options: {
+//         encrypt: true
+//     },
+//     synchronize: true,
+//     logging: false,
+//     entities: [
+//         require("./entity/BookSchema"),
+//         require("./entity/BookServiceSchema"),
+//         require("./entity/BookStatusSchema"),
+//         require("./entity/CartSchema"),
+//         require("./entity/CartProductSchema"),
+//         require("./entity/CustomerSchema"),
+//         require("./entity/CustomerStatusSchema"),
+//         require("./entity/DeliveryStatusSchema"),
+//         require("./entity/EmployeeAccessSchema"),
+//         require("./entity/EmployeeSchema"),
+//         require("./entity/EmployeeShiftSchema"),
+//         require("./entity/ProductCategorySchema"),
+//         require("./entity/ProductReceiptSchema"),
+//         require("./entity/ProductSchema"),
+//         require("./entity/ReceiptDescSchema"),
+//         require("./entity/ReceiptSchema"),
+//         require("./entity/ServiceCategorySchema"),
+//         require("./entity/ServiceReceiptSchema"),
+//         require("./entity/ServiceSchema"),
+//     ]
+// })
+// .catch(function(error) {
+//     console.log("Error: ", error);
+// })
 // .then(async function (connection) {
 //     console.log("Connected to Database");
 
@@ -99,42 +98,41 @@ typeorm.createConnection({
 //     })
 // })
 
-// const config = typeorm.createConnection({
-//     type: "mssql",
-//     host: "banico-server.database.windows.net",
-//     username: "banico",
-//     password: "Destiny@1222",
-//     database: "Artisanne",
-//     authentication: {
-//         type: 'default'
-//     },
-//     options: {
-//         encrypt: true
-//     },
-//     synchronize: true,
-//     logging: false,
-//     entities: [
-//         require("./entity/BookSchema"),
-//         require("./entity/BookServiceSchema"),
-//         require("./entity/BookStatusSchema"),
-//         require("./entity/CartSchema"),
-//         require("./entity/CartProductSchema"),
-//         require("./entity/CustomerSchema"),
-//         require("./entity/CustomerStatusSchema"),
-//         require("./entity/DeliveryStatusSchema"),
-//         require("./entity/EmployeeAccessSchema"),
-//         require("./entity/EmployeeSchema"),
-//         require("./entity/EmployeeShiftSchema"),
-//         require("./entity/ProductCategorySchema"),
-//         require("./entity/ProductReceiptSchema"),
-//         require("./entity/ProductSchema"),
-//         require("./entity/ReceiptDescSchema"),
-//         require("./entity/ReceiptSchema"),
-//         require("./entity/ServiceCategorySchema"),
-//         require("./entity/ServiceReceiptSchema"),
-//         require("./entity/ServiceSchema"),
-//     ]
-// })
-// module.exports = config;
+const config = typeorm.createConnection({
+    type: "mssql",
+    host: "banico-server.database.windows.net",
+    username: "banico",
+    password: "Destiny@1222",
+    database: "Artisanne",
+    authentication: {
+        type: 'default'
+    },
+    options: {
+        encrypt: true
+    },
+    synchronize: true,
+    logging: false,
+    entities: [
+        require("./entity/BookSchema"),
+        require("./entity/BookServiceSchema"),
+        require("./entity/BookStatusSchema"),
+        require("./entity/CartSchema"),
+        require("./entity/CartProductSchema"),
+        require("./entity/CustomerSchema"),
+        require("./entity/CustomerStatusSchema"),
+        require("./entity/DeliveryStatusSchema"),
+        require("./entity/EmployeeAccessSchema"),
+        require("./entity/EmployeeSchema"),
+        require("./entity/EmployeeShiftSchema"),
+        require("./entity/ProductCategorySchema"),
+        require("./entity/ProductReceiptSchema"),
+        require("./entity/ProductSchema"),
+        require("./entity/ReceiptSchema"),
+        require("./entity/ServiceCategorySchema"),
+        require("./entity/ServiceReceiptSchema"),
+        require("./entity/ServiceSchema"),
+    ]
+})
+module.exports = config;
 
 //config.initialize()

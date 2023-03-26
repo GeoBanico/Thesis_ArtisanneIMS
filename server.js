@@ -64,6 +64,22 @@ app.post('/searchACustomerFromClick', async(req, res) => {
     res.json(aCustomer);
 });
 
+app.post('/editCustomer', async(req, res) => {
+    const data = req.body
+    const hasDuplicate = await customerServer.editCustomer(data);
+
+    res.json(hasDuplicate);
+});
+
+app.post('/passwordChange', async(req, res) => {
+    const data = req.body
+    await customerServer.passwordChange(data);
+
+    res.json({
+        message: 'Password Changed'
+    });
+});
+
 //------------------------------------------------
 //-------------------- EMPLOYEE ------------------
 //------------------------------------------------
@@ -386,5 +402,105 @@ const bookingServer = require('./public/javascript/BookingServer');
 app.post('/confirmBooking', async(req, res) => {
     const data = req.body
 
-    await bookingServer.insertBooking(data);
+    console.log(data.username)
+    const hasBooked = await bookingServer.insertBooking(data);
+
+    res.json({
+            message: hasBooked
+        });
+});
+
+app.post('/getUserBooking', async(req, res) => {
+    const data = req.body
+
+    const userBooks = await bookingServer.getUserBooking(data);
+
+    res.json(userBooks);
+});
+
+app.post('/getBookStatus', async(req, res) => {
+    const data = req.body
+
+    const get = await bookingServer.getBookStatus(data.status);
+
+    res.json(get);
+});
+
+app.post('/getAllBookings', async(req, res) => {
+    const allBooks = await bookingServer.getAllBookings();
+
+    res.json(allBooks);
+});
+
+app.post('/changeBookStatus', async(req, res) => {
+    const data = req.body
+    const allBooks = await bookingServer.changeBookStatus(data);
+
+    res.json(allBooks);
+});
+//----------------------------------------
+//-------------------- ORDERS ------------
+//----------------------------------------
+const orderServer = require('./public/javascript/OrderServer');
+app.post('/placeOrder', async(req, res) => {
+    const data = req.body
+
+    const hasQuantity = await orderServer.insertOrder(data);
+    
+    res.json(hasQuantity)
+
+});
+
+app.post('/getUserCarts', async(req, res) => {
+    const data = req.body
+
+    const userCart = await orderServer.getUserCart(data);
+
+    res.json(userCart);
+});
+
+app.post('/getDeliveryStatus', async(req, res) => {
+    const data = req.body
+
+    const get = await orderServer.getDeliveryStatus(data.status);
+
+    res.json(get);
+});
+
+app.post('/getAllOrders', async(req, res) => {
+    const allBooks = await orderServer.getAllOrders();
+
+    res.json(allBooks);
+});
+
+app.post('/changeOrderStatus', async(req, res) => {
+    const data = req.body
+    const allBooks = await orderServer.changeOrderStatus(data);
+
+    res.json(allBooks);
+});
+
+//----------------------------------------
+//-------------------- FINANCES ------------
+//----------------------------------------
+const financeServer = require('./public/javascript/FinanceServer');
+app.post('/insertReceipt', async(req, res) => {
+    const data = req.body
+    const checkQuantity = await financeServer.insertReceipt(data);
+
+    res.json(checkQuantity);
+});
+
+app.post('/getAllServiceReceipts', async(req, res) => {
+    const data = req.body
+    const checkQuantity = await financeServer.getAllServiceReceipts(data);
+
+    res.json(checkQuantity);
+});
+
+app.post('/getAllProductReceipts', async(req, res) => {
+    const data = req.body
+    const checkQuantity = await financeServer.getAllProductReceipts(data);
+
+    res.json(checkQuantity);
 });

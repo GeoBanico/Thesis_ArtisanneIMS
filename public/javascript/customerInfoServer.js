@@ -61,7 +61,7 @@ const selectCustomerSpecific = async(customers) => {
 
         const select = config.then(async function (connection) {
             const userRep = connection.getRepository(Customer);
-            const [user, userCount] = await userRep.findAndCountBy({username: `${customers.userEmail}`});
+            const [user, userCount] = await userRep.findAndCountBy({username: `${customers.username}`});
             const data = {user, userCount}
             
             return data;
@@ -216,22 +216,6 @@ const insertCustomerToEmployee = async(customerName) => {
     }
 }
 
-const updateCustomer = async(oldCustomers, newCustomer) => {
-    try {
-        config.then(async function (connection) {
-            const prodCatRep = config.getRepository(ProductCategory);
-            const prodCatToUpdate = await prodCatRep.findOneBy({
-                name: OldProductCat.name,
-            })
-            prodCatToUpdate.name = NewProductCat.name
-            await prodCatRep.save(prodCatToUpdate);
-        })
-        
-    } catch (error) {
-        console.log('select FB'+error);
-    }
-}
-
 //---------------------------
 //-------- EMPLOYEE ---------
 //---------------------------
@@ -355,6 +339,60 @@ const fillEmployeeShifts = async() => {
     }
 }
 
+const editCustomer = async(customers) => {
+    try {
+        const update = config.then(async function (connection){
+
+            const customerRep = connection.getRepository(Customer);
+            const [sameCustomer, duplicateCount] = await customerRep.findAndCountBy({
+                username: customers.username
+            })
+
+            if(duplicateCount > 1){
+                return true;
+            }
+            
+            sameCustomer[0].firstName = customers.firstName;
+            sameCustomer[0].lastName = customers.lastName;
+            sameCustomer[0].birthday = customers.birthday;
+            sameCustomer[0].phone = customers.phone;
+            sameCustomer[0].address = customers.address;
+            sameCustomer[0].email = customers.email;
+            sameCustomer[0].username = customers.username;
+
+            await customerRep.save(sameCustomer);
+
+            return false;
+        })
+
+        return update;
+        
+    } catch (error) {
+        console.log('Edit Customer ERROR: '+error);
+    }
+}
+
+const passwordChange = async(customers) => {
+    try {
+        const update = config.then(async function (connection){
+
+            const customerRep = connection.getRepository(Customer);
+            const customer = await customerRep.findOneBy({
+                username: customers.oldUsername
+            })
+
+            await customerRep.save(sameCustomer);
+
+            return false;
+        })
+
+        return update;
+        
+    } catch (error) {
+        console.log('Edit Customer ERROR: '+error);
+    }
+}
+
 
 module.exports = {
     //Customer
@@ -364,7 +402,8 @@ module.exports = {
     selectCustomerAll,
     searchSpecificCustomer,
     searchACustomerFromClick,
-    // updateCustomer,
+    editCustomer,
+    passwordChange,
 
     //Employee
     selectEmployeeAll,

@@ -65,67 +65,114 @@
 
     <div class="main divBody">
         <div class="contentBody">
-            <h1>View Finances</h1>
-            <button id="addFinance">add</button>
+            <h1 class="container">View Finances</h1>
             <div id="hiddenAdd">
-                <input type="date" name="receiptDate" id="receiptDate">
-                <select name="orderList" id="orderList"></select>
-                <label for="totalOrder">Total:</label>
-                <input type="text" id="totalOrder">
-                <br>
-                <button id="showService">add Service</button>
-                <button id="showProduct">add Product</button>
-                <button id="saveFinance">save</button>
-                <div id="hiddenService">
-                    <input type="text" id="serviceSearch" placeholder="Search Service">
-                    <select name="serviceList" id="serviceList"></select>
-                    <button id="addServiceToReceipt">add</button>
+                <div class="columnContainer container">
+                    <div class="columnChild">
+                        <div id="hiddenServiceList" style="display:none">
+                            <label for="allServiceList">Service/s: </label><br>
+                            <select name="serviceList" id="allServiceList" size="7"></select>
+                        </div>
+                        <div id="hiddenService">
+                            <select name="serviceList" id="serviceList"></select><br>
+                            <button id="addServiceToReceipt" onclick="addService()">add</button>
+                            <button onclick="removeService()">remove</button>
+                        </div>
+                    </div>
+                    
+                    <div class="columnChild">
+                        <div id="hiddenProductList" style="display:none">
+                            <label for="allServiceList">Product/s: </label><br>
+                            <select name="productList" id="allProductList" size="7"></select>
+                        </div>
+
+                        <div id="hiddenProduct">
+                            <input type="number" id="productQuantity" placeholder="Enter Quantity"><br>
+                            <select name="productList" id="productList"></select><br>
+                            <button id="addProductToReceipt" onclick="addProduct()">add</button>
+                            <button onclick="removeProduct()">remove</button>
+                        </div>
+                    </div>
+                    
                 </div>
-                <div id="hiddenProduct">
-                    <input type="text" id="receiptId">
-                    <input type="text" id="productSearch" placeholder="Search Product">
-                    <select name="productList" id="productList"></select>
-                    <button id="addProductToReceipt">add</button>
+                
+                <div class="container">
+                    <input type="date" name="receiptDate" id="receiptDate"><br>
+                    <label for="currentTotal">Current Total:</label>
+                    <label id="currentTotal"></label>
+                    <label for="discountGiven">Discounts:</label>
+                    <input type="number" id="discountGiven" onkeyup="getDiscounts()"><br>
+                    <label for="totalOrder">Total:</label>
+                    <label id="totalOrder"></label>
+
+                    <button onclick="saveReceipt()">Save Receipt</button>
                 </div>
             </div>
         </div>
 
         <div>
-            <h3>Search By:</h3>
-        <div id="searches">
-            <div>
-                <label for="searchByDate">Date:</label>
-                <input type="date" value="" id="searchByDate">
-                <label for="searchByMonth">Month</label>
-                <input type="month" value="" id="searchByMonth">
-                <label for="searchByYear">Year</label>
-                <select name="" id="searchByYear"></select>
+            <div class="container">
+                <h4>Search By:</h4>
+                <button onclick="checkDate()"> </button>
             </div>
             
-            <div>
-                <label for="servicesTable">Services</label>
-                <table id="servicesTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product Name</th>
-                            <th>Product Price</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div id="searches">
+                <div class="container">
+                    <label for="searchByDate">Date:</label>
+                    <select name="" id="searchByDate"></select>
+                    <label for="searchByMonth">Month</label>
+                    <select name="" id="searchByMonth"></select>
+                    <label for="searchByYear">Year</label>
+                    <select name="" id="searchByYear"></select>
+                </div>
+                
+                <div>
+                    <div class="container">
+                        <h3>SERVICE</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Service Name</th>
+                                    <th>Service Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicesTable">
 
-                <label for="productTable">Products</label>
-                <table id="productTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product Name</th>
-                            <th>Product Price</th>
-                        </tr>
-                    </thead>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="container">
+                        <h3>PRODUCTS</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product Name</th>
+                                    <th>Product Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTable">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="container">
+                        <label for="displayTotalProduct">Service Total: </label>
+                        <label id="displayTotalProduct"></label><br>
+                        <label for="displayTotalProduct">Product Total: </label>
+                        <label id="displayTotalProduct"></label><br>
+                        <label for="displayTotalProduct">Discounts: </label>
+                        <label id="displayTotalProduct"></label><br>
+                        <label for="displayTotalProduct">Total: </label>
+                        <label id="displayTotalProduct"></label><br>
+                    </div>
+                    
+                </div>
             </div>
-        </div>
         </div>
         
     </div>

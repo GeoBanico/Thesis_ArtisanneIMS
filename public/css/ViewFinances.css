@@ -1,3 +1,34 @@
-table, th, td {
-    border: 1px solid black;
+table {
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+  .columnContainer{
+    display: flex;
   }
+
+h3 {
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+.columnContainer {
+  width: 100%
+}
+
+.columnChild{
+  width: 50%;
+}

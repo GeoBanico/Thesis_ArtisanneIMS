@@ -95,6 +95,7 @@ async function clearProductInputs(){
     document.getElementById("productPrice").value = '';
     document.getElementById("productDescription").value = '';
     document.getElementById("productCategoryList").value = '';
+    document.getElementById("productQuantity").value='';
 
     disableProductComponents()
 }
@@ -107,6 +108,7 @@ async function enableProductComponents(){
     document.getElementById("productDescription").disabled = false;
     document.getElementById("productCategoryList").disabled = false;
     document.getElementById("addProductCategoryToDatabase").disabled = false;
+    document.getElementById("productQuantity").disabled=false;
 
     document.getElementById("allProductList").disabled = true;
     document.getElementById("saveProductClick").style.display = 'block';
@@ -120,6 +122,7 @@ async function disableProductComponents(){
     document.getElementById("productDescription").disabled = true;
     document.getElementById("productCategoryList").disabled = true;
     document.getElementById("addProductCategoryToDatabase").disabled = true;
+    document.getElementById("productQuantity").disabled=true;
 
     document.getElementById("allProductList").disabled = false;
     document.getElementById("saveProductClick").style.display = 'none';
@@ -142,8 +145,19 @@ async function getInfoFromClickedProductList(){
     document.getElementById("productPrice").value = await dataStream[0].price;
     document.getElementById("productDescription").value = await dataStream[0].description;
     document.getElementById("productCategoryList").value = await dataStream[0].categories.name;
+    document.getElementById("productQuantity").value = await dataStream[0].storeQuantity
 }
 
+function hasMissingValues(data){
+    
+    Object.entries(data).forEach(([key, value]) => {
+        if(value == '') {
+            return true;
+        }
+    });
+
+    return false;
+}
 
 //Save Product
 document.getElementById("saveProductClick").onclick = async function() {
@@ -151,11 +165,22 @@ document.getElementById("saveProductClick").onclick = async function() {
     var price = document.getElementById("productPrice").value;
     var description = document.getElementById("productDescription").value;
     var categories = document.getElementById("productCategoryList").value;
+    var quantity = document.getElementById("productQuantity").value;
     var isDeleted = false;
 
+    if(!isWholeNumber(quantity)){
+        alert('Invalid Quantity: \nKindly select a whole number for the quantity.');
+        return;
+    }
+
     if(productState.state=='add') {
-        var data = {name, price, description, categories, isDeleted};
-    
+        var data = {name, price, description, categories, quantity, isDeleted};
+        
+        if(hasMissingValues(data)) {
+            alert('Empty Fields: \nKindly fill all the needed informations.')
+            return;
+        }
+
         const options =  {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -173,9 +198,12 @@ document.getElementById("saveProductClick").onclick = async function() {
     }
     else if(productState.state == 'edit') {
         var oldName = productState.toEdit;
-        var data = {name, price, description, categories, isDeleted, oldName};
-        
-        console.log(data);
+        var data = {name, price, description, categories, quantity, isDeleted, oldName};
+
+        if(hasMissingValues(data)) {
+            alert('Empty Fields: \nKindly fill all the needed informations.')
+            return;
+        }
 
         const options =  {
         method: 'POST',
@@ -382,7 +410,7 @@ async function addProductTypeToDatabase() {
         var isDeleted = false;
 
         if(name == '') {
-            alert('is empty')
+            alert('Empty Fields: \nKindly fill all the needed informations.')
             return;
         }
 
@@ -398,7 +426,7 @@ async function addProductTypeToDatabase() {
         const response = await fetch('/addProductCategory', options);
         const dataStream = await response.json();
         if(await dataStream.message == 'duplicate'){
-            alert('This Product Category already exists');
+            alert('Duplicate Product Category: \nThis Product Category already exists. Kindly enter a new Product Category');
         }
 
     }
@@ -415,7 +443,7 @@ async function addProductTypeToDatabase() {
         const response = await fetch('/editProductCategory', options);
         const dataStream = await response.json();
         if(await dataStream.message == 'duplicate'){
-            alert('This Product Category already exists');
+            alert('Duplicate Product Category: \nThis Product Category already exists. Kindly enter a new Product Category');
         }
         addProductType();
     }
@@ -431,7 +459,7 @@ async function addProductTypeToDatabase() {
 document.getElementById("editProductCategory").onclick = function() {editProductType()};
 async function editProductType() {
     var name = document.getElementById("allProductCategory").value;
-    if(name == '') alert('Please select a Product Category')
+    if(name == '') alert('No selected product category: \nPlease select a Product Category')
     else {
         productCategoryState.state = 'edit';
         productCategoryState.toEdit = name;
@@ -469,4 +497,8 @@ async function deleteProductType() {
         document.getElementById("allProductCategory").value = '';
         document.getElementById("productCategory").value = '';
     }
+}
+
+function isWholeNumber(num) {
+    return Number.isInteger(num) && num >= 0;
 }

@@ -22,6 +22,9 @@ module.exports = new EntitySchema({
         cost: {
             type: "float",
         },
+        boughtQuantity: {
+            type: "int",
+        },
         isDeleted: {
             type: "bit"
         }

@@ -23,11 +23,10 @@ const insertProduct = async(productToAdd) => {
             product.price = productToAdd.price;
             product.description = productToAdd.description;
             product.isDeleted = productToAdd.isDeleted;
+            product.storeQuantity = productToAdd.quantity;
             product.categories = searchOneProdCat;
 
             const productRep = connection.getRepository(Product);
-
-            console.log(product);
 
             const dup = await duplicateProduct(product.name);
             if(dup) return true;
@@ -172,6 +171,7 @@ const editProduct = async(newProduct) => {
             productToUpdate.name = newProduct.name;
             productToUpdate.price = newProduct.price;
             productToUpdate.description = newProduct.description;
+            productToUpdate.storeQuantity = newProduct.quantity;
             productToUpdate.categories = searchOneProdCat;
 
             await productRep.save(productToUpdate);

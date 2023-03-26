@@ -1,5 +1,5 @@
 class Cart {
-    constructor(id, customerId, cartProductId, deliveryStatusId, orderNumber, dateOrdered, dateDelivered, isDeleted, customers, cartProducts, deliveryStatuses) {
+    constructor(id, customerId, deliveryStatusId, orderNumber, dateOrdered, dateDelivered, isDeleted, customers, deliveryStatuses) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.dateOrdered = dateOrdered;
@@ -7,11 +7,9 @@ class Cart {
         this.isDeleted = isDeleted;
 
         this.customerId = customerId;
-        this.cartProductId = cartProductId;
         this.deliveryStatusId = deliveryStatusId;
 
         this.customers = customers;
-        this.cartProducts = cartProducts;
         this.deliveryStatuses = deliveryStatuses;
     }
 }

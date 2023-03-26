@@ -120,40 +120,8 @@ async function insertProducts(){
 }
 
 const divPressed = async (e) => {
-    console.log(e.target.id)
     await callProductDetails(e.target.id)
 } 
-
-// function saveToCookies(id){
-
-//     //delete cookies
-//     const cookies = document.cookie.split("; ");
-//     for (const cookie of cookies) {
-//         const [name, value] = cookie.split("=");
-//         // Set the cookie's expiration date to a date in the past
-//         if(name=='product') document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-//     }
-
-//     // Calculate the expiration date of the cookies (7 days from now)
-//     const expirationDate = new Date();
-//     expirationDate.setTime(expirationDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days in milliseconds
-
-//     // Create the cookie strings
-//     const productCookie = `product=${id};expires=${expirationDate.toUTCString()};path=/`;
-
-//     // Save the cookies
-//     document.cookie = productCookie;
-// }
-
-// function getProductDetails(){
-//     const cookies = document.cookie.split("; ");
-//     for (const cookie of cookies) {
-//         const [name, value] = cookie.split("=");
-//         if (name === "product") {
-//             callProductDetails(decodeURIComponent(value))
-//         }
-//     }
-// } 
 
 async function callProductDetails(id){
     var data = { id };
@@ -167,8 +135,133 @@ async function callProductDetails(id){
     const response = await fetch('/searchAProductById', options);
     const dataStream = await response.json();
 
-    document.getElementById("orderName").innerHTML = dataStream.name;
+    document.getElementById("orderName").value = dataStream.name;
     document.getElementById("productPrice").value = dataStream.price;
     document.getElementById("productDescription").value = dataStream.description;
     document.getElementById("productCategory").value = dataStream.categories.name;
+    document.getElementById("productQuantityLeft").value = dataStream.storeQuantity;
+    document.getElementById("productQuantity").value = 1;
+}
+
+function subQuantity(){
+    var quantity = document.getElementById("productQuantity").value;
+
+    console.log(quantity);
+    if(quantity == '') return
+    if(parseInt(quantity) > 1) document.getElementById("productQuantity").value = parseInt(quantity)-1;
+}
+
+function addQuantity(){
+    var quantity = document.getElementById("productQuantity").value;
+    var quantityLeft = document.getElementById("productQuantityLeft").value;
+
+    console.log(quantity);
+    if(quantity == '') return
+    if(parseInt(quantity) < parseInt(quantityLeft)) document.getElementById("productQuantity").value = parseInt(quantity)+1;
+}
+
+function theSameProduct(selectBox, value){
+    var hasTheSame = false;
+    for (let i = 0; i < selectBox.length; i++) {
+        var splitArray = productList.options[i].value.split("x | ");
+        if(splitArray[1] == value) hasTheSame = true;
+    }
+
+    return hasTheSame;
+}
+
+function addToCart(){
+    var value = document.getElementById("orderName").value;
+    var quantity = document.getElementById("productQuantity").value;
+    var selectBox = document.getElementById("productList");
+    var quantityLimit = parseInt(document.getElementById("productQuantityLeft").value);
+
+    if (value == '') {
+        alert('Please select a product to order');
+        return
+    }
+
+    if(theSameProduct(selectBox, value)){
+        for (let i = 0; i < selectBox.length; i++) {
+            var splitArray = productList.options[i].value.split("x | ");
+            if(splitArray[1] == value) {
+                var totalQuantity = (parseInt(splitArray[0]) + parseInt(quantity));
+                if(totalQuantity > quantityLimit) return alert(`Quantity Limit Reached: \n${totalQuantity}pcs of ${value} exceeds the current stock of the store`);
+                productList.options[i].text = `${totalQuantity}x | ${value}`;
+                productList.options[i].value = `${totalQuantity}x | ${value}`;;
+            }
+        }
+        return
+    }
+
+    document.getElementById("hideOrderNow").style.display = "block";
+    var option = document.createElement("option");
+    option.text = `${quantity}x | ${value}`;
+    option.value = `${quantity}x | ${value}`;
+    selectBox.add(option);
+}
+
+function removeProduct(){
+    var productList = document.getElementById("productList")
+    var selectedProduct = document.getElementById("productList").value;
+
+    if(selectedProduct == '') {
+        alert('Kindly select one of your ordered products');
+        return
+    }
+
+    if(confirm(`Do you want to remove this product: ${selectedProduct}?`) == false) return
+
+    for (let i = 0; i < productList.length; i++) {
+        if(productList.options[i].value == selectedProduct) productList.remove(i);
+    }
+
+    if(document.getElementById("productList").length == 0) {
+        document.getElementById("hideOrderNow").style.display = "none";
+    }
+}
+
+async function buyNow() {
+    var productList = document.getElementById("productList");
+    var date = new Date();
+    var orderDate = getDateNow();
+    var customerUsername = document.getElementById("username").innerHTML;
+    var orderNumber = `${customerUsername}_${date.getDate()}${date.getMonth()}${date.getFullYear()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
+    var quantities = []
+    var productOrdered = [];
+    
+    for (let i = 0; i < productList.length; i++) {
+        var splitArray = productList.options[i].value.split("x | ");
+        quantities.push(splitArray[0]);
+        productOrdered.push(splitArray[1]);
+    }
+    
+    var data = {customerUsername, productOrdered, orderDate, orderNumber, quantities};
+
+    console.log(data);
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch('/placeOrder', options);
+    const dataStream = await response.json();
+
+    if(!dataStream) return alert('This product already reached ')
+    
+    alert('Order Successful! \n Redirecting to your profile page...')
+    window.location.href = "./AccountDetails.html";
+}
+
+function getDateNow() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // Note: months are zero-indexed, so add 1
+    const date = now.getDate();
+
+    // Format the date as a string (e.g. "2023-03-23")
+    const dateString = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+
+    return dateString;
 }

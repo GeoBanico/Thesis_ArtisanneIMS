@@ -17,10 +17,6 @@ module.exports = new EntitySchema({
             type: "int",
             nullable: true
         },
-        bookServiceId: {
-            type: "int",
-            nullable: true
-        },
         bookStatusId: {
             type: "int",
         },
@@ -41,14 +37,6 @@ module.exports = new EntitySchema({
             joinColumn: true,
             joinTable: true,
             cascade: true
-        },
-        bookServices: {
-            target: "BookService",
-            type: "one-to-many",
-            joinColumn: true,
-            joinTable: true,
-            cascade: true,
-            nullable: true,
         },
         bookStatuses: {
             target: "BookStatus",

@@ -6,11 +6,9 @@ class Book {
         this.isDeleted = isDeleted;
 
         this.customerId = customerId;
-        this.bookServiceId = bookServiceId; //nullable
         this.bookStatusId = bookStatusId
 
         this.customers = customers;
-        this.bookServices = bookServices; //nullable
         this.bookStatuses = bookStatuses;
     }
 }

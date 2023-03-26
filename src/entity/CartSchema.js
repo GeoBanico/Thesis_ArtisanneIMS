@@ -16,10 +16,6 @@ module.exports = new EntitySchema({
         customerId: {
             type: "int"
         },
-        cartProductId: {
-            type: "int",
-            nullable: true
-        },
         deliveryStatusId: {
             type: "int",
         },
@@ -44,14 +40,6 @@ module.exports = new EntitySchema({
             joinColumn: true,
             joinTable: true,
             cascade: true
-        },
-        cartProducts: {
-            target: "CartProduct",
-            type: "one-to-many",
-            joinColumn: true,
-            joinTable: true,
-            cascade: true,
-            nullable: true
         },
         deliveryStatuses: {
             target: "DeliveryStatus",

@@ -206,18 +206,24 @@ function removeBooking(){
 }
 
 async function confirmBooking(){
+    var serviceList = document.getElementById("serviceList");
+
+    var bookDate = document.getElementById("selectBookingDate").value;
+    var bookTime = document.getElementById("selectBookingTime").value;
+
+    var hasErrors = checkMissingorError(bookDate);
+    if(hasErrors != '') return alert(hasErrors)
+
     if(confirm(`Confirm Booking? \nNote: the services of this booking is not changeable`) == false) return
 
-    var customerUsername = document.getElementById("username").innerHTML;
-
-    var serviceList = document.getElementById("serviceList");
     var servicesBooked = [];
     
     for (let i = 0; i < serviceList.length; i++) {
        servicesBooked.push(serviceList.options[i].value);
     }
 
-    var data = {customerUsername , servicesBooked};
+    var username = currentUser.username;
+    var data = {username , servicesBooked, bookDate, bookTime};
 
     const options =  {
         method: 'POST',
@@ -227,4 +233,33 @@ async function confirmBooking(){
     
     const response = await fetch('/confirmBooking', options);
     const dataStream = await response.json();
+
+    if(dataStream.message === 'duplicate') alert('You have already booked this day. \n Your booking schedule is our priority. \n\nThe business accepts on the counter services, so you may add additional services on your booked day.');
+    else if (dataStream.message === 'max capacity'){alert('Maximum Bookings Reached: Could not set a reservation for this hour. \n Kindly choose another booking hour/day.');}
+    else {
+        alert('Appointment Successful! \n Redirecting to your profile page...')
+        window.location.href = "./AccountDetails.html";
+    }
+}
+
+function checkMissingorError(date){
+    var dateNow = new Date();
+    var bookedDate = new Date(date);
+
+    if(date == '') return 'Booking Date is empty';
+    if(bookedDate <= dateNow) return `Booking Error: \nKindly choose a date beyond the date of today (${getDateNow()})`
+
+    return ''
+}
+
+function getDateNow() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // Note: months are zero-indexed, so add 1
+    const date = now.getDate();
+
+    // Format the date as a string (e.g. "2023-03-23")
+    const dateString = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+
+    return dateString;
 }

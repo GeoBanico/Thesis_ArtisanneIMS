@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.mainBody {
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(../images/bg.jpg);
+    background-position: center;
+    background-size: 100%;
+    position: absolute;
+}
+
+.form-box {
+    width: 380px;
+    height: 480px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 5px;
+}
+
+.button-box {
+    width: 220px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #0fffd798;
+    border-radius: 30px;
+}
+
+.toggle-button{
+    padding: 10px 30px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+}
+
+.form-group{
+    text-align: center;
+}
+
+#btn{
+    top: 0;
+    left: 0;
+    position: relative;
+    width: 110px;
+    height: 100%;
+    background: linear-gradient(to right, #21ecba, #31dfdf);
+    border-radius: 30px;
+    transition: 0.5s;
+}

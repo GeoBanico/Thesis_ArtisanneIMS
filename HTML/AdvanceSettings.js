@@ -174,10 +174,6 @@ async function refreshCustomerList(){
             }
             if(key == 'lastName') {
                 customerDetails += `${value}`
-                // var option = document.createElement("option");
-                // option.text = value;
-                // option.value = value;
-                // selectBox.add(option);
             }
         });
         var option = document.createElement("option");

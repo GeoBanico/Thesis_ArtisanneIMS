@@ -12,6 +12,10 @@ module.exports = new EntitySchema({
             type: "int",
             generated: true
         },
+        boughtquantity: {
+            type: "int",
+            nullable: true,
+        },
         productId: {
             type: "int",
         },
@@ -21,7 +25,7 @@ module.exports = new EntitySchema({
     },
     relations: {
         carts: {
-            target: "Customer",
+            target: "Cart",
             type: "many-to-one",
             joinColumn: true,
             joinTable: true,

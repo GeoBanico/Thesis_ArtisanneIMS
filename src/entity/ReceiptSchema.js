@@ -1,6 +1,5 @@
 const EntitySchema = require("typeorm").EntitySchema;
 const Receipt = require("../model/Receipt").Receipt;
-const ReceiptDesc = require("../model/ReceiptDesc").ReceiptDesc;
 const ProductReceipt = require("../model/ProductReceipt").ProductReceipt;
 const ServiceReceipt = require("../model/ServiceReceipt").ServiceReceipt;
 
@@ -13,9 +12,6 @@ module.exports = new EntitySchema({
             type: "int",
             generated: true
         },
-        receiptDescId: {
-            type: "int"
-        },
         productReceiptId: {
             type: "int",
             nullable: true
@@ -23,6 +19,9 @@ module.exports = new EntitySchema({
         serviceReceiptId: {
             type: "int",
             nullable: true
+        },
+        receiptNumber: {
+            type: "nvarchar",
         },
         date: {
             type: "datetime"
@@ -47,14 +46,6 @@ module.exports = new EntitySchema({
             joinTable: true,
             cascade: true,
             nullable: true
-        },
-        receiptDescs: {
-            target: "ReceiptDesc",
-            type: "many-to-one",
-            joinColumn: true,
-            joinTable: true,
-            cascade: true
         }
-        
     }
 });

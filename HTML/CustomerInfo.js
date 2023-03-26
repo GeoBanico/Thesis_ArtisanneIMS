@@ -14,12 +14,23 @@ async function addCustomer() {
 
     var data = {firstName, lastName, birthday, phone, address, email, username, password, coPassword, status, isDeleted};
     
-    if(await missingData(data)) {
-        alert('There are missing or incorrect data. Please check again');
+    var missingFields = await missingData(data);
+    if(missingFields != '') {
+        alert(`Empty Fields! \n There are empty fields in this category/ies: \n${missingFields}`);
         return;
     }
 
-    console.log(data);
+    var wrongFormatFields = wrongFormat(data);
+    if(wrongFormatFields != ''){
+        alert(`Wrong Format! \n There are wrong fields in this category/ies: \n${missingFields}`);
+        return;
+    }
+
+    if(!validatePassword(data.password, data.coPassword)){
+        alert(`Password Mismatch! \n Passwords do not match`);
+        return
+    }
+
     const options =  {
     method: 'POST',
     headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
@@ -59,24 +70,27 @@ function calculateAge(birthdate) {
 }
 
 async function missingData(data){
-    var missing = false;
+    var missingVariable = '';
     Object.entries(data).forEach(([key, value]) => {
             if (key != 'isDeleted' && value == '') {
                 console.log(key);
-                missing = true;
+                missingVariable += `- ${key}`
             }
     });
 
-    if(missing) return true;
+    return missingVariable;
+}
+
+function wrongFormat(data){
+    var wrongFormatReturn = ''
     if(!validatePhoneNumber(data.phone)) {
-        return true;
+       wrongFormatReturn += '- Phone\n'
     }
     if(!validateEmail(data.email)) {
-        return true;
+        wrongFormatReturn += '- Email'
     }
-    if(!validatePassword(data.password, data.coPassword))
-    
-    return false;
+
+    return wrongFormatReturn;
 }
 
 function validatePhoneNumber(number) {

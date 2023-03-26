@@ -2,12 +2,11 @@ var currentUser = {username:'', userType:''}
 
 window.onload = {}
 
-document.getElementById("login_click").onclick = function() {userLogin()};
 async function userLogin() {
-    var userEmail = document.getElementById("username").value;
+    var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
-    var data = {userEmail, password};
+    var data = {username, password};
     
     const options =  {
     method: 'POST',
@@ -19,6 +18,10 @@ async function userLogin() {
     const dataStream = await response.json();
 
     await checkHasAccount(dataStream); 
+}
+
+function goToRegister(){
+    window.location.href = "./CustomerInfo.html";
 }
 
 async function checkHasAccount(user){
