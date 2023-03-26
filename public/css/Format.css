@@ -1,93 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
 body{
     font-family: 'Mulish', sans-serif;
 }
-.main {
-    height: 100%;
-    position: fixed;
-    top: 0;
- }
 
-header{
-    left: 0;
-    width: 15%;
-    background-color: #1abc9c;
-    display: flex;
-}
-
-.divBody{
-    right: 0;
-    width: 85%;
-    background-color: aquamarine;
-}
-
-.header{
-    margin: 0 auto;
-}
-
-.centerHeader{
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-img.logo{
-    width: 80%;
-    height: auto;
-}
-
-.accessibilities {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.contentBody {
-    padding: 20px;
-}
-
-.accessibilities,div.logo {
-    text-align: center;
-}
-
-div.profile{
-    position: absolute;
-   bottom: 5px;
-   border-top: 5px;
-}
-
-.userLogo{
-    width: 15%;
-    height: auto;
-    padding: 10px;
-}
-
-.userContent{
-    display: flex;
-    flex-direction: row;
-    background: white;
-}
-
-.userDetails{
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    text-align: start;
-}
-
-.itemSeparate{
-    background-color: white;
-    margin: 5px;
+/* HEADER */
+nav{
+    background: #1bcde0;
+    height: 100px;
     width: 100%;
 }
 
-.divBody{
-    overflow-x: hidden;
-    overflow-y: auto;
+.logo{
+    color: white;
+    font-size: 35px;
+    line-height: 100px;
+    padding: 0 100px;
+    font-weight: bold;
 }
 
+nav ul{
+    float: right;
+    margin-right: 100px;
+}
+
+nav ul li{
+    display: inline-block;
+    line-height: 100px;
+    margin: 0 5px;
+}
+
+nav ul li a{
+    color: white;
+    font-size: 17px;
+    text-transform: uppercase;
+}
+
+a:hover {
+    background: #1fe1f7;
+    transition: 0.5s;
+}
+
+ul li ul.dropdown li{
+    display: block;
+    line-height: 50px;
+}
+
+ul li ul.dropdown{
+    width: auto;
+    background: #1bcde0;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
+ul li a:hover {
+    background: #51e1f1;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+}
+
+
+/* CONTENT */
+
+.contentBody {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+}
+
+
+.container {
+    padding: 20px;
+}
 
 
 

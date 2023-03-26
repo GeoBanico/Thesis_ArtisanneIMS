@@ -16,6 +16,7 @@ const config = require('../../src/index'),
                 newReceipt.date = data.dateReceipt;
                 newReceipt.totalCost = data.costTotal;
                 newReceipt.receiptNumber = data.receiptNumber;
+                newReceipt.discount = data.discount;
 
                 await connection.manager.save(newReceipt);
 

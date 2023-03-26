@@ -26,6 +26,10 @@ module.exports = new EntitySchema({
         date: {
             type: "datetime"
         },
+        discount: {
+            type: "real",
+            nullable: true
+        },
         totalCost: {
             type: "real"
         }

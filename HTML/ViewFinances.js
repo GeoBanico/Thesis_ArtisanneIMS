@@ -236,14 +236,21 @@ async function saveReceipt(){
     var serviceLength = document.getElementById("allServiceList");
     var productLength = document.getElementById("allProductList");
     var costTotal = parseInt(document.getElementById("totalOrder").innerHTML);
+    var discount = parseInt(document.getElementById("discountGiven").value);
 
+    //CHANGE -> Discount when empty
+    if(discount == '') discount = 0;
+
+    //SET -> Receipt Number
     var getDate = new Date();
     var receiptNumber = `${dateReceipt}_${getDate.getHours()}${getDate.getMinutes()}${getDate.getSeconds()}${getDate.getMilliseconds()}`
 
+    //RESTRICTIONS -> No Date, Future Date, Empty Service & Product
     if(dateReceipt == '') return alert('Missing Date: \n Kindly fill up the date');
     if(futureDate()) return alert('Future Date Detected: \n You are placing a receipt in a future date');
     if(serviceLength.length == 0 && productLength.length == 0) return alert('Empty Fields: \n Kindly enter a product or service');
 
+    //SETTING UP -> Setting All needed information
     var data = {}
     var serviceListToAdd = []
     var productListToAdd = []
@@ -267,7 +274,7 @@ async function saveReceipt(){
         }
     }
 
-    data =  {dateReceipt, serviceListToAdd, productListToAdd, costTotal, receiptNumber}
+    data =  {dateReceipt, serviceListToAdd, productListToAdd, costTotal, receiptNumber, discount}
 
     const options =  {
         method: 'POST',
@@ -370,7 +377,7 @@ async function fillTableReceiptsByAll(){
             }
             prevDate = currDate;
         });
-
+        
         let row = tableProd.insertRow();
         let date = row.insertCell(0);
         date.innerHTML = currDate;
@@ -379,7 +386,7 @@ async function fillTableReceiptsByAll(){
         let price = row.insertCell(2);
         price.innerHTML = productPriceStore;
         let quan = row.insertCell(3);
-        quan.innerHTML = productQuantity;
+        quan.innerHTML = productPriceStore;
     });
 }
 

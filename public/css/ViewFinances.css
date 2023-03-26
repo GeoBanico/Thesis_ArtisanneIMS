@@ -13,16 +13,12 @@ tr:nth-child(even) {
   background-color: #f2f2f2
 }
 
-  .columnContainer{
-    display: flex;
-  }
+.columnContainer{
+  display: flex;
+}
 
 h3 {
   text-align: center;
-}
-
-.container {
-  padding: 20px;
 }
 
 .columnContainer {

@@ -10,59 +10,35 @@
     <title>Document</title>
 </head>
 <body>
-    <header class="main">
-        <div class="header">
-            <div class="logo">
-                <a href="Home.html">
-                    <img src="../images/logo1-1.png" alt="HTML5" class="logo">
+    <nav>
+        <a href="Home.html" class="logo">Artisanne</a>
+        <ul>
+            <li>
+                <a href="AccountDetails.html" class="userContent itemSeparate" id="userContent">
+                    <!-- <img src="../images/user.png" alt="HTML5" class="userLogo"> -->
+                    <label id="username">Username</label>
+                    <label id="userType">Account</label>
                 </a>
-            </div>
+            </li>
+            <li>
+                <a href="index.html" class="itemSeparate">Log Out</a>
+            </li>
+        </ul>
 
-            <div class="centerHeader">
-                <div class="accessibilities goods">
-                    <a href="OrderProducts.html" class="itemSeparate">
-                        <button>Order Products</button>
-                    </a>
-    
-                    <a href="MakeAppointment.html" class="itemSeparate">
-                        <button>Make Appointment</button>
-                    </a>
-                </div>
-
-                <div class="accessibilities others">
-                    <a href="ViewFinances.html" class="itemSeparate">
-                        <button>View Finances</button>
-                    </a>
-    
-                    <a href="ViewBookings.html" class="itemSeparate">
-                        <button>View Bookings</button>
-                    </a>
-
-                    <a href="ViewDeliveries.html" class="itemSeparate">
-                        <button>View Delivery</button>
-                    </a>
-    
-                    <a href="AdvanceSettings.html" class="itemSeparate">
-                        <button>Advance Settings</button>
-                    </a>
-                </div>
-            </div>
-        
-            <div class="accessibilities profile">
-                    <a href="AccountDetails.html" class="userContent itemSeparate" id="userContent">
-                        <img src="../images/user.png" alt="HTML5" class="userLogo">
-                        <div class="userDetails">
-                            <label id="username">Username</label>
-                            <label id="userType">Account</label>
-                        </div>
-                    </a>
-
-                    <a href="index.html" class="itemSeparate">
-                        <button>Log Out</button>
-                    </a>
-            </div>
-        </div>
-    </header>
+        <ul>
+            <li><a href="OrderProducts.html" class="itemSeparate">Order Products</a></li>
+            <li><a href="OrderProducts.html" class="itemSeparate">Make Appointment</a></li>
+            <li>
+                <a href="#" class="itemSeparate">Advance Settings</a>
+                <ul class="dropdown">
+                    <li><a href="ViewFinances.html" class="itemSeparate">View Finances</a></li>
+                    <li><a href="ViewBookings.html" class="itemSeparate">View Bookings</a></li>
+                    <li> <a href="ViewDeliveries.html" class="itemSeparate">View Delivery</a></li>
+                    <li><a href="AdvanceSettings.html" class="itemSeparate">More Options</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 
     <div class="main divBody">
         <h1>Order Products</h1>
