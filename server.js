@@ -402,7 +402,7 @@ const bookingServer = require('./public/javascript/BookingServer');
 app.post('/confirmBooking', async(req, res) => {
     const data = req.body
 
-    console.log(data.username)
+    console.log(data.bookDate);
     const hasBooked = await bookingServer.insertBooking(data);
 
     res.json({

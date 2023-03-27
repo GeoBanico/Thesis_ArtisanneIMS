@@ -49,15 +49,6 @@
                 </div>
                 <div id="productDetails" class="rightSide container">
 
-                    <div class="container">
-                        <h3>CART</h3>
-                        <select id="productList" size="5" class="selectList"></select><br>
-                        <div id="hideOrderNow" style="display: none;">
-                            <button id="cancel" class="main-button" onclick="removeProduct()">Remove Product</button>
-                            <button id="buyNow" class="main-button" onclick="buyNow()">Buy Now</button>
-                        </div>
-                    </div>  
-                    
                     <div class="container goodsDetail">
                         <div class="detail-container">
                             <label class="lbldesc" for="orderName">Name:</label>
@@ -95,6 +86,15 @@
                         
                         <button class="main-button" id="addToCart" onclick="addToCart()">Add To Cart Now</button>
                     </div>
+                    
+                    <div class="container">
+                        <h3>CART</h3>
+                        <select id="productList" size="5" class="selectList"></select><br>
+                        <div id="hideOrderNow" style="display: none;">
+                            <button id="cancel" class="main-button" onclick="removeProduct()">Remove Product</button>
+                            <button id="buyNow" class="main-button" onclick="buyNow()">Buy Now</button>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </div>

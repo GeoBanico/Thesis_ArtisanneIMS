@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
     <link rel="stylesheet" href="../css/CustomerGoods.css">
-    <!-- <link rel="stylesheet" href="../css/CustomerOrderBook.css"> -->
+
     <title>Document</title>
 </head>
 <body>
@@ -47,31 +47,51 @@
                 <div id="insertServices">
                     
                 </div>
-                <div id="serviceDetails" class="rightSide">
-                    <div id="hideBookNow" style="display: none;">
-                        <select name="" id="serviceList" size="5"></select><br>
-                        <label for="selectBookingDate">Select a booking date:</label>
-                        <input type="date" id="selectBookingDate">
-                        <br>
-                        <label for="selectBookingTime">Select a booking time:</label>
-                        <select id="selectBookingTime"></select>
-                        <br>
-                        <button id="cancel" onclick="removeBooking()">Remove Booking</button>
-                        <button id="confirmBooking" onclick="confirmBooking()">Confirm Booking</button>
+                <div id="serviceDetails" class="rightSide container">
+
+                    <div class="container goodsDetail">
+                        <div class="detail-container">
+                            <label class="lbldesc" for="orderName">Name:</label>
+                            <label id="orderName"></label>
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="servicePrice">Price:</label>
+                            <label id="servicePrice"></label>
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="serviceDescription">Description:</label>
+                            <label id="serviceDescription"></label>
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="serviceCategory">Category:</label>
+                            <label id="serviceCategory"></label>
+                        </div>
+
+                        <button id="bookNow" class="main-button" onclick="bookNowClick()">BOOK SERVICE</button>
+                    </div>
+                    
+                    <div class="container">
+                        <h3>BOOKINGS</h3>
+                        <select name="" id="serviceList" size="5" class="selectList"></select>
+                        <div id="hideBookNow" style="display: none;">
+                            <div class="detail-container"> 
+                                <label class="lbldesc" for="selectBookingDate">Select a booking date:</label>
+                                <input type="date" id="selectBookingDate">
+                            </div>
+                            
+                            <div class="detail-container">
+                                <label class="lbldesc" for="selectBookingTime">Select a booking time:</label>
+                                <select id="selectBookingTime"></select>
+                            </div>
+
+                            <button id="cancel" class="main-button" onclick="removeBooking()">Remove Service</button>
+                            <button id="confirmBooking" class="main-button" onclick="confirmBooking()">Confirm Booking</button>
+                        </div>
                     </div>
 
-                    <div>
-                        <input type="text" id="orderName" class="item wrap" placeholder="Service Name"  disabled="true">
-                        <div class="price-wrap">
-                            <span class="price-code">₱</span>
-                            <input type="number" name="price" id="servicePrice" class="item wrap" placeholder="Service Price" disabled="true"/>
-                        </div>
-                        <textarea id="serviceDescription" cols="25" rows="5" placeholder="Service Description" disabled="true"></textarea><br>
-                        <input type="text" name="name" id="serviceCategory" placeholder="Service Category" class="item wrap" disabled="true">
-                    </div>
-                    <div>
-                        <button id="bookNow" onclick="bookNowClick()">Book Now</button>
-                    </div>
                 </div>
             </div>
             

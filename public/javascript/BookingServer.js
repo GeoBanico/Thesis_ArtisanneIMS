@@ -16,13 +16,12 @@ const insertBooking = async(data) => {
 
             const bookRep = connection.getRepository(Book);
             const [book, bookCount] = await bookRep.findAndCountBy({
-                customers: customer.id,
+                customers: customer,
                 bookDate: data.bookDate
             })
 
             if(bookCount > 1) return 'duplicate';
             const boolResult = await maxBookCapacity(connection, data.bookDate, data.bookTime)
-            console.log(boolResult);
             if(boolResult) return 'max capacity'
             
             const bookStatusRep = connection.getRepository(BookStatus);
@@ -85,7 +84,7 @@ async function maxBookCapacity(connection, bookDate,bookTime){
         bookStartTime: bookTime
     })
 
-    if(bookingsCount > 3) return true;
+    if(bookingsCount > 2) return true;
     return false;
 }
 

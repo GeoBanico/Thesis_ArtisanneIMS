@@ -17,7 +17,7 @@ function getHrs(){
     hrs.forEach(time => {
         var option = document.createElement("option");
         option.text = time;
-        option.value = time;
+        option.innerHTML = time;
         selectBox.add(option);
 });
 }
@@ -153,14 +153,14 @@ async function callServiceDetails(id){
     const response = await fetch('/searchAServiceById', options);
     const dataStream = await response.json();
     
-    document.getElementById("orderName").value = dataStream.name;
-    document.getElementById("servicePrice").value = dataStream.price;
-    document.getElementById("serviceDescription").value = dataStream.description;
-    document.getElementById("serviceCategory").value = dataStream.categories.name;
+    document.getElementById("orderName").innerHTML = dataStream.name;
+    document.getElementById("servicePrice").innerHTML = dataStream.price;
+    document.getElementById("serviceDescription").innerHTML = dataStream.description;
+    document.getElementById("serviceCategory").innerHTML = dataStream.categories.name;
 }
 
 function bookNowClick(){
-    var value = document.getElementById("orderName").value;
+    var value = document.getElementById("orderName").innerHTML;
     var selectBox = document.getElementById("serviceList");
 
     if (value == '') {
@@ -175,14 +175,14 @@ function bookNowClick(){
     document.getElementById("hideBookNow").style.display = "block";
     var option = document.createElement("option");
     option.text = value;
-    option.value = value;
+    option.innerHTML = value;
     selectBox.add(option);
 }
 
 function theSameBookService(selectBox, value){
     var hasTheSame = false;
     for (let i = 0; i < selectBox.length; i++) {
-        if(selectBox[i].value == value) hasTheSame = true;
+        if(selectBox[i].innerHTML == value) hasTheSame = true;
     }
 
     return hasTheSame;
@@ -197,10 +197,10 @@ function removeBooking(){
         return
     }
 
-    if(confirm(`Do you want to remove this product: ${selectedService}?`) == false) return
+    if(confirm(`Do you want to remove this service: ${selectedService}?`) == false) return
 
     for (let i = 0; i < serviceList.length; i++) {
-        if(serviceList.options[i].value == selectedService) serviceList.remove(i);
+        if(serviceList.options[i].innerHTML == selectedService) serviceList.remove(i);
     }
 
     if(document.getElementById("serviceList").length == 0) {
@@ -217,14 +217,13 @@ async function confirmBooking(){
     var hasErrors = checkMissingorError(bookDate);
     if(hasErrors != '') return alert(hasErrors)
 
-    if(confirm(`Confirm Booking? \nNote: the services of this booking is not changeable`) == false) return
-
-    var servicesBooked = [];
+    var servicesBooked = []; 
     
     for (let i = 0; i < serviceList.length; i++) {
-       servicesBooked.push(serviceList.options[i].value);
+       servicesBooked.push(serviceList.options[i].innerHTML);
     }
 
+    console.log(bookDate);
     var username = currentUser.username;
     var data = {username , servicesBooked, bookDate, bookTime};
 
@@ -237,8 +236,8 @@ async function confirmBooking(){
     const response = await fetch('/confirmBooking', options);
     const dataStream = await response.json();
 
-    if(dataStream.message === 'duplicate') alert('You have already booked this day. \n Your booking schedule is our priority. \n\nThe business accepts on the counter services, so you may add additional services on your booked day.');
-    else if (dataStream.message === 'max capacity'){alert('Maximum Bookings Reached: Could not set a reservation for this hour. \n Kindly choose another booking hour/day.');}
+    if(dataStream.message === 'duplicate') alert('You have already booked this day! \n Your booking schedule is our priority. \n\nThe business accepts on the counter services, so you may add additional services on your booked day.');
+    else if (dataStream.message === 'max capacity'){alert('Maximum Bookings Reached (3)! Could not set a reservation for this hour. \n Kindly choose new booking hour or day.');}
     else {
         alert('Appointment Successful! \n Redirecting to your profile page...')
         window.location.href = "./AccountDetails.html";
@@ -249,8 +248,8 @@ function checkMissingorError(date){
     var dateNow = new Date();
     var bookedDate = new Date(date);
 
-    if(date == '') return 'Booking Date is empty';
-    if(bookedDate <= dateNow) return `Booking Error: \nKindly choose a date beyond the date of today (${getDateNow()})`
+    if(date == '') return 'BOOKING ERROR!\nBooking Date is empty';
+    if(bookedDate <= dateNow) return `BOOKING ERROR!\nKindly choose a date beyond today (${getDateNow()})`
 
     return ''
 }
