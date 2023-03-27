@@ -63,7 +63,7 @@ async function insertServiceCat(){
             if(key == 'name') {
                 serviceCatList += `
                     <div id="${value}" class="category">
-                        <h1>${value}</h1>
+                        <h2>${value}</h2>
                     </div>
                 `
             }

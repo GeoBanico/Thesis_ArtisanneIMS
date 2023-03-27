@@ -61,7 +61,7 @@ async function insertProductCat(){
             if(key == 'name') {
                 productCatList += `
                     <div id="${value}" class="category">
-                        <h1>${value}</h1>
+                        <h2>${value}</h2>
                     </div>
                 `
             }
@@ -137,35 +137,35 @@ async function callProductDetails(id){
     const response = await fetch('/searchAProductById', options);
     const dataStream = await response.json();
 
-    document.getElementById("orderName").value = dataStream.name;
-    document.getElementById("productPrice").value = dataStream.price;
-    document.getElementById("productDescription").value = dataStream.description;
-    document.getElementById("productCategory").value = dataStream.categories.name;
-    document.getElementById("productQuantityLeft").value = dataStream.storeQuantity;
-    document.getElementById("productQuantity").value = 1;
+    document.getElementById("orderName").innerHTML = dataStream.name;
+    document.getElementById("productPrice").innerHTML = dataStream.price;
+    document.getElementById("productDescription").innerHTML = dataStream.description;
+    document.getElementById("productCategory").innerHTML = dataStream.categories.name;
+    document.getElementById("productQuantityLeft").innerHTML = dataStream.storeQuantity;
+    document.getElementById("productQuantity").innerHTML = 1;
 }
 
 function subQuantity(){
-    var quantity = document.getElementById("productQuantity").value;
+    var quantity = document.getElementById("productQuantity").innerHTML;
 
     console.log(quantity);
     if(quantity == '') return
-    if(parseInt(quantity) > 1) document.getElementById("productQuantity").value = parseInt(quantity)-1;
+    if(parseInt(quantity) > 1) document.getElementById("productQuantity").innerHTML = parseInt(quantity)-1;
 }
 
 function addQuantity(){
-    var quantity = document.getElementById("productQuantity").value;
-    var quantityLeft = document.getElementById("productQuantityLeft").value;
+    var quantity = document.getElementById("productQuantity").innerHTML;
+    var quantityLeft = document.getElementById("productQuantityLeft").innerHTML;
 
     console.log(quantity);
     if(quantity == '') return
-    if(parseInt(quantity) < parseInt(quantityLeft)) document.getElementById("productQuantity").value = parseInt(quantity)+1;
+    if(parseInt(quantity) < parseInt(quantityLeft)) document.getElementById("productQuantity").innerHTML = parseInt(quantity)+1;
 }
 
 function theSameProduct(selectBox, value){
     var hasTheSame = false;
     for (let i = 0; i < selectBox.length; i++) {
-        var splitArray = productList.options[i].value.split("x | ");
+        var splitArray = productList.options[i].innerHTML.split("x | ");
         if(splitArray[1] == value) hasTheSame = true;
     }
 
@@ -173,10 +173,10 @@ function theSameProduct(selectBox, value){
 }
 
 function addToCart(){
-    var value = document.getElementById("orderName").value;
-    var quantity = document.getElementById("productQuantity").value;
+    var value = document.getElementById("orderName").innerHTML;
+    var quantity = document.getElementById("productQuantity").innerHTML;
     var selectBox = document.getElementById("productList");
-    var quantityLimit = parseInt(document.getElementById("productQuantityLeft").value);
+    var quantityLimit = parseInt(document.getElementById("productQuantityLeft").innerHTML);
 
     if (value == '') {
         alert('Please select a product to order');
@@ -185,12 +185,12 @@ function addToCart(){
 
     if(theSameProduct(selectBox, value)){
         for (let i = 0; i < selectBox.length; i++) {
-            var splitArray = productList.options[i].value.split("x | ");
+            var splitArray = productList.options[i].innerHTML.split("x | ");
             if(splitArray[1] == value) {
                 var totalQuantity = (parseInt(splitArray[0]) + parseInt(quantity));
                 if(totalQuantity > quantityLimit) return alert(`Quantity Limit Reached: \n${totalQuantity}pcs of ${value} exceeds the current stock of the store`);
                 productList.options[i].text = `${totalQuantity}x | ${value}`;
-                productList.options[i].value = `${totalQuantity}x | ${value}`;;
+                productList.options[i].innerHTML = `${totalQuantity}x | ${value}`;;
             }
         }
         return
@@ -199,7 +199,7 @@ function addToCart(){
     document.getElementById("hideOrderNow").style.display = "block";
     var option = document.createElement("option");
     option.text = `${quantity}x | ${value}`;
-    option.value = `${quantity}x | ${value}`;
+    option.innerHTML = `${quantity}x | ${value}`;
     selectBox.add(option);
 }
 
@@ -215,7 +215,7 @@ function removeProduct(){
     if(confirm(`Do you want to remove this product: ${selectedProduct}?`) == false) return
 
     for (let i = 0; i < productList.length; i++) {
-        if(productList.options[i].value == selectedProduct) productList.remove(i);
+        if(productList.options[i].innerHTML == selectedProduct) productList.remove(i);
     }
 
     if(document.getElementById("productList").length == 0) {
@@ -233,7 +233,7 @@ async function buyNow() {
     var productOrdered = [];
     
     for (let i = 0; i < productList.length; i++) {
-        var splitArray = productList.options[i].value.split("x | ");
+        var splitArray = productList.options[i].innerHTML.split("x | ");
         quantities.push(splitArray[0]);
         productOrdered.push(splitArray[1]);
     }
