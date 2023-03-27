@@ -82,8 +82,21 @@
     border: 0;
     outline: none;
     border: 10px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 #register-hidden{
     display: none;
+}
+
+#incorrectLabel{
+    display: none;
+    padding-bottom: 20px;
+}
+
+#lblInc{
+    color: red;
+    font-style: italic;
 }

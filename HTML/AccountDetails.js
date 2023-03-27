@@ -95,7 +95,8 @@ function fillOrderNumSelect(data){
         selectBox.add(option);
     });
 
-    onChangeOrderNumSelect()
+    selectBox.value = '';
+    //onChangeOrderNumSelect()
 }
 
 async function onChangeOrderNumSelect(){
@@ -163,6 +164,7 @@ async function getUserBookings(){
     if(dataStream.length === 0) return
     bookings = dataStream;
     
+    console.log(bookings);
     fillBookDateSelect(dataStream);
 }
 

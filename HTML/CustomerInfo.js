@@ -8,28 +8,22 @@ async function addCustomer() {
     var email = document.getElementById("email").value;
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-    var coPassword = document.getElementById("confirmPassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
     var status = await getStatus(birthday);
     var isDeleted = false;
 
-    var data = {firstName, lastName, birthday, phone, address, email, username, password, coPassword, status, isDeleted};
+    var data = {firstName, lastName, birthday, phone, address, email, username, password, confirmPassword, status, isDeleted};
     
     var missingFields = await missingData(data);
-    if(missingFields != '') {
-        alert(`Empty Fields! \n There are empty fields in this category/ies: \n${missingFields}`);
-        return;
-    }
+    if(missingFields != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${missingFields}`);
+
+    if(calculateAge(birthday) < 12) return alert(`BELOW AGE OF CONSENT! \nKindly ask your legal guardian to register for you`);
 
     var wrongFormatFields = wrongFormat(data);
-    if(wrongFormatFields != ''){
-        alert(`Wrong Format! \n There are wrong fields in this category/ies: \n${missingFields}`);
-        return;
-    }
+    if(wrongFormatFields != '') return alert(`WRONG FORMAT! \nThere are wrong formatted fields in this category/ies: \n${wrongFormatFields}`);
 
-    if(!validatePassword(data.password, data.coPassword)){
-        alert(`Password Mismatch! \n Passwords do not match`);
-        return
-    }
+    var validatedPassword = toValidatePassword(password, confirmPassword);
+    if(validatedPassword != '') return alert(validatedPassword);
 
     const options =  {
     method: 'POST',
@@ -39,8 +33,8 @@ async function addCustomer() {
 
     const response = await fetch('/addCustomer', options);
     const dataStream = await response.json();
-    
-    if(dataStream == 'duplicate') alert('This username is already taken!');
+
+    if(dataStream != '') alert(`USERNAME TAKEN! \nThis username (${await dataStream}) is already taken!`);
     else {
         alert('Customer added\n Redirecting to log-in page');
         document.getElementById("login-hidden").style.display = 'block';
@@ -68,15 +62,15 @@ function calculateAge(birthdate) {
     if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDate.getDate() < birthDate.getDate())) {
       age--;
     }
+    console.log(age);
     return age;
 }
 
 async function missingData(data){
-    var missingVariable = '';
+    var missingVariable = "";
     Object.entries(data).forEach(([key, value]) => {
             if (key != 'isDeleted' && value == '') {
-                console.log(key);
-                missingVariable += `- ${key}`
+                missingVariable += `- ${key}\n`
             }
     });
 
@@ -86,7 +80,7 @@ async function missingData(data){
 function wrongFormat(data){
     var wrongFormatReturn = ''
     if(!validatePhoneNumber(data.phone)) {
-       wrongFormatReturn += '- Phone\n'
+       wrongFormatReturn = '- Phone\n'
     }
     if(!validateEmail(data.email)) {
         wrongFormatReturn += '- Email'
@@ -105,8 +99,10 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
-function validatePassword(password, coPassword){
-if(password === coPassword) return true;
+function toValidatePassword(password, coPassword){
+    if(password.includes(" ")) return (`PASSWORD CONTAINS SPACES! \nPassword should not contain spaces`);
+    if(password.length < 8) return (`PASSWORD TOO SHORT! \nPassword should be alteast 8 characters long`);
+    if(password != coPassword) return (`PASSWORD MISMATCH! \nPasswords do not match`);
 
-return false;
+    return ''
 }

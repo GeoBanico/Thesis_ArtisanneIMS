@@ -19,7 +19,7 @@ const insertCustomer = async(customers) => {
             })
 
             if(duplicateCount > 0){
-                return true;
+                return `${await sameCustomer[0].username}`;
             }
 
             const statusRep = connection.getRepository(CustomerStatus);
@@ -46,7 +46,7 @@ const insertCustomer = async(customers) => {
 
             await connection.manager.save(newCustomer);
 
-            return false;
+            return '';
         })
 
         return insert;

@@ -14,15 +14,13 @@ const insertBooking = async(data) => {
                 username: data.username
             });
 
-            console.log(customer);
-
             const bookRep = connection.getRepository(Book);
             const [book, bookCount] = await bookRep.findAndCountBy({
                 customers: customer.id,
                 bookDate: data.bookDate
             })
 
-            if(bookCount > 0) return 'duplicate';
+            if(bookCount > 1) return 'duplicate';
             const boolResult = await maxBookCapacity(connection, data.bookDate, data.bookTime)
             console.log(boolResult);
             if(boolResult) return 'max capacity'
@@ -104,6 +102,7 @@ const getUserBooking = async(data) => {
                 .createQueryBuilder("bookService")
                 .innerJoinAndSelect("bookService.books", "books")
                 .innerJoinAndSelect("books.customers", "customers")
+                .leftJoinAndSelect("bookService.services", "services")
                 .where(`customers.Id = ${customer.id}`)
                 .getMany();
 

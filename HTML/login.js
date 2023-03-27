@@ -18,7 +18,7 @@ async function userLogin() {
     var username = document.getElementById("usernameLogin").value;
     var password = document.getElementById("passwordLogin").value;
 
-    if(username == '' || password == '') return alert('Empty Fields: \n Fillup the empty fields');
+    if(username == '' || password == '') return alert('EMPTY FIELDS! \n Kindly fill-Up all the required fields');
 
     var data = {username, password};
     
@@ -47,6 +47,7 @@ async function checkHasAccount(user){
     }
     else{
         await saveLogin(user);
+        alert(`LOG-IN SUCCESS! \nWelcome ${currentUser.username} to Artisanne`)
         window.location.href = "./Home.html";
     }
 }

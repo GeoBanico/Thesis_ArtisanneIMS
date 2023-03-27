@@ -31,8 +31,8 @@ app.post('/userLogin', async(req, res) => {
 app.post('/addCustomer', async(req, res) => {
     const data = req.body
     const customerValidation = customerServer.insertCustomer(data);
-    
-    await sameDuplicateGoods(customerValidation, res);
+
+    res.json(await customerValidation)
 });
 
 app.post('/searchUserType', async(req, res) => {

@@ -9,12 +9,12 @@ const insertOrder = async(data) => {
     try {
         const insert = config.then(async function (connection){
 
-            if(await hasSufficientQuantity(connection, data.productOrdered, data.quantities) != '') return false
+            //if(await hasSufficientQuantity(connection, data.productOrdered, data.quantities) != '') return false
 
             console.log('enter')
             const customerRep = connection.getRepository(Customer);
             const customer = await customerRep.findOneBy({
-                username: data.username
+                username: data.customerUsername
             });
             
             const orderStatusRep = connection.getRepository(DeliveryStatus);
@@ -22,17 +22,20 @@ const insertOrder = async(data) => {
                 id: 1
             })
 
+            console.log(data);
+
             const newOrder = new Cart();
             newOrder.orderNumber = data.orderNumber;
             newOrder.dateOrdered = data.orderDate;
             newOrder.isDeleted = false;
             
             newOrder.customerId = customer.id;
-            newOrder.deliveryStatusId = deliveryStatus.id;
-
             newOrder.customers = customer;
+
+            newOrder.deliveryStatusId = deliveryStatus.id;
             newOrder.deliveryStatuses = deliveryStatus;
 
+            console.log(newOrder);
             await connection.manager.save(newOrder);
 
             const newOrderRep = connection.getRepository(Cart);
@@ -109,14 +112,16 @@ const getUserCart = async(data) => {
             const customer = await customerRep.findOneBy({
                 username: data.username
             });
-            
+
             const userCarts = await connection.getRepository(CartProduct)
             .createQueryBuilder("cartProduct")
             .innerJoinAndSelect("cartProduct.carts", "carts")
             .innerJoinAndSelect("carts.customers", "customers")
-            .where(`customers.Id = ${customer.id}`)
+            .leftJoinAndSelect("cartProduct.products", "products")
+            .where(`customers.id = ${customer.id}`)
             .getMany();
 
+            console.log(userCarts);
             return userCarts;
             
         })
