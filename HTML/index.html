@@ -12,18 +12,36 @@
         <div class="form-box">
             <div class="button-box">
                 <div id="btn"></div>
-                <button id="login_click" class="toggle-button" onclick="userLogin()">Login</button>
-                <button id="login_click" class="toggle-button" onclick="goToRegister()">Register</button>
+                <button class="toggle-button" onclick="loginClick()">Login</button>
+                <button class="toggle-button" onclick="registerClick()">Register</button>
             </div>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="username"><br>
-                <label for="password">Password:</label>
-                <input type="pasword" name="password" id="password" class="form-control" placeholder="password"><br>
-                <label id="incorrectLabel" style="color:red; display: none; padding: 10px;" >Incorrect Username or Password</label>
+            <div id="login-hidden">
+                <div class="input-group login-hidden">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="usernameLogin" class="input-field" placeholder="Username">
+                    <label for="password">Password:</label>
+                    <input type="pasword" name="password" id="passwordLogin" class="input-field" placeholder="Password">
+                    <label id="incorrectLabel" style="color:red; display: none; padding: 10px;" >Incorrect Username or Password</label>
+                    <button class="submit-button" onclick="userLogin()">Submit</button>
+                </div>
+            </div>
+            <div id="register-hidden">
+                <div class="input-group">
+                    <input type="text" name="firstname" id="firstname" class="input-field" placeholder="Enter First Name">
+                    <input type="text" name="familyname" id="familyname" class="input-field" placeholder="Enter Last Name">
+                    <input type="date" name="birthday" id="birthday" class="input-field" placeholder="Enter Birthday" min="01-01-1900">
+                    <input type="number" name="phone" id="phone" class="input-field" placeholder="Enter Phone Number">
+                    <input type="text" name="address" id="address" class="input-field" placeholder="Enter Address">
+                    <input type="email" name="email" id="email" class="input-field" placeholder="Enter email">
+                    <input type="text" name="username" id="username" class="input-field" placeholder="Enter Username">
+                    <input type="password" name="password" id="password" class="input-field" placeholder="Enter Password">
+                    <input type="password" name="password" id="confirmPassword" class="input-field" placeholder="Confirm Password">
+                    <button class="submit-button" id="signup_click">Sign Up</button>
+                </div>
             </div>
         </div>
     </div>
     <script src="./login.js" type="text/javascript"></script>
+    <script src="./CustomerInfo.js" type="text/javascript"></script>
 </body>
 </html>

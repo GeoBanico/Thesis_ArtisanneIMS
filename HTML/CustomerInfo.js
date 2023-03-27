@@ -43,7 +43,9 @@ async function addCustomer() {
     if(dataStream == 'duplicate') alert('This username is already taken!');
     else {
         alert('Customer added\n Redirecting to log-in page');
-        window.location.href = "./login.html";
+        document.getElementById("login-hidden").style.display = 'block';
+        document.getElementById("register-hidden").style.display = 'none';
+        document.getElementById("btn").style.left = "0"
     }
 }
 

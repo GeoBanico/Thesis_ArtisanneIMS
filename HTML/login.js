@@ -2,26 +2,36 @@ var currentUser = {username:'', userType:''}
 
 window.onload = {}
 
+function loginClick() {
+    document.getElementById("login-hidden").style.display = 'block';
+    document.getElementById("register-hidden").style.display = 'none';
+    document.getElementById("btn").style.left = "0"
+}
+
+function registerClick() {
+    document.getElementById("login-hidden").style.display = 'none';
+    document.getElementById("register-hidden").style.display = 'block';
+    document.getElementById("btn").style.left = "110px"
+}
+
 async function userLogin() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+    var username = document.getElementById("usernameLogin").value;
+    var password = document.getElementById("passwordLogin").value;
+
+    if(username == '' || password == '') return alert('Empty Fields: \n Fillup the empty fields');
 
     var data = {username, password};
     
     const options =  {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-    body: JSON.stringify(data)
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
     };
 
     const response = await fetch('/userLogin', options);
     const dataStream = await response.json();
-
+    console.log(dataStream)
     await checkHasAccount(dataStream); 
-}
-
-function goToRegister(){
-    window.location.href = "./CustomerInfo.html";
 }
 
 async function checkHasAccount(user){
@@ -30,9 +40,9 @@ async function checkHasAccount(user){
 
     if(!userHasAccount){
         console.log("no user");
-        document.getElementById("username").value = '';
-        document.getElementById("password").value = '';
-        document.getElementById("username").focus();
+        document.getElementById("usernameLogin").value = '';
+        document.getElementById("passwordLogin").value = '';
+        document.getElementById("usernameLogin").focus();
         incorrectLabel.style = 'display: block';
     }
     else{

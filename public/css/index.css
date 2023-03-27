@@ -13,7 +13,7 @@
 
 .form-box {
     width: 380px;
-    height: 480px;
+    height: 650px;
     position: relative;
     margin: 6% auto;
     background: #fff;
@@ -37,17 +37,53 @@
     position: relative;
 }
 
-.form-group{
-    text-align: center;
-}
-
 #btn{
     top: 0;
     left: 0;
-    position: relative;
+    position: absolute;
     width: 110px;
     height: 100%;
     background: linear-gradient(to right, #21ecba, #31dfdf);
     border-radius: 30px;
     transition: 0.5s;
+}
+
+.form-group{
+    text-align: center;
+}
+
+.input-group{
+    top: 180px;
+    position: absolute;
+    width: 280px;
+    transition: 0.5s;
+    left: 50px;
+}
+
+.input-field{
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+.submit-button{
+    width: 85%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right, #21ecba, #31dfdf);
+    border: 0;
+    outline: none;
+    border: 10px;
+}
+
+#register-hidden{
+    display: none;
 }

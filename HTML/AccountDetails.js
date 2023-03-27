@@ -24,6 +24,7 @@ function cancelProfileClick() {
 
 window.onload = async function(){
     getUserDetails();
+
     //refresh cart
     getUserCart();
 
@@ -68,7 +69,8 @@ async function getUserCart(){
 
     const response = await fetch('/getUserCarts', options);
     const dataStream = await response.json();
-    
+    console.log(dataStream)
+
     if(dataStream.length === 0) return
     orders = dataStream;
 
