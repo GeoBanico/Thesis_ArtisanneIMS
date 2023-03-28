@@ -40,6 +40,12 @@ function getUserDetails(){
     document.getElementById('userType').innerHTML = currentUser.userType;
     
     if(currentUser.userType == 'Customer') document.getElementById('forEmployee').style.display = 'none';
+    if(currentUser.userType == 'Manager' || currentUser.userType == 'Owner' ) {
+        const changeDisplay = document.getElementsByClassName('forOwnerManager');
+        for (let i = 0; i < changeDisplay.length; i++) {
+            changeDisplay[i].style.display = 'none'
+        }
+    }
 } 
 
 function clearServices() {

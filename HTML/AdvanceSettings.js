@@ -37,6 +37,13 @@ async function getUserDetails(){
     }
     document.getElementById('username').innerHTML = currentUser.username;
     document.getElementById('userType').innerHTML = currentUser.userType;
+
+    if(currentUser.userType == 'Manager' || currentUser.userType == 'Owner' ) {
+        const changeDisplay = document.getElementsByClassName('forOwnerManager');
+        for (let i = 0; i < changeDisplay.length; i++) {
+            changeDisplay[i].style.display = 'none'
+        }
+    }
 } 
 
 //Service Onload
