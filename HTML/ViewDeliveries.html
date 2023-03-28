@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
+    <link rel="stylesheet" href="../css/CustomerGoods.css">
+    <link rel="stylesheet" href="../css/ViewBookings.css">
     <title>Document</title>
 </head>
 <body>
@@ -40,32 +42,61 @@
 
     <div class="main divBody">
         <div class="contentBody">
-            <h1>View Deliveries</h1>
-            <div id="searchesDiv">
+            <h1>VIEW DELIVERIES</h1>
+            <div class="main-div">
                 <div class="container">
-                    <h3>Search by:</h3>
-                    <input type="button" value="All" onclick="fillOrderNumberSelect()">
-                    <label for="searchByDate">Date:</label>
-                    <select name="searchByDate" id="searchByDate" onchange="searchByDateClick()"></select>
-                    <label for="searchByStatus">Status:</label>
-                    <select name="searchByStatus" id="searchByStatus" onchange="searchByStatusClick()"></select><br>
+                    <h2>Search by:</h2>
+                    <div class="searchesDiv">
+                        <div class="detail-container">
+                            <button onclick="fillOrderNumberSelect()">ALL</button>
+                        </div>
+
+                        <div class="detail-container">
+                            <label for="searchByDate">Date:</label>
+                            <select name="searchByDate" id="searchByDate" onchange="searchByDateClick()"></select>
+                        </div>
+
+                        <div class="detail-container">
+                            <label for="searchByStatus">Status:</label>
+                            <select name="searchByStatus" id="searchByStatus" onchange="searchByStatusClick()"></select>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="container">
-                    <select name="deliveriesList" id="deliveriesList" size="5" onchange="onChangeOrderNumSelect()"></select><br>
+            </div>
+            
+            <div class="divContent">
+                <div class="halfhalf">
+                    <div class="container">
+                        <label for="deliveriesList">Order List:</label><br>
+                        <select class="selectList" name="deliveriesList" id="deliveriesList" size="5" onchange="onChangeOrderNumSelect()"></select><br>
+                    </div>
+
+                    <div>
+                        <div class="container">
+                            <div class="detail-container">
+                                <label class="lbldesc" for="customerName">Customer Name:</label>
+                                <label id="customerName"></label>
+                            </div>
+                            <div class="detail-container">
+                                <label class="lbldesc" for="customerOrder">Orders:</label><br>
+                                <textarea class="selectList" name="" id="customerOrder" cols="30" rows="10" readonly></textarea>
+                            </div>
+                            <div class="detail-container">
+                                <label class="lbldesc" for="customerLocation">Customer Address:</label><br>
+                                <label id="customerLocation"></label>
+                            </div>
+                            <div class="detail-container">
+                                <label for="currStatus" class="lbldesc">Status:</label>
+                                <label id="currStatus">Status:</label>
+                            </div>
+                        </div>
+                        
+                        <div class="container">
+                            <select name="orderStatus" id="orderStatus"></select>
+                            <button onclick="enableChangeStatus()">Change Status</button>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="container">
-                    <input type="text" placeholder="Customer Name" id="customerName"><br>
-                    <textarea name="customerOrder" id="customerOrder" cols="30" rows="5"></textarea><br>
-                    <textarea name="customerLocation" id="customerLocation" cols="30" rows="2"></textarea>
-                </div>
-                
-                <div>
-                    <select name="orderStatus" id="orderStatus"></select>
-                    <button onclick="enableChangeStatus()">Change Status</button>
-                </div>
-                
             </div>
         </div>
     </div>

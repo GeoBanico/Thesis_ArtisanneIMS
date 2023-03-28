@@ -29,13 +29,13 @@ function getUserDetails(){
     if(currentUser.userType == 'Manager' || currentUser.userType == 'Owner' ) {
         const changeDisplay = document.getElementsByClassName('forOwnerManager');
         for (let i = 0; i < changeDisplay.length; i++) {
-            changeDisplay[i].style.display = 'none'
+            changeDisplay[i].style.display = 'block'
         }
     }
 }
 
 function fillBookStatus(){
-    const status = ['Booking Placed', 'Confirmed', 'Due', 'Cancelled'];
+    const status = ['Confirmed', 'Due', 'Cancelled'];
     
     status.forEach(stats => {
         var option = document.createElement("option");
@@ -84,6 +84,7 @@ function fillBookDateSelect(){
         option.value = orderNum;
         selectBox.add(option);
     });
+    
     selectBox.selectedIndex = "0";
 
     onChangeBookDateSelect()
@@ -117,8 +118,8 @@ async function onChangeBookDateSelect(){
         });
     });
 
-    document.getElementById("customerName").value = customerName;
-    document.getElementById("bookStatus").value = bookStats;
+    document.getElementById("customerName").innerHTML = customerName;
+    document.getElementById("currBookStatus").innerHTML = bookStats;
 }
 
 function fillSelects(){
@@ -159,10 +160,11 @@ function fillSelects(){
 }
 
 function emptyFields() {
-    document.getElementById("bookingList").value = '';
-    document.getElementById("customerName").value = '';
+    document.getElementById("bookingList").selectedIndex = 0;
+    document.getElementById("customerName").innerHTML = '';
     document.getElementById("customerOrder").value = '';
-    document.getElementById("bookStatus").value = '';
+    document.getElementById("currBookStatus").innerHTML = '';
+    document.getElementById("bookStatus").selectedIndex = 0;
 }
 
 function searchByDateClick(){
@@ -228,6 +230,12 @@ async function enableChangeStatus(){
     var dateSplit = document.getElementById("bookingList").value.split(" | ")
     var bookProductId = dateSplit[0];
 
+    if(status == '') return alert(`Empty Status!\nSelect a status`)
+    var currentStatus = document.getElementById("currBookStatus").innerHTML;
+    if(currentStatus == 'Due' || currentStatus == 'Cancelled') return alert(`The status of this appointment (${currentStatus}) could not be changed!`)
+
+    if(!confirm('Are you sure you want to change the status of this appointment?')) return
+
     data = {status, bookProductId};
 
     const options =  {
@@ -243,6 +251,8 @@ async function enableChangeStatus(){
         alert(dataStream);
         return
     }
+
+    alert('Appointment Status change successful ... Refreshing Appointment List');
 
     await getAllBookings();
     fillSelects();

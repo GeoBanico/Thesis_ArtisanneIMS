@@ -30,7 +30,7 @@ async function userLogin() {
 
     const response = await fetch('/userLogin', options);
     const dataStream = await response.json();
-    console.log(dataStream)
+
     await checkHasAccount(dataStream); 
 }
 
@@ -63,6 +63,8 @@ async function saveLogin(user){
     
     const response = await fetch('/searchUserType', options);
     const dataStream = await response.json();
+    
+    console.log(dataStream);
 
     currentUser.userType = dataStream;
     

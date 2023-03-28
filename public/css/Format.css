@@ -92,6 +92,10 @@ textarea {
     resize: none;
 }
 
+.forOwnerManager{
+    display: none;
+}
+
 
 
 

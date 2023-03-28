@@ -110,12 +110,12 @@ const searchForUserType = async(user) => {
                 {
                     customerId: `${user.id}`,
                     isDeleted: false
-                });
-            
+                })
+
             if(employeeCount == 0) return 'Customer';
 
-            if(await employee.customerAccessId == 1) return 'Employee';
-            else if (employee.customerAccessId == 3) return 'Manager';
+            if (await employee[0].customerAccessId == 1) return 'Employee';
+            else if (employee[0].customerAccessId == 3) return 'Manager';
             else return 'Owner';
         })
 

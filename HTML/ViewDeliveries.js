@@ -29,13 +29,13 @@ function getUserDetails(){
     if(currentUser.userType == 'Manager' || currentUser.userType == 'Owner' ) {
         const changeDisplay = document.getElementsByClassName('forOwnerManager');
         for (let i = 0; i < changeDisplay.length; i++) {
-            changeDisplay[i].style.display = 'none'
+            changeDisplay[i].style.display = 'block'
         }
     }
 }
 
 function fillDeliveryStatus(){
-    const status = ['Order Placed', 'Confirmed', 'Preparing', 'Out For Delivery', 'Delivered', 'Canceled'];
+    const status = ['Confirmed', 'Preparing', 'Out For Delivery', 'Delivered', 'Canceled'];
     
     status.forEach(stats => {
         var option = document.createElement("option");
@@ -105,9 +105,11 @@ async function onChangeOrderNumSelect(){
             if(key == 'boughtquantity') quantity = value;
             if(key == 'cartId') currCartId = value;
             if(key == 'carts'){
-                customerName = `${value.customers.firstName} ${value.customers.lastName}`;
-                customerLoc = value.customers.address;
-                deliveryStatus = value.deliveryStatuses.type;
+                if(needCartId[0] == currCartId){
+                    customerName = `${value.customers.firstName} ${value.customers.lastName}`;
+                    customerLoc = value.customers.address;
+                    deliveryStatus = value.deliveryStatuses.type;
+                }
             }
             if(key == 'products') {
                 if(needCartId[0] == currCartId){
@@ -117,9 +119,9 @@ async function onChangeOrderNumSelect(){
         });
     });
 
-    document.getElementById("customerName").value = customerName;
-    document.getElementById("customerLocation").value = customerLoc;
-    document.getElementById("orderStatus").value = deliveryStatus;
+    document.getElementById("customerName").innerHTML = customerName;
+    document.getElementById("customerLocation").innerHTML = customerLoc;
+    document.getElementById("currStatus").innerHTML = deliveryStatus;
 }
 
 function fillSelects(){
@@ -160,10 +162,10 @@ function fillSelects(){
 }
 
 function emptyFields() {
-    document.getElementById("deliveriesList").value = '';
-    document.getElementById("customerName").value = '';
-    document.getElementById("customerOrder").value = '';
-    document.getElementById("customerLocation").value = '';
+    document.getElementById("deliveriesList").selectedIndex = 0;
+    document.getElementById("customerName").innerHTML = '';
+    document.getElementById("customerOrder").innerHTML = '';
+    document.getElementById("customerLocation").innerHTML = '';
     document.getElementById("orderStatus").value = '';
 }
 
@@ -172,20 +174,31 @@ function searchByDateClick(){
     var selectBox = document.getElementById("deliveriesList");
     while(selectBox.options.length > 0){ selectBox.remove(0); }
     var selectedDate = document.getElementById("searchByDate").value;
+    
+    var orderNumArray = [];
+    var cartsId = 0;
 
     allOrders.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
-            if(key === 'carts') {
+            if(key == 'cartId') cartsId = value;
+            if(key == 'carts') {
                 var dateSplit = value.dateOrdered.split("T");
                 if(selectedDate == dateSplit[0]){
-                    var option = document.createElement("option");
-                    option.text = value.orderNumber;
-                    option.value = value.orderNumber;
-                    selectBox.add(option);
+                    var dataToInput = `${cartsId} | ${value.orderNumber}`
+                    if(!orderNumArray.includes(dataToInput)) orderNumArray.push(dataToInput)
                 }
             }
         });
     });
+
+    orderNumArray.forEach(orderNum => {
+        var option = document.createElement("option");
+        option.text = orderNum;
+        option.value = orderNum;
+        selectBox.add(option);
+    });
+    selectBox.selectedIndex = "0";
+
     if(selectBox.length > 0) onChangeOrderNumSelect()
 }
 
@@ -226,6 +239,12 @@ async function enableChangeStatus(){
     var idSplit = document.getElementById("deliveriesList").value.split(" | ")
     var cartId = idSplit[0];
 
+    if(status == '') return alert(`Empty Status!\nSelect a status`)
+    var currentStatus = document.getElementById("currStatus").innerHTML;
+    if(currentStatus == 'Out For Delivery' || currentStatus == 'Delivered' || currentStatus == 'Cancelled') return alert(`The status of this order (${currentStatus}) could not be changed!`)
+
+    if(!confirm('Are you sure you want to change the status of this order?')) return
+
     data = {status, cartId};
 
     const options =  {
@@ -241,6 +260,8 @@ async function enableChangeStatus(){
         alert(dataStream);
         return
     }
+
+    alert('Order Status change successful ... Refreshing Order List');
 
     await getAllOrders();
     fillSelects();

@@ -45,8 +45,8 @@ async function fillServices(){
 }
 
 async function fillServicesSelect(data){
-    const selectedDate = document.getElementById("serviceList");
-    while(selectedDate.length > 0){ selectedDate.remove(0); }
+    const selectedService = document.getElementById("serviceList");
+    while(selectedService.length > 0){ selectedService.remove(0); }
 
     data.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
@@ -54,10 +54,12 @@ async function fillServicesSelect(data){
                 var option = document.createElement("option");
                 option.text = value;
                 option.value = value;
-                selectedDate.add(option);
+                selectedService.add(option);
             }
         });
     });
+
+
 }
 
 function findPrice(data, nameLock){
@@ -156,6 +158,11 @@ function removeProduct(){
     if(productList.length == 0) {
         document.getElementById("hiddenProductList").style.display = "none";
     }
+
+    var getQuantity = selectedProduct.split("x "); //0: quantity
+    var getPriceName = getQuantity[1].split(" | "); //0: price, 1:name
+
+    subCurrTotal(getPriceName[0], getQuantity[0]);
 }
 
 function addService(){
@@ -191,6 +198,23 @@ function removeService(){
     if(serviceList.length == 0) {
         document.getElementById("hiddenServiceList").style.display = "none";
     }
+
+    var getPriceName = selectedService.split(" | "); //0: price, 1:name
+
+    subCurrTotal(getPriceName[0], 1);
+}
+
+function subCurrTotal(price, quantity){
+    var curTotal = document.getElementById('currentTotal').innerHTML;
+
+    var total = 0
+    if(curTotal != '') total = parseInt(curTotal) - (parseInt(price) * parseInt(quantity));
+    else total = (parseInt(price) * parseInt(quantity));
+
+    document.getElementById('currentTotal').innerHTML = total;
+
+    if(document.getElementById('discountGiven').value != '') return getDiscounts();
+    document.getElementById('totalOrder').innerHTML = total;
 }
 
 function findCurrTotal(price, quantity){

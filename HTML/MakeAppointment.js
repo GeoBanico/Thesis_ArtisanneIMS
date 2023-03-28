@@ -43,7 +43,7 @@ function getUserDetails(){
     if(currentUser.userType == 'Manager' || currentUser.userType == 'Owner' ) {
         const changeDisplay = document.getElementsByClassName('forOwnerManager');
         for (let i = 0; i < changeDisplay.length; i++) {
-            changeDisplay[i].style.display = 'none'
+            changeDisplay[i].style.display = 'block'
         }
     }
 } 
