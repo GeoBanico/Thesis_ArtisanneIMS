@@ -12,24 +12,3 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
-
-/* .columnContainer{
-  display: flex;
-}
-
-h3 {
-  text-align: center;
-}
-
-.columnContainer {
-  width: 100%
-}
-
-.columnChild{
-  width: 50%;
-}
-
-.totalMoney{
-  float: right;
-  margin-right: 100px;
-} */

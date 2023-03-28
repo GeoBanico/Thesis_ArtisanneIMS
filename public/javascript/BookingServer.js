@@ -17,7 +17,8 @@ const insertBooking = async(data) => {
             const bookRep = connection.getRepository(Book);
             const [book, bookCount] = await bookRep.findAndCountBy({
                 customers: customer,
-                bookDate: data.bookDate
+                bookDate: data.bookDate,
+                isDeleted: false
             })
 
             if(bookCount > 1) return 'duplicate';
@@ -81,7 +82,8 @@ async function maxBookCapacity(connection, bookDate,bookTime){
     const newBookRep = connection.getRepository(Book);
     const [bookings, bookingsCount] = await newBookRep.findAndCountBy({
         bookDate: bookDate,
-        bookStartTime: bookTime
+        bookStartTime: bookTime,
+        isDeleted: false
     })
 
     if(bookingsCount > 2) return true;
@@ -99,9 +101,10 @@ const getUserBooking = async(data) => {
 
             const userBookings = await connection.getRepository(BookService)
                 .createQueryBuilder("bookService")
-                .innerJoinAndSelect("bookService.books", "books")
+                .innerJoinAndSelect("bookService.services", "services")
+                .leftJoinAndSelect("bookService.books", "books")
                 .innerJoinAndSelect("books.customers", "customers")
-                .leftJoinAndSelect("bookService.services", "services")
+                .leftJoinAndSelect("books.bookStatuses", "bookStatuses")
                 .where(`customers.Id = ${customer.id}`)
                 .getMany();
 
@@ -189,12 +192,41 @@ const changeBookStatus = async(data) =>{
     }
 }
 
+const changeBookStatusByBookId = async(data) =>{
+    try {
+        const change = config.then(async function (connection){
+
+            const bookStatsRepo = connection.getRepository(BookStatus);
+            const getBookStats = await bookStatsRepo.findOneBy({
+                type: 'Cancelled'
+            })
+            const bookRepo = connection.getRepository(Book);
+            const getBook = await bookRepo.findOne({
+                where: {id: data.bookId},
+                relations: ["customers", "bookStatuses"]
+            })
+
+            getBook.bookStatusId = getBookStats.id;
+            getBook.bookStatuses = getBookStats;
+            getBook.isDeleted = true;
+            console.log(getBook);
+
+            await bookRepo.save(getBook);
+        })
+
+        return change;
+    } catch (error) {
+        console.log('Change Book ERROR: '+error);
+    }
+}
+
 
 module.exports = {
     insertBooking,
     getUserBooking,
     getBookStatus,
     getAllBookings,
-    changeBookStatus
+    changeBookStatus,
+    changeBookStatusByBookId
 
 }

@@ -28,6 +28,13 @@ app.post('/userLogin', async(req, res) => {
     res.json(userData);
 });
 
+app.post('/getOneUserDetails', async(req, res) => {
+    const data = req.body
+    const getUser = customerServer.getOneUserDetails(data);
+
+    res.json(await getUser)
+});
+
 app.post('/addCustomer', async(req, res) => {
     const data = req.body
     const customerValidation = customerServer.insertCustomer(data);
@@ -73,11 +80,9 @@ app.post('/editCustomer', async(req, res) => {
 
 app.post('/passwordChange', async(req, res) => {
     const data = req.body
-    await customerServer.passwordChange(data);
+    const hasChanged = await customerServer.passwordChange(data);
 
-    res.json({
-        message: 'Password Changed'
-    });
+    res.json(hasChanged);
 });
 
 //------------------------------------------------
@@ -402,7 +407,6 @@ const bookingServer = require('./public/javascript/BookingServer');
 app.post('/confirmBooking', async(req, res) => {
     const data = req.body
 
-    console.log(data.bookDate);
     const hasBooked = await bookingServer.insertBooking(data);
 
     res.json({
@@ -438,6 +442,13 @@ app.post('/changeBookStatus', async(req, res) => {
 
     res.json(allBooks);
 });
+
+app.post('/changeBookStatusByBookId', async(req, res) => {
+    const data = req.body
+    await bookingServer.changeBookStatusByBookId(data);
+
+    res.json({message: 'success'})
+});
 //----------------------------------------
 //-------------------- ORDERS ------------
 //----------------------------------------
@@ -461,7 +472,7 @@ app.post('/getUserCarts', async(req, res) => {
 
 app.post('/getDeliveryStatus', async(req, res) => {
     const data = req.body
-
+    
     const get = await orderServer.getDeliveryStatus(data.status);
 
     res.json(get);
@@ -478,6 +489,13 @@ app.post('/changeOrderStatus', async(req, res) => {
     const allBooks = await orderServer.changeOrderStatus(data);
 
     res.json(allBooks);
+});
+
+app.post('/changeOrderStatusByOrderNumber', async(req, res) => {
+    const data = req.body
+    await orderServer.changeOrderStatusByOrderNumber(data);
+
+    res.json({message: 'success'});
 });
 
 //----------------------------------------

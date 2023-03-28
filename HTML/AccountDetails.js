@@ -88,6 +88,7 @@ function fillOrderNumSelect(data){
     });
 
     const selectBox = document.getElementById("orderNumber");
+    while(selectBox.options.length > 0){ selectBox.remove(0); }
     orderNumArray.forEach(orderNum => {
         var option = document.createElement("option");
         option.text = orderNum;
@@ -95,8 +96,7 @@ function fillOrderNumSelect(data){
         selectBox.add(option);
     });
 
-    selectBox.value = '';
-    //onChangeOrderNumSelect()
+    onChangeOrderNumSelect()
 }
 
 async function onChangeOrderNumSelect(){
@@ -121,9 +121,9 @@ async function onChangeOrderNumSelect(){
             }
             if(key == 'carts') {
                 if(orderValue == value.orderNumber) {
-                    textBox.value += `${cartProductName}\n ${cartProductPrice} | ${quantities}x\n\n`;                    
+                    textBox.value += `${cartProductName}\n ${quantities}x | ₱${cartProductPrice} \n\n`;                    
                     currOrder += parseInt(quantities)*parseInt(cartProductPrice);
-                    status = value.deliveryStatusId;
+                    status = value.deliveryStatuses.type;                    ;
                 }
             }
         });
@@ -131,18 +131,10 @@ async function onChangeOrderNumSelect(){
         cartTotal += (parseInt(quantities)*parseInt(cartProductPrice));
     });
     
-    var data = {status}
-
-    const options =  {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-        body: JSON.stringify(data)
-        };
-
-    const response = await fetch('/getDeliveryStatus', options);
-    const dataStream = await response.json();
-
-    otherDetails.innerHTML = `Order Total: ₱${currOrder} <br> Total Purchase Cost: ₱${cartTotal} <br><br> Status: ${dataStream}`;
+    document.getElementById("cartTotal").innerHTML = `₱${currOrder}`;
+    document.getElementById("allCartTotal").innerHTML = `₱${cartTotal}`;
+    
+    otherDetails.innerHTML = status;
 }
 
 //--------------------- Bookings
@@ -183,6 +175,7 @@ function fillBookDateSelect(data){
     });
 
     const selectBox = document.getElementById("bookDate");
+    while(selectBox.options.length > 0){ selectBox.remove(0); }
     orderDateArray.forEach(orderNum => {
         var option = document.createElement("option");
         option.text = orderNum;
@@ -210,30 +203,22 @@ async function onChangeBookDateSelect(){
             if(key == 'bookId'){
                 currBookId = value;
             }
-            if(key === 'books') status = value.bookStatusId;
+            if(key === 'books') {
+                if(needBookId == currBookId) status = value.bookStatuses.type;
+            }
             if(key == 'services') {
                 if(needBookId == currBookId) textBox.value += `${value.name}\n`;
             }
         });
     });
-    
-    var data = {status}
 
-    const options =  {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-        body: JSON.stringify(data)
-        };
-
-    const response = await fetch('/getBookStatus', options);
-    const dataStream = await response.json();
-
-    otherDetails.innerHTML = `Status: ${dataStream}`;
+    otherDetails.innerHTML = status;
 }
 
 //-------------- Customer Information
 var customer = {}
 var isChangePassword = false;
+var isChangeProfile = false;
 
 async function getCustomerInfo() {
     const username = currentUser.username;
@@ -246,12 +231,11 @@ async function getCustomerInfo() {
         body: JSON.stringify(data)
         };
 
-    const response = await fetch('/userLogin', options);
+    const response = await fetch('/getOneUserDetails', options);
     const dataStream = await response.json();
-    customer = dataStream.user[0];
-    
-    console.log(dataStream)
-    await fillCustomer(dataStream);
+    customer = dataStream;
+    console.log(customer)
+    fillCustomer(dataStream);
 }
 
 function fillCustomer(){
@@ -267,54 +251,26 @@ function fillCustomer(){
 }
 
 async function saveProfileClick() { 
-    var oldUsername = customer.username
-    if(isChangePassword){
-        var password = document.getElementById("password").value;
-        var newPassword = document.getElementById("newPassword").value;
+    var oldUsername = currentUser.username
 
-        var data = {password, newPassword, oldUsername};
-        
-        var missingFields = await missingData(data);
-        if(missingFields != '') {
-            alert(`Empty Fields! \n There are empty fields in this category/ies: \n${missingFields}`);
-            return;
-        }
-        if(password === newPassword){
-            alert(`Password Match! \n old password is equal to new password`);
-            return;
-        }
-
-        const options =  {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-            body: JSON.stringify(data)
-        };
-        
-        const response = await fetch('/passwordChange', options);
-        const dataStream = await response.json();
-    }
-    else {
+    if(isChangeProfile) {
         var firstName = document.getElementById("firstname").value;
         var lastName = document.getElementById("familyname").value;
         var birthday = document.getElementById("birthday").value;
         var phone = document.getElementById("phone").value;
         var address = document.getElementById("address").value;
         var email = document.getElementById("email").value;
-        var username = document.getElementById("username").value;
+        var username = document.getElementById("usernameProfile").value;
         
         var data = {firstName, lastName, birthday, phone, address, email, username, oldUsername};
 
         var missingFields = await missingData(data);
-        if(missingFields != '') {
-            alert(`Empty Fields! \n There are empty fields in this category/ies: \n${missingFields}`);
-            return;
-        }
-
+        if(missingFields != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${missingFields}`);
+    
+        if(calculateAge(birthday) < 12) return alert(`BELOW AGE OF CONSENT! \nKindly ask your legal guardian to register for you`);
+    
         var wrongFormatFields = wrongFormat(data);
-        if(wrongFormatFields != ''){
-            alert(`Wrong Format! \n There are wrong fields in this category/ies: \n${missingFields}`);
-            return;
-        }
+        if(wrongFormatFields != '') return alert(`WRONG FORMAT! \nThere are wrong formatted fields in this category/ies: \n${wrongFormatFields}`);
 
         const options =  {
             method: 'POST',
@@ -325,20 +281,43 @@ async function saveProfileClick() {
         const response = await fetch('/editCustomer', options);
         const dataStream = await response.json();
 
-        if(dataStream) {
-            alert(`Username Taken! \n This username is already taken.`);
-            return;
-        }
+        if(dataStream) return alert(`Username Taken! \n This username is already taken.`);
+        cancelProfileClick();
+        return alert('User Details changed and Saved!')
     }
+    
+    if(isChangePassword){
+        var password = document.getElementById("password").value;
+        var newPassword = document.getElementById("newPassword").value;
 
+        var data = {password, newPassword, oldUsername};
 
+        var missingFields = await missingData(data);
+        if(missingFields != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${missingFields}`);
+
+        var validatedPassword = toValidatePassword(newPassword);
+        if(validatedPassword != '') return alert(validatedPassword);
+
+        const options =  {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+            body: JSON.stringify(data)
+        };
+        
+        const response = await fetch('/passwordChange', options);
+        const dataStream = await response.json();
+
+        if(!dataStream) return alert('INCORRECT PASSWORD!')
+        cancelProfileClick();
+        return alert('Password changed and Saved!')
+    }
 }
 
 function editProfileClick(){
     enableCustomers();
     document.getElementById("buttonSaveCancel").style.display = "block";
     document.getElementById("editProfile").style.display = "none";
-    isChangePassword = false;
+    isChangeProfile = true;
 }
 
 function cancelProfileClick(){
@@ -348,13 +327,13 @@ function cancelProfileClick(){
     document.getElementById("changePasswordButtonDiv").style.display = "block";
     document.getElementById("changePasswordDiv").style.display = "none";
     isChangePassword = false;
+    isChangeProfile = false;
 }
 
 function changePassword(){
     document.getElementById("changePasswordButtonDiv").style.display = "none";
     document.getElementById("changePasswordDiv").style.display = "block";
     document.getElementById("buttonSaveCancel").style.display = "block";
-    document.getElementById("editProfile").style.display = "none";
     isChangePassword = true;
 }
 
@@ -383,12 +362,24 @@ function disableCustomers(){
     document.getElementById("newPassword").value = '';
 }
 
+function calculateAge(birthdate) {
+    const birthDate = new Date(birthdate);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const birthMonth = birthDate.getMonth();
+    const currentMonth = currentDate.getMonth();
+    if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDate.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    console.log(age);
+    return age;
+}
+
 async function missingData(data){
-    var missingVariable = '';
+    var missingVariable = "";
     Object.entries(data).forEach(([key, value]) => {
             if (key != 'isDeleted' && value == '') {
-                console.log(key);
-                missingVariable += `- ${key}`
+                missingVariable += `- ${key}\n`
             }
     });
 
@@ -398,7 +389,7 @@ async function missingData(data){
 function wrongFormat(data){
     var wrongFormatReturn = ''
     if(!validatePhoneNumber(data.phone)) {
-       wrongFormatReturn += '- Phone\n'
+       wrongFormatReturn = '- Phone\n'
     }
     if(!validateEmail(data.email)) {
         wrongFormatReturn += '- Email'
@@ -417,16 +408,54 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
-function validatePassword(password, coPassword){
-if(password === coPassword) return true;
+function toValidatePassword(coPassword){
+    if(coPassword.includes(" ")) return (`NEW PASSWORD CONTAINS SPACES! \nPassword should not contain spaces`);
+    if(coPassword.length < 8) return (`NEW PASSWORD TOO SHORT! \nPassword should be alteast 8 characters long`);
 
-return false;
+    return ''
 }
 
 async function bookCancel(){
-    alert('This appointment has been canceled');
+    const bookIdValue = document.getElementById("bookDate").value.split(" | ");
+    const bookStats = document.getElementById("appointmentStatus").innerHTML;
+
+    if(bookStats != 'Booking Placed' && bookStats != 'Confirmed') return alert("Appointment Cancelled Error!\nCancel this appointment is not allowed!")
+    if(!confirm(`Appointment Cancel Confirmation:\n Do you want to cancel your appointment on ${bookIdValue[1]}?`)) return
+
+    var bookId = bookIdValue[0];
+    var data = {bookId};
+
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+    };
+    
+    const response = await fetch('/changeBookStatusByBookId', options);
+    const dataStream = await response.json();
+    
+    alert('Appointment Cancelled!\nRefreshing Appointments');
+    getUserBookings();
 }
 
 async function orderCancel(){
-    alert('This order has been canceled');
+    const orderNumberValue = document.getElementById("orderNumber").value;
+    const orderStats = document.getElementById("orderStatus").innerHTML;
+
+    if(orderStats != 'Order Placed' && orderStats != 'Confirmed' && orderStats != 'Preparing') return alert("Order Cancelled Error!\nCancel this order is not allowed!")
+    if(!confirm(`Order Cancel Confirmation:\n Do you want to cancel your order (${orderNumberValue})?`)) return
+
+    var data = {orderNumberValue};
+
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+    };
+    
+    const response = await fetch('/changeOrderStatusByOrderNumber', options);
+    const dataStream = await response.json();
+    
+    alert('Appointment Cancelled!\nRefreshing Cart');
+    getUserCart();
 }

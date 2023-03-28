@@ -9,9 +9,8 @@ const insertOrder = async(data) => {
     try {
         const insert = config.then(async function (connection){
 
-            //if(await hasSufficientQuantity(connection, data.productOrdered, data.quantities) != '') return false
+            if(await hasSufficientQuantity(connection, data.productOrdered, data.quantities) != '') return false
 
-            console.log('enter')
             const customerRep = connection.getRepository(Customer);
             const customer = await customerRep.findOneBy({
                 username: data.customerUsername
@@ -21,8 +20,6 @@ const insertOrder = async(data) => {
             const deliveryStatus = await orderStatusRep.findOneBy({
                 id: 1
             })
-
-            console.log(data);
 
             const newOrder = new Cart();
             newOrder.orderNumber = data.orderNumber;
@@ -35,7 +32,6 @@ const insertOrder = async(data) => {
             newOrder.deliveryStatusId = deliveryStatus.id;
             newOrder.deliveryStatuses = deliveryStatus;
 
-            console.log(newOrder);
             await connection.manager.save(newOrder);
 
             const newOrderRep = connection.getRepository(Cart);
@@ -61,8 +57,6 @@ const insertOrder = async(data) => {
 
                 orderProductArray.push(orderAProduct);
             }
-
-            console.log(orderProductArray);
             
             await connection.manager.save(orderProductArray); //error
 
@@ -115,13 +109,13 @@ const getUserCart = async(data) => {
 
             const userCarts = await connection.getRepository(CartProduct)
             .createQueryBuilder("cartProduct")
-            .innerJoinAndSelect("cartProduct.carts", "carts")
+            .innerJoinAndSelect("cartProduct.products", "products")
+            .leftJoinAndSelect("cartProduct.carts", "carts")
             .innerJoinAndSelect("carts.customers", "customers")
-            .leftJoinAndSelect("cartProduct.products", "products")
+            .leftJoinAndSelect("carts.deliveryStatuses", "deliveryStatuses")
             .where(`customers.id = ${customer.id}`)
             .getMany();
 
-            console.log(userCarts);
             return userCarts;
             
         })
@@ -224,11 +218,68 @@ const changeOrderStatus = async(data) =>{
     }
 }
 
+const changeOrderStatusByOrderNumber = async(data) =>{
+    try {
+        const stats = config.then(async function (connection){
+
+            const statsRepo = connection.getRepository(DeliveryStatus);
+            const status = await statsRepo.findOneBy({
+                type: 'Cancelled'
+            })
+
+            const cartRepo = connection.getRepository(Cart);
+            const getCart= await cartRepo.findOne({
+                where: {orderNumber: data.orderNumberValue},
+                relations: ["customers", "deliveryStatuses"]
+            })
+
+            getCart.deliveryStatusId = status.id;
+            getCart.deliveryStatuses = status;
+            getCart.isDeleted = true;
+
+            await cartRepo.save(getCart);
+
+            //CANCELED
+            const cartProdRepo = await connection.getRepository(CartProduct)
+            .createQueryBuilder("cartProduct")
+            .innerJoinAndSelect("cartProduct.carts", "carts")
+            .leftJoinAndSelect("cartProduct.products", "products")
+            .where(`carts.id = ${getCart.id}`)
+            .getMany();
+
+            var returnQuan = 0;
+            const prodRepo = connection.getRepository(Product);
+
+            console.log(cartProdRepo);
+            console.log(returnQuan);
+
+            cartProdRepo.forEach(obj => {
+                Object.entries(obj).forEach(async([key, value]) => {
+                    if(key == 'boughtquantity'){
+                        returnQuan = value;
+                    }
+                    if(key == 'products'){
+                        var prods = await prodRepo.findOneBy({
+                            id: value.id
+                        })
+
+                        prods.storeQuantity += returnQuan;
+                        await prodRepo.save(prods)
+                    }
+                });
+            });
+        })
+    } catch (error) {
+        console.log('Change Status ERROR: '+error);
+    }
+}
+
 
 module.exports = {
     insertOrder,
     getUserCart,
     getDeliveryStatus,
     getAllOrders,
-    changeOrderStatus
+    changeOrderStatus,
+    changeOrderStatusByOrderNumber
 }

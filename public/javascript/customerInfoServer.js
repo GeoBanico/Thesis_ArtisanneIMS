@@ -56,18 +56,46 @@ const insertCustomer = async(customers) => {
     }
 }
 
+//Log-IN
 const selectCustomerSpecific = async(customers) => {
     try {
 
         const select = config.then(async function (connection) {
             const userRep = connection.getRepository(Customer);
-            const [user, userCount] = await userRep.findAndCountBy({username: `${customers.username}`});
+            const user = await userRep.findOneBy({username: `${customers.username}`});
+
+            var userCount = 1;
+            if(user != null) {
+                const getPassword = await bcrypt.hash(customers.password, user.salt);
+                
+                if(getPassword != user.password) {
+                    userCount = 0;
+                }
+            }else userCount = 0;
+
             const data = {user, userCount}
             
             return data;
         })
         
         return select
+
+    } catch (error) {
+        console.log('Login ERROR: ' + error);
+    }
+}
+
+const getOneUserDetails = async(customers) => {
+    try {
+
+        const get = config.then(async function (connection) {
+            const userRep = connection.getRepository(Customer);
+            const user = await userRep.findOneBy({username: `${customers.username}`});
+            
+            return user;
+        })
+        
+        return get
 
     } catch (error) {
         console.log('Login ERROR: ' + error);
@@ -343,24 +371,33 @@ const editCustomer = async(customers) => {
     try {
         const update = config.then(async function (connection){
 
+            //Get user prev details
             const customerRep = connection.getRepository(Customer);
-            const [sameCustomer, duplicateCount] = await customerRep.findAndCountBy({
-                username: customers.username
+            const oldUser = await customerRep.findOneBy({
+                username: customers.oldUsername
             })
 
-            if(duplicateCount > 1){
+            console.log(oldUser);
+
+            //search for user with the same username
+            const checkCustomerRepo = await connection.getRepository(Customer)
+            .createQueryBuilder("customer")
+            .where(`customer.username = '${customers.username}' AND customer.id != ${oldUser.id}`)
+            .getCount();
+
+            if(checkCustomerRepo > 0){
                 return true;
             }
             
-            sameCustomer[0].firstName = customers.firstName;
-            sameCustomer[0].lastName = customers.lastName;
-            sameCustomer[0].birthday = customers.birthday;
-            sameCustomer[0].phone = customers.phone;
-            sameCustomer[0].address = customers.address;
-            sameCustomer[0].email = customers.email;
-            sameCustomer[0].username = customers.username;
+            oldUser[0].firstName = customers.firstName;
+            oldUser[0].lastName = customers.lastName;
+            oldUser[0].birthday = customers.birthday;
+            oldUser[0].phone = customers.phone;
+            oldUser[0].address = customers.address;
+            oldUser[0].email = customers.email;
+            oldUser[0].username = customers.username;
 
-            await customerRep.save(sameCustomer);
+            await customerRep.save(oldUser);
 
             return false;
         })
@@ -377,13 +414,18 @@ const passwordChange = async(customers) => {
         const update = config.then(async function (connection){
 
             const customerRep = connection.getRepository(Customer);
-            const customer = await customerRep.findOneBy({
+            const user = await customerRep.findOneBy({
                 username: customers.oldUsername
             })
 
-            await customerRep.save(sameCustomer);
+            const getPassword = await bcrypt.hash(customers.password, user.salt);
+            
+            if(getPassword != user.password) return false;
 
-            return false;
+            user.password = await bcrypt.hash(customers.newPassword, user.salt)
+            await customerRep.save(user);
+
+            return true;
         })
 
         return update;
@@ -404,6 +446,7 @@ module.exports = {
     searchACustomerFromClick,
     editCustomer,
     passwordChange,
+    getOneUserDetails,
 
     //Employee
     selectEmployeeAll,

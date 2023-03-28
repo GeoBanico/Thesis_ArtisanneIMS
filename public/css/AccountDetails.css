@@ -1,0 +1,28 @@
+.contentBody{
+    display: contents;
+}
+
+.imp {
+    font-weight: bold;
+}
+
+.stickRight{
+   float: right;
+}
+
+.stickRight{
+    justify-content: center;
+ }
+
+.category{
+    margin: 20px
+}
+
+input {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    font-size: 15px;
+    outline: none;
+}

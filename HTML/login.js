@@ -53,12 +53,12 @@ async function checkHasAccount(user){
 }
 
 async function saveLogin(user){
-    currentUser.username = user.user[0].username;
-    
+    currentUser.username = user.user.username;
+
     const options =  {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-        body: JSON.stringify(user.user[0])
+        body: JSON.stringify(user.user)
         };
     
     const response = await fetch('/searchUserType', options);

@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
+    <link rel="stylesheet" href="../css/AccountDetails.css">
+    <link rel="stylesheet" href="../css/CustomerGoods.css">
     <title>Document</title>
 </head>
 <body>
@@ -40,55 +42,121 @@
 
     <div class="main divBody">
         <div class="contentBody">
-            <h1>Current Cart</h1>
-            <div>
-                <label for="orderNumber">Orders:</label>
-                <select name="orderNumber" id="orderNumber" onchange="onChangeOrderNumSelect()"></select><br>
-                <textarea name="" id="orderDetails" cols="30" rows="10" disabled="true"></textarea><br>
-                <p id="orderStatus"></p><br>
-                <input type="button" name="btnCancelBooking" id="orderCancel" value="Cancel" onclick="orderCancel()">
-            </div>
-            <h1>Appointments</h1>
-            <div>
-                <label for="bookDate">Schedules:</label>
-                <select name="appointmentDate" id="bookDate" onchange="onChangeBookDateSelect()"></select><br>
-                <textarea name="" id="bookDetails" cols="30" rows="10" disabled="true"></textarea><br>
-                <p id="appointmentStatus"></p><br>
-                <input type="button" name="btnCancelBooking" id="bookingCancel" value="Cancel" onclick="bookCancel()">
-            </div>
-            <h1>Profile</h1>
-            <div>
-                <div>
+            <div class="main-body">
+                
+                <div class="container category">
+                    <h1>Current Cart</h1>
                     <div>
-                        <button id="editProfile" onclick="editProfileClick()">edit</button>
+                        <div class="detail-container">
+                            <label class="lbldesc" for="orderNumber">Orders:</label>
+                            <select name="orderNumber" id="orderNumber" onchange="onChangeOrderNumSelect()"></select>
+                        </div>
+                        
+                        <div class="detail-container">
+                            <label class="lbldesc" for="orderStatus">Status:</label>
+                            <label id="orderStatus"></label>
+                            <button class="stickRight" name="btnCancelBooking" id="orderCancel" onclick="orderCancel()">Cancel</button>
+                        </div>
                     </div>
-
-                    <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Enter First Name" disabled="true">
-                    <input type="text" name="familyname" id="familyname" class="form-control" placeholder="Enter Last Name" disabled="true"><br>
-                    <input type="date" name="birthday" id="birthday" class="form-control" placeholder="Enter Birthday" min="01-01-1900" disabled="true">
-                    <input type="number" name="phone" id="phone" class="form-control" placeholder="Enter Phone Number" disabled="true"><br>
-                    <textarea name="address" id="address" class="form-control" placeholder="Enter Address" cols="40" rows="2" disabled="true"></textarea><br>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" disabled="true">
-                    <input type="text" name="username" id="usernameProfile" class="form-control" placeholder="Enter Username" disabled="true"><br>
-                    <div id="changePasswordButtonDiv">
-                        <button id="ChangePassWord" onclick="changePassword()">Change Password</button>
+                    
+                    <div>
+                        <textarea class="selectList" id="orderDetails" cols="30" rows="10" disabled="true"></textarea>
+                        <div class="detail-container">
+                            <label class="lbldesc imp" for="">Cart Total:</label>
+                            <label id="cartTotal"></label>
+                        </div>
+                        <div class="detail-container">
+                            <label class="lbldesc imp" for="">All Cart Total:</label>
+                            <label id="allCartTotal"></label>
+                        </div>
                     </div>
+                    
+                    
                 </div>
                 
-                <div class="container" id="ChangePasswordContainer" >
-                    <div id="changePasswordDiv" style="display: none;">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Enter Current Password">
-                        <input type="password" name="password" id="newPassword" class="form-control" placeholder="Enter New  Password">
+                <div class="container category">
+                    <h1>Appointments</h1>
+                    <div class="detail-container">
+                        <label class="lbldesc" class="lbldesc" for="bookDate">Schedules:</label>
+                        <select name="appointmentDate" id="bookDate" onchange="onChangeBookDateSelect()"></select><br>
                     </div>
-                </div>
 
-                <div class="container buttonRow">
-                    <div id="buttonSaveCancel" style="display: none;">
-                        <button id="saveProfile" onclick="saveProfileClick()">save</button>
-                        <button id="cancelProfile" onclick="cancelProfileClick()">cancel</button>
+                    <div class="detail-container">
+                        <label class="lbldesc" for="appointmentStatus">Status:</label>
+                        <label id="appointmentStatus"></label>
+                        <button class="stickRight" name="btnCancelBooking" id="bookingCancel" onclick="bookCancel()">Cancel</button>
+                    </div>
+                    
+                    <textarea class="selectList" name="" id="bookDetails" cols="30" rows="10" disabled="true"></textarea><br>
+                    
+                </div>
+            </div>
+            
+            <div>
+                <div class="container category">
+                    <h1>Profile</h1>
+                    <div>
+                        <button class="stickRight" id="editProfile" onclick="editProfileClick()">edit</button>
+                        <div class="detail-container">
+                            <label class="lbldesc" for="firstname">First Name:</label>
+                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Enter First Name" disabled="true">
+                        </div>
+                        
+                        <div class="detail-container">
+                            <label class="lbldesc" for="familyname">Last Name:</label>
+                            <input type="text" name="familyname" id="familyname" class="form-control" placeholder="Enter Last Name" disabled="true">
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="birthday">Birthday:</label>
+                            <input type="date" name="birthday" id="birthday" class="form-control" placeholder="Enter Birthday" min="01-01-1900" disabled="true">
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="phone">Phone:</label>
+                            <input type="number" name="phone" id="phone" class="form-control" placeholder="Enter Phone Number" disabled="true">
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="address">Address:</label>
+                            <textarea name="address" id="address" class="form-control" placeholder="Enter Address" cols="40" rows="2" disabled="true"></textarea>
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="Email">Email:</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" disabled="true">
+                        </div>
+
+                        <div class="detail-container">
+                            <label class="lbldesc" for="usernameProfile">Username:</label>
+                            <input type="text" name="username" id="usernameProfile" class="form-control" placeholder="Enter Username" disabled="true">
+                        </div>
+
+                        <div id="changePasswordButtonDiv">
+                            <button class="stickRight" id="ChangePassWord" onclick="changePassword()">Change Password</button>
+                        </div>
+                    </div>
+                    
+                    <div class="container" id="ChangePasswordContainer" >
+                        <div id="changePasswordDiv" style="display: none;">
+                            <div class="detail-container">
+                                <label class="lbldesc" for="password">Password:</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Current Password">
+                            </div>
+                            <div class="detail-container">
+                                <label class="lbldesc" for="newPassword">New Pass:</label>
+                                <input type="password" name="password" id="newPassword" class="form-control" placeholder="Enter New  Password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container buttonRow">
+                        <div class="stickRight" id="buttonSaveCancel" style="display: none;">
+                            <button id="saveProfile" onclick="saveProfileClick()">save</button>
+                            <button id="cancelProfile" onclick="cancelProfileClick()">cancel</button>
+                        </div>
                     </div>
                 </div>
-                 
             </div>
         </div>
     </div>
