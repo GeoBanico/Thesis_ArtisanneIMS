@@ -129,14 +129,13 @@ function addProduct() {
     const productPrice = findPrice(allProducts, productName);
 
     if(productQuantity == '') return alert('Please Select Quantity');
+    if(parseInt(productQuantity) < 1) return alert('Please Select a proper Quantity');
 
     var option = document.createElement("option");
     option.text = `${productQuantity}x ${productPrice} | ${productName}`;
     option.value = `${productQuantity}x ${productPrice} | ${productName}`;
     allProductList.add(option);
     findCurrTotal(productPrice, productQuantity);
-
-    document.getElementById("hiddenProductList").style.display = "block";
 }
 
 function removeProduct(){
@@ -149,18 +148,17 @@ function removeProduct(){
         return
     }
 
-    if(confirm(`Do you want to remove this product: ${productName}?`) == false) return
-
-    for (let i = 0; i < productList.length; i++) {
-        if(productList.options[i].value == selectedProduct) productList.remove(i);
-    }
-
-    if(productList.length == 0) {
-        document.getElementById("hiddenProductList").style.display = "none";
-    }
-
     var getQuantity = selectedProduct.split("x "); //0: quantity
     var getPriceName = getQuantity[1].split(" | "); //0: price, 1:name
+
+    if(confirm(`Do you want to remove this product: ${getPriceName[1]}?`) == false) return
+
+    for (let i = 0; i < productList.length; i++) {
+        if(productList.options[i].value == selectedProduct) {
+            productList.remove(i);
+            break;
+        }
+    }
 
     subCurrTotal(getPriceName[0], getQuantity[0]);
 }
@@ -175,31 +173,26 @@ function addService(){
     option.value = `${servicePrice} | ${serviceName}`;
     allServiceList.add(option);
     findCurrTotal(servicePrice, 1); 
-
-    document.getElementById("hiddenServiceList").style.display = "block";
 }
 
 function removeService(){
     var serviceList = document.getElementById("allServiceList")
     var selectedService = document.getElementById("allServiceList").value;
-    var serviceName = document.getElementById("serviceList").value
+    var getPriceName = selectedService.split(" | "); //0: price, 1:name
 
     if(selectedService == '') {
-        alert('Kindly select one of your ordered services');
+        alert('Kindly select one of your booked services');
         return
     }
 
-    if(confirm(`Do you want to remove this service: ${serviceName}?`) == false) return
+    if(confirm(`Do you want to remove this service: ${getPriceName[1]}?`) == false) return
 
     for (let i = 0; i < serviceList.length; i++) {
-        if(serviceList.options[i].value == selectedService) serviceList.remove(i);
+        if(serviceList.options[i].value == selectedService) {
+            serviceList.remove(i);
+            break;
+        }
     }
-
-    if(serviceList.length == 0) {
-        document.getElementById("hiddenServiceList").style.display = "none";
-    }
-
-    var getPriceName = selectedService.split(" | "); //0: price, 1:name
 
     subCurrTotal(getPriceName[0], 1);
 }
@@ -207,9 +200,7 @@ function removeService(){
 function subCurrTotal(price, quantity){
     var curTotal = document.getElementById('currentTotal').innerHTML;
 
-    var total = 0
-    if(curTotal != '') total = parseInt(curTotal) - (parseInt(price) * parseInt(quantity));
-    else total = (parseInt(price) * parseInt(quantity));
+    var total = parseInt(curTotal) - (parseInt(price) * parseInt(quantity))
 
     document.getElementById('currentTotal').innerHTML = total;
 
@@ -260,10 +251,10 @@ async function saveReceipt(){
     var serviceLength = document.getElementById("allServiceList");
     var productLength = document.getElementById("allProductList");
     var costTotal = parseInt(document.getElementById("totalOrder").innerHTML);
-    var discount = parseInt(document.getElementById("discountGiven").value);
+    var discount = document.getElementById("discountGiven").value;
 
     //CHANGE -> Discount when empty
-    if(discount == '') discount = 0;
+    if(discount == '' || discount == null || discount == NaN) discount = 0;
 
     //SET -> Receipt Number
     var getDate = new Date();
@@ -305,14 +296,17 @@ async function saveReceipt(){
         headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
         body: JSON.stringify(data)
         };
-
+    
     const response = await fetch('/insertReceipt', options);
     const dataStream = await response.json()
 
-    console.log(dataStream);
     if(dataStream != '') return alert(`Product Quantity Reached: This are the remaining quantity of the ordered Product \n${dataStream}`)
 
     alert('Receipt Saved');
+
+    reset();
+    await getAllReceipts()
+    await fillTableReceiptsByAll()
 }
 
 function reset(){

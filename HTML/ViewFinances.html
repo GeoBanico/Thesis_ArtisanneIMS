@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
     <link rel="stylesheet" href="../css/ViewFinances.css">
+    <link rel="stylesheet" href="../css/CustomerGoods.css">
+    <link rel="stylesheet" href="../css/ViewBookings.css">
+
     <title>Document</title>
 </head>
 <body>
@@ -39,56 +42,66 @@
         </ul>
     </nav>
 
-    <div class="divBody">
+    <div class="main divBody">
         <div class="contentBody">
-            <h1 class="container">View Finances</h1>
-            <div id="hiddenAdd">
-                <div class="columnContainer container">
-                    <div class="columnChild">
-                        <div id="hiddenServiceList" style="display:none">
-                            <label for="allServiceList">Service/s: </label><br>
-                            <select name="serviceList" id="allServiceList" size="7"></select>
-                        </div>
-                        <div id="hiddenService">
-                            <select name="serviceList" id="serviceList"></select><br>
-                            <button id="addServiceToReceipt" onclick="addService()">add</button>
-                            <button onclick="removeService()">remove</button>
-                        </div>
-                    </div>
-                    
-                    <div class="columnChild">
-                        <div id="hiddenProductList" style="display:none">
-                            <label for="allServiceList">Product/s: </label><br>
-                            <select name="productList" id="allProductList" size="7"></select>
-                        </div>
-
-                        <div id="hiddenProduct">
-                            <input type="number" id="productQuantity" placeholder="Enter Quantity"><br>
-                            <select name="productList" id="productList"></select><br>
-                            <button id="addProductToReceipt" onclick="addProduct()">add</button>
-                            <button onclick="removeProduct()">remove</button>
-                        </div>
-                    </div>
-                    
-                </div>
-                
+            <h1>FINANCES</h1>
+            <div id="main-div">
                 <div class="container">
-                    <input type="date" name="receiptDate" id="receiptDate"><br>
-                    <label for="currentTotal">Current Total:</label>
-                    <label id="currentTotal">0</label>
-                    <label for="discountGiven">Discounts:</label>
-                    <input type="number" id="discountGiven" onkeyup="getDiscounts()"><br>
-                    <label for="totalOrder">Total:</label><br>
-                    <label id="totalOrder">0</label>
+                    <div class="columnContainer container">
+                        <div class="columnChild">
+                            <label for="allServiceList">Service/s: </label><br>
+                            <select class="selectList" name="serviceList" id="allServiceList" size="7"></select>
 
-                    <button onclick="saveReceipt()">Save Receipt</button>
+                            <div id="hiddenService detail-container">
+                                <select name="serviceList" id="serviceList"></select>
+                                <button id="addServiceToReceipt" onclick="addService()">add</button>
+                                <button onclick="removeService()">remove</button>
+                            </div>
+                        </div>
+                        
+                        <div class="columnChild">
+                            <label for="allServiceList">Product/s: </label><br>
+                            <select class="selectList" name="productList" id="allProductList" size="7"></select>
+    
+                            <div id="hiddenProduct detail-container">
+                                <div>
+                                    <select name="productList" id="productList"></select>
+                                    <button id="addProductToReceipt" onclick="addProduct()">add</button>
+                                    <button onclick="removeProduct()">remove</button>
+                                </div>
+                                <input type="number" id="productQuantity" placeholder="Enter Quantity">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="columnContainer container">
+                        <div class="container columnChild">
+                            <div class="detail-container">
+                                <label for="currentTotal">Current Total:</label>
+                                <label id="currentTotal">0</label>
+                            </div>
+                            <div class="detail-container">
+                                <label for="discountGiven">Discounts:</label>
+                                <input type="number" id="discountGiven" onkeyup="getDiscounts()"><br>
+                            </div>
+                            <div class="detail-container">
+                                <label for="totalOrder">Total:</label>
+                                <label id="totalOrder">0</label>
+                            </div>
+                            <div class="detail-container">
+                                <label for="receiptDate">Receipt Date:</label>
+                                <input class="input-field" type="date" name="receiptDate" id="receiptDate">
+                            </div>        
+                            <button onclick="saveReceipt()">Save Receipt</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div>
-                <div id="searches">
-                    <div class="container">
-                        <h4>Search By:</h4>
+                <div class="" id="searches">
+                    <div class="container bigBorder">
+                        <h2>Search By:</h2>
                         <button onclick="fillTableReceiptsByAll()">all</button>
                         <label for="searchByDate">Date:</label>
                         <select name="" id="searchByDate" onchange="searchByDate()"></select>
@@ -104,15 +117,20 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Service Name</th>
-                                        <th>Service Price</th>
+                                        <th>DATE</th>
+                                        <th>SERVICE NAME</th>
+                                        <th>SERVICE PRICE</th>
                                     </tr>
                                 </thead>
                                 <tbody id="servicesTable">
     
                                 </tbody>
                             </table>
+                            <hr>
+                            <div class="rightAssign detail-container">
+                                <label for="displayTotalService">Service Total: P</label>
+                                <label class="money" id="displayTotalService"></label>
+                            </div>
                         </div>
                         
                         <div class="container">
@@ -120,27 +138,35 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Product Name</th>
-                                        <th>Product Price</th>
-                                        <th>Quantity</th>
+                                        <th>DATE</th>
+                                        <th>PRODUCT NAME</th>
+                                        <th>PRODUCT PRICE</th>
+                                        <th>QUANTITY</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productTable">
     
                                 </tbody>
                             </table>
+                            <hr>
+                            <div class="rightAssign detail-container">
+                                <label for="displayTotalProduct">Product Total: P</label>
+                                <label class="money" id="displayTotalProduct"></label>
+                            </div>
                         </div>
     
-                        <div class="totalMoney container">
-                            <label for="displayTotalService">Service Total: </label>
-                            <label id="displayTotalService"></label><br>
-                            <label for="displayTotalProduct">Product Total: </label>
-                            <label id="displayTotalProduct"></label><br>
-                            <label for="displayTotalDiscount">Discounts: </label>
-                            <label id="displayTotalDiscount"></label><br>
-                            <label for="displayTotal">Total: </label>
-                            <label id="displayTotal"></label><br>
+                        <div class="container rightAssign">
+                            <hr>
+                            <div class="detail-container">
+                                <label for="displayTotalDiscount">Discounts: </label>
+                                <label id="displayTotalDiscount"></label>
+                            </div>
+                            <hr>
+                            <hr>
+                            <div class="detail-container">
+                                <label for="displayTotal">TOTAL: </label>
+                                <label class="money small-border" id="displayTotal"></label>
+                            </div>
                         </div>
                         
                     </div>

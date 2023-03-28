@@ -12,3 +12,49 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
+
+.columnContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.columnChild{
+  margin: 0 20px;
+}
+
+.columnChild#button{
+  justify-content: right;
+}
+
+.bigBorder{
+  margin-bottom: 10px;
+  background-image: linear-gradient(rgba(233, 233, 233, 0.486), rgba(233, 233, 233, 0.7));
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.input-field{
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid #999;
+  outline: none;
+  background: transparent;
+}
+
+.money{
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.rightAssign{
+  text-align: right;
+}
+
+.small-border{
+  border: 3px solid #de1b1b;
+  padding: 5px;
+}

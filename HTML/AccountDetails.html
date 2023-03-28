@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Format.css">
-    <link rel="stylesheet" href="../css/AccountDetails.css">
+    <link rel="stylesheet" href="../css/ViewBookings.css">
     <link rel="stylesheet" href="../css/CustomerGoods.css">
     <title>Document</title>
 </head>
@@ -42,10 +42,10 @@
 
     <div class="main divBody">
         <div class="contentBody">
-            <div class="main-body">
-                
+            <h1>ACCOUNT</h1>
+            <div class="main-div">
                 <div class="container category">
-                    <h1>Current Cart</h1>
+                    <h2>Current Cart</h2>
                     <div>
                         <div class="detail-container">
                             <label class="lbldesc" for="orderNumber">Orders:</label>
@@ -70,12 +70,10 @@
                             <label id="allCartTotal"></label>
                         </div>
                     </div>
-                    
-                    
                 </div>
                 
                 <div class="container category">
-                    <h1>Appointments</h1>
+                    <h2>Appointments</h2>
                     <div class="detail-container">
                         <label class="lbldesc" class="lbldesc" for="bookDate">Schedules:</label>
                         <select name="appointmentDate" id="bookDate" onchange="onChangeBookDateSelect()"></select><br>
@@ -88,13 +86,12 @@
                     </div>
                     
                     <textarea class="selectList" name="" id="bookDetails" cols="30" rows="10" disabled="true"></textarea><br>
-                    
                 </div>
             </div>
             
-            <div>
+            <div class="main-div">
                 <div class="container category">
-                    <h1>Profile</h1>
+                    <h2>Profile</h2>
                     <div>
                         <button class="stickRight" id="editProfile" onclick="editProfileClick()">edit</button>
                         <div class="detail-container">

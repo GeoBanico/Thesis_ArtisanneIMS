@@ -68,7 +68,8 @@ button {
     background-color:white;
     cursor: pointer;
     border-color: #1bcde0;
-    padding: 2px 5px;
+    padding: 5px 8px;
+    margin: 5px 2px;
 }
 
 button:hover {
@@ -82,4 +83,5 @@ button:hover {
     padding: 7px;
     font-size: 12px;
 }
+
 
