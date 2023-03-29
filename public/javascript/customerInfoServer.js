@@ -207,7 +207,7 @@ const searchSpecificCustomer = async(customerName) => {
 
 const insertCustomerToEmployee = async(customerName) => {
     try {
-        config.then(async function (connection) {
+        const insert = config.then(async function (connection) {
             const customerRep = connection.getRepository(Customer);
             const customer = await customerRep.findOne({
                 where:{id: customerName.id},
@@ -224,7 +224,6 @@ const insertCustomerToEmployee = async(customerName) => {
                 id: 1
             })
 
-            
             const newEmployee = new Employee();
 
             newEmployee.customerId = customerName.id;
@@ -238,6 +237,8 @@ const insertCustomerToEmployee = async(customerName) => {
 
             await connection.manager.save(newEmployee);
         })
+
+        return await insert;
 
     } catch (error) {
         console.log('')
@@ -330,6 +331,51 @@ const removeEmployee = async(employeeId) => {
 
             await employeeRep.save(employeeToUpdate);
         })
+
+        return await remove;
+
+    } catch (error) {
+        console.log('remove customer error: '+error);
+    }
+}
+
+//Fill edit employee
+const editEmployee = async(empData) => {
+    try {
+        const edit = config.then(async function (connection) {
+            console.log(empData);
+
+            const employeeRep = connection.getRepository(Employee);
+            const employeeToUpdate = await employeeRep.findOne({
+                where: {id: empData.empId},
+                relations: ["accesses", "shifts"]
+            });
+
+            console.log(employeeToUpdate);
+            const accessRepo = connection.getRepository(EmployeeAccess);
+            const getAccess = await accessRepo.findOneBy({
+                type: empData.access
+            })
+
+            console.log(getAccess)
+            const shiftRepo = connection.getRepository(EmployeeShift);
+            const getShift = await shiftRepo.findOneBy({
+                type: empData.shift
+            })
+            console.log(getShift);
+
+            employeeToUpdate.customerAccessId = getAccess.id;
+            employeeToUpdate.accesses = getAccess;
+
+            employeeToUpdate.employeeShiftId = getShift.id;
+            employeeToUpdate.shifts = getShift;
+
+            employeeToUpdate.salary = empData.salary
+
+            await employeeRep.save(employeeToUpdate);
+        })
+
+        return await edit;
 
     } catch (error) {
         console.log('remove customer error: '+error);
@@ -455,5 +501,6 @@ module.exports = {
     fillEmployeeAccess,
     fillEmployeeShifts,
     insertCustomerToEmployee,
-    removeEmployee
+    removeEmployee,
+    editEmployee
 }

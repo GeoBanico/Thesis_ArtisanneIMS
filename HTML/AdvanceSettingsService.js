@@ -148,6 +148,16 @@ async function getInfoFromClickedServiceList(){
     document.getElementById("serviceCategoryList").value = await dataStream[0].categories.name;
 }
 
+function missingData(data){
+    var missingVariable = "";
+    Object.entries(data).forEach(([key, value]) => {
+            if (key != 'isDeleted' && value == '') {
+                missingVariable += `- ${key}\n`
+            }
+    });
+
+    return missingVariable;
+}
 
 //Save Service
 document.getElementById("saveServiceClick").onclick = async function() {
@@ -157,6 +167,20 @@ document.getElementById("saveServiceClick").onclick = async function() {
     var description = document.getElementById("serviceDescription").value;
     var categories = document.getElementById("serviceCategoryList").value;
     var isDeleted = false;
+
+    var dataTest = {name, price, duration, description, categories, isDeleted};
+    var hasMissingData = missingData(dataTest);
+    if(hasMissingData != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${hasMissingData}`);
+
+    if(!(Number.isInteger(parseInt(price)) && price > 0)){
+        alert(`Invalid Price (${price}): \nKindly select a whole number greater than 1 for the Price.`);
+        return;
+    }
+
+    if(!(Number.isInteger(parseInt(duration)) && duration > 0)){
+        alert(`Invalid Duration (${duration}): \nKindly select a whole number greater than 1 for the Duration.`);
+        return;
+    }
 
     if(serviceState.state=='add') {
         var data = {name, price, duration, description, categories, isDeleted};
@@ -388,7 +412,7 @@ async function addServiceTypeToDatabase() {
         var isDeleted = false;
 
         if(name == '') {
-            alert('is empty')
+            alert('Service Category empty')
             return;
         }
 
@@ -430,7 +454,6 @@ async function addServiceTypeToDatabase() {
 
     refreshServiceCategory();
     refreshMainServiceCategory(); 
-    
 }
 
 //Edit Service Category

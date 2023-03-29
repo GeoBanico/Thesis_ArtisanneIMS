@@ -142,6 +142,16 @@ app.post('/removeEmployee', async(req, res) => {
         message: "Success"
     });
 });
+
+//edit employee
+app.post('/editEmployee', async(req, res) => {
+    const data = req.body
+    await customerServer.editEmployee(data);
+
+    res.json({
+        message: "Success"
+    });
+});
 //----------------------------------------------------------
 //--------------------- ADVANCE SETTING --------------------
 //----------------------------------------------------------
@@ -346,7 +356,6 @@ app.post('/quickSearchService', async(req, res) => {
 //ADD
 app.post('/addServiceCategory', async(req, res) => {
     const data = req.body
-
     const boolSameServCat = await serviceServer.insertServiceType(data);
     
     await sameDuplicateGoods(boolSameServCat, res);
@@ -372,7 +381,6 @@ app.post('/searchAllServiceCategory', async(req, res) => {
 //Edit
 app.post('/editServiceCategory', async(req, res) => {
     const data = req.body
-
     const boolSameServCat = await serviceServer.updateServiceType(data);
     
     await sameDuplicateGoods(boolSameServCat, res);

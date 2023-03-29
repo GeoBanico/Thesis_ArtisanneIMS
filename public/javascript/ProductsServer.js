@@ -194,11 +194,11 @@ const deleteProduct = async(productName) => {
 
             productToDelete.isDeleted = true;
 
-            console.log(productToDelete);
-
             await productRep.save(productToDelete);
             console.log('[Server] Product Deleted');
         })
+
+        return await toDelete;
 
     } catch (error) {
         console.log('insert product '+ error);
@@ -339,7 +339,7 @@ const duplicateProductType = async(productTypeName) => {
 const updateProductType = async(prodCat) => {
     try {
 
-        config.then(async function (connection) {
+        const updates = config.then(async function (connection) {
             const prodCatRep = connection.getRepository(ProductCategory);
             const prodCatToUpdate = await prodCatRep.findOneBy({
                 name: prodCat.oldName,
@@ -349,6 +349,8 @@ const updateProductType = async(prodCat) => {
             prodCatToUpdate.name = prodCat.name;
             await prodCatRep.save(prodCatToUpdate);
         })
+
+        return await updates
         
     } catch (error) {
         console.log('update product type '+error);
@@ -358,7 +360,7 @@ const updateProductType = async(prodCat) => {
 const deleteProductType = async(prodCat) => {
     try {
 
-        config.then(async function (connection) {
+        const deletes = config.then(async function (connection) {
             const prodCatRep = connection.getRepository(ProductCategory);
             const prodCatToUpdate = await prodCatRep.findOneBy({
                 name: prodCat.name,
@@ -368,6 +370,8 @@ const deleteProductType = async(prodCat) => {
             prodCatToUpdate.isDeleted = true;
             await prodCatRep.save(prodCatToUpdate);
         })
+
+        return await deletes
         
     } catch (error) {
         console.log('delete product category '+error);

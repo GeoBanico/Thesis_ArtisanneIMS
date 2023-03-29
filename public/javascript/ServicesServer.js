@@ -229,6 +229,8 @@ const deleteService = async(serviceName) => {
             console.log('[Server] Service Deleted');
         })
 
+        return await toDelete
+
     } catch (error) {
         console.log('insert service '+ error);
     }
@@ -241,7 +243,7 @@ const deleteService = async(serviceName) => {
 const insertServiceType = async(serviceType) => {
     try {
 
-        var insert = config.then(async function (connection) {
+        const insert = config.then(async function (connection) {
             const servCat = new ServiceCategory();
             servCat.isDeleted = serviceType.isDeleted;
             servCat.name = serviceType.name;
@@ -249,14 +251,13 @@ const insertServiceType = async(serviceType) => {
             const dup = await duplicateServiceType(servCat.name);
 
             if(dup) return true;
-            else{
-                await connect.manager.save(servCat);
-                console.log('[Server] Service Category Saved');
-                return false;
-            }
+
+            await connection.manager.save(servCat);
+            console.log('[Server] Service Category Saved');
+            return false;
         })
 
-        return insert;
+        return await insert;
         
     } catch (error) {
         console.log('insert service category '+ error);

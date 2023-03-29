@@ -130,6 +130,7 @@ async function addEmployee(){
     document.getElementById("editEmployeeClick").style.display = 'none';
     document.getElementById("deleteEmployeeClick").style.display = 'none';
     document.getElementById("closeEmployeeClick").style.display = 'block';
+    document.getElementById("saveEmployeeClick").style.display = 'block';
     document.getElementById("editableCustomerEmployee").style.display = 'block';
 }
 
@@ -154,27 +155,25 @@ async function editEmployee() {
 
 async function removeEmployee(){
     var data = document.getElementById("allEmployeeList").value;
-    if(data == '') alert('Please select a Employee')
-    else {
-        var empArray = data.split(" | ");
-        var id = empArray[0];
-        var name = empArray[1];
-        if (confirm(`Are you sure to delete the Employee: ${name}?`) == true) {
-            var data = {id};
-            const options =  {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-                body: JSON.stringify(data)
-                };
-    
-            const response = await fetch('/removeEmployee', options);
-            const datastream = await response.json()
-            console.log(datastream);
+    if(data == '') return alert('Please select a Employee')
+    var empArray = data.split(" | ");
+    var id = empArray[0];
+    var name = empArray[1];
+    if (!confirm(`Are you sure to delete the Employee: ${name}?`)) return
+    var data = {id};
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+        };
 
-            refreshMainEmployee();
-            closeEmployee();
-        }
-    }
+    const response = await fetch('/removeEmployee', options);
+    const datastream = await response.json()
+    console.log(datastream);
+
+    refreshMainEmployee();
+    closeEmployee();
+    refreshCustomerList()
 }
 
 async function closeEmployee(){
@@ -193,6 +192,27 @@ async function closeEmployee(){
 }
 
 async function saveEmployee(){
+    var access = document.getElementById("employeeAccess").value;
+    var salary = document.getElementById("employeeSalary").value
+    var shift = document.getElementById("employeeShift").value;
+    var employeeList = document.getElementById("allEmployeeList").value.split(" | ");
+    var empId = employeeList[0]; //0: Id | 1: nAME
+
+    if(parseFloat(salary) < 0) return alert("Negative Salaray detected");
+
+    var data = {empId, access, salary, shift}
+
+    console.log(data);
+
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+        };
+    
+    const response = await fetch('/editEmployee', options);
+    const dataStream = await response.json();
+
     closeEmployee();
 }
 
@@ -381,7 +401,46 @@ async function customerToEmployee(){
     
     refreshMainEmployee();
     closeEmployee();
+    refreshCustomerList()
+}
+
+async function refreshCustomerList(){
+    const dataStream = await fillCustomer();
+    var selectBox = document.getElementById("allCustomerList");
+    while(selectBox.options.length > 0){ selectBox.remove(0); }
     
+    var customerDetails = '';
+    await dataStream.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key == 'id') {
+                customerDetails += `${value} | `
+                
+            }
+            if(key == 'firstName') {
+                customerDetails += `${value} `
+                
+            }
+            if(key == 'lastName') {
+                customerDetails += `${value}`
+            }
+        });
+        var option = document.createElement("option");
+        option.text = customerDetails;
+        option.value = customerDetails;
+        selectBox.add(option);
+        customerDetails = ''
+    });
+}
+
+async function fillCustomer() {
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        };
+
+    const response = await fetch('/searchAllCustomers', options);
+    const dataStream = await response.json();
+    return dataStream;
 }
 
 

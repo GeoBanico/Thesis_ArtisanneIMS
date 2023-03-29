@@ -51,7 +51,8 @@ tr:nth-child(even) {
 }
 
 .rightAssign{
-  text-align: right;
+  display: flex;
+  justify-content: right;
 }
 
 .small-border{

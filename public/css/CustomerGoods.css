@@ -55,6 +55,7 @@ h2{
 }
 
 .lbldesc{
+    margin-right: 10px;
     color: grey;
     font-size: small;
 }
