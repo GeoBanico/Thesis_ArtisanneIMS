@@ -11,6 +11,7 @@ body{
 
 /* HEADER */
 nav{
+    display: flex;
     background: #1bcde0;
     height: 100px;
     width: 100%;

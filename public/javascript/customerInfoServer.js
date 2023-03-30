@@ -431,17 +431,15 @@ const editCustomer = async(customers) => {
             .where(`customer.username = '${customers.username}' AND customer.id != ${oldUser.id}`)
             .getCount();
 
-            if(checkCustomerRepo > 0){
-                return true;
-            }
+            if(checkCustomerRepo > 0) return true;
             
-            oldUser[0].firstName = customers.firstName;
-            oldUser[0].lastName = customers.lastName;
-            oldUser[0].birthday = customers.birthday;
-            oldUser[0].phone = customers.phone;
-            oldUser[0].address = customers.address;
-            oldUser[0].email = customers.email;
-            oldUser[0].username = customers.username;
+            oldUser.firstName = customers.firstName;
+            oldUser.lastName = customers.lastName;
+            oldUser.birthday = customers.birthday;
+            oldUser.phone = customers.phone;
+            oldUser.address = customers.address;
+            oldUser.email = customers.email;
+            oldUser.username = customers.username;
 
             await customerRep.save(oldUser);
 

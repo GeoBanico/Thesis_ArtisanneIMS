@@ -326,8 +326,8 @@ const duplicateProductType = async(productTypeName) => {
                 isDeleted: false
             })
 
-            if (searchOneProdCat != null && !searchOneProdCat.isDeleted) return true;
-            else return false;
+            if (searchOneProdCat != null) return true;
+            return false;
         })  
         return duplicate;
         
@@ -346,8 +346,13 @@ const updateProductType = async(prodCat) => {
                 isDeleted: false
             })
 
+            const dup = await duplicateProductType(prodCat.name);
+            if(dup) return dup
+
             prodCatToUpdate.name = prodCat.name;
             await prodCatRep.save(prodCatToUpdate);
+
+            return dup
         })
 
         return await updates

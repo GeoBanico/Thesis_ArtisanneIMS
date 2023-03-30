@@ -173,12 +173,12 @@ document.getElementById("saveServiceClick").onclick = async function() {
     if(hasMissingData != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${hasMissingData}`);
 
     if(!(Number.isInteger(parseInt(price)) && price > 0)){
-        alert(`Invalid Price (${price}): \nKindly select a whole number greater than 1 for the Price.`);
+        alert(`Invalid Price (${price}): \nKindly select a number greater than 0 for the Price.`);
         return;
     }
 
     if(!(Number.isInteger(parseInt(duration)) && duration > 0)){
-        alert(`Invalid Duration (${duration}): \nKindly select a whole number greater than 1 for the Duration.`);
+        alert(`Invalid Duration (${duration}): \nKindly select a number greater than 0 for the Duration.`);
         return;
     }
 
@@ -428,7 +428,7 @@ async function addServiceTypeToDatabase() {
         const response = await fetch('/addServiceCategory', options);
         const dataStream = await response.json();
         if(await dataStream.message == 'duplicate'){
-            alert('This Service Category already exists');
+            return alert('This Service Category already exists');
         }
 
     }
@@ -445,7 +445,7 @@ async function addServiceTypeToDatabase() {
         const response = await fetch('/editServiceCategory', options);
         const dataStream = await response.json();
         if(await dataStream.message == 'duplicate'){
-            alert('This Service Category already exists');
+            return alert('This Service Category already exists');
         }
         addServiceType();
     }
@@ -477,25 +477,20 @@ async function editServiceType() {
 document.getElementById("deleteServiceCategory").onclick = function() {deleteServiceType()};
 async function deleteServiceType() {
     var name = document.getElementById("allServiceCategory").value;
-    if(name == '') alert('Please select a Service Category')
-    else {
-        if (confirm(`Are you sure to delete the Service Category ${name}?`) == true) {
-            var data = {name};
-            const options =  {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
-                body: JSON.stringify(data)
-                };
-    
-            await fetch('/deleteServiceCategory', options);
+    if(name == '') return alert('Please select a Service Category')
+    if (!confirm(`Are you sure to delete the Service Category ${name}?`)) return 
 
-            addServiceType();
-            document.getElementById("serviceCategory").value = ""; 
-            refreshServiceCategory();
-            refreshMainServiceCategory(); 
-        }
-        
-        document.getElementById("allServiceCategory").value = '';
-        document.getElementById("serviceCategory").value = '';
-    }
+    var data = {name};
+    const options =  {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded
+        body: JSON.stringify(data)
+        };
+
+    const response = await fetch('/deleteServiceCategory', options);
+    const dataStream = await response.json();
+
+    addServiceType();
+    refreshServiceCategory();
+    refreshMainServiceCategory(); 
 }

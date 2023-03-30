@@ -129,7 +129,9 @@ function addProduct() {
     const productPrice = findPrice(allProducts, productName);
 
     if(productQuantity == '') return alert('Please Select Quantity');
-    if(parseInt(productQuantity) < 1) return alert('Please Select a proper Quantity');
+    if (!Number.isInteger(parseInt(productQuantity))) return alert('Please Select a proper Quantity');
+    if (!(parseInt(productQuantity) > 0)) return alert('Please Select a proper Quantity');
+    if(productQuantity.toString().includes('.')) return alert('Please Select a proper Quantity');
 
     var option = document.createElement("option");
     option.text = `${productQuantity}x ${productPrice} | ${productName}`;
@@ -226,16 +228,19 @@ function getDiscounts(){
     var curTotal = document.getElementById('currentTotal').innerHTML;
 
     if(curTotal == '') return
-    if(discounted.includes('-')) return alert('Negative Discount: \n Discounts should not be negative');
-    if(discounted == '.' || discounted == '') document.getElementById('totalOrder').innerHTML = curTotal;
+    if(discounted == '') return document.getElementById('totalOrder').innerHTML = curTotal;
+    if(discounted.includes('-')) {
+        document.getElementById('discountGiven').value = '';
+        return alert('Negative Discount: \n Discounts should not be negative');
+    }
 
-    var total = (parseInt(curTotal) - parseInt(discounted));
+    var total = (parseFloat(curTotal) - parseFloat(discounted));
     if(total < 0) {
-        total = parseInt(curTotal);
+        total = parseFloat(curTotal);
         document.getElementById('discountGiven').value = '';
     } 
 
-    document.getElementById('totalOrder').innerHTML = total;
+    document.getElementById('totalOrder').innerHTML = total.toFixed(2);
 }
 
 function futureDate(){

@@ -198,7 +198,7 @@ async function saveEmployee(){
     var employeeList = document.getElementById("allEmployeeList").value.split(" | ");
     var empId = employeeList[0]; //0: Id | 1: nAME
 
-    if(parseFloat(salary) < 0) return alert("Negative Salaray detected");
+    if(parseFloat(salary) <= 0) return alert("Invalid Salary!\n Must be greater than 0");
 
     var data = {empId, access, salary, shift}
 
@@ -386,8 +386,11 @@ async function customerToEmployee(){
     var values = document.getElementById("allCustomerEmployee").value;
     var valuesArr = values.split(" ");
     var id = valuesArr[0];
-
     var data = {id};
+    
+    console.log("values: ")
+    console.log(values);
+    if(values == '') return alert('Please select a customer to make an employee')
 
     const options =  {
         method: 'POST',
@@ -399,6 +402,8 @@ async function customerToEmployee(){
     const datastream = await response.json();
     console.log(await datastream);
     
+    alert("Employee Added");
+
     refreshMainEmployee();
     closeEmployee();
     refreshCustomerList()

@@ -278,6 +278,8 @@ async function saveProfileClick() {
         var wrongFormatFields = wrongFormat(data);
         if(wrongFormatFields != '') return alert(`WRONG FORMAT! \nThere are wrong formatted fields in this category/ies: \n${wrongFormatFields}`);
 
+        console.log(data);
+        
         const options =  {
             method: 'POST',
             headers: {'Content-Type': 'application/json'}, //application/x-www-form-urlencoded

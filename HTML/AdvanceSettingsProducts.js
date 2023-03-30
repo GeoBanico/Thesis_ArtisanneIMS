@@ -186,14 +186,13 @@ document.getElementById("saveProductClick").onclick = async function() {
     if(hasMissingData != '') return alert(`EMPTY FIELDS! \nThere are empty fields in this category/ies: \n${hasMissingData}`);
 
     if(!isWholeNumber(price)){
-        alert(`Invalid Price (${price}): \nKindly select a whole number greater than 1 for the Price.`);
+        alert(`Invalid Price (${price}): \nKindly select a number greater than 0 for the Price.`);
         return;
     }
 
-    if(!isWholeNumber(quantity)){
-        alert(`Invalid Quantity (${quantity}): \nKindly select a whole number greather than 1 for the Quantity.`);
-        return;
-    }
+    if (!Number.isInteger(parseInt(quantity))) return alert('Please Select a proper Quantity');
+    if (!(parseInt(quantity) > 0)) return alert('Please Select a proper Quantity');
+    if(quantity.toString().includes('.')) return alert('Please Select a proper Quantity');
 
     if(productState.state=='add') {
         var data = {name, price, description, categories, quantity, isDeleted};
@@ -464,7 +463,6 @@ async function addProductTypeToDatabase() {
         const response = await fetch('/editProductCategory', options);
         const dataStream = await response.json();
         if(await dataStream.message == 'duplicate'){
-            document.getElementById("productCategory").value = ""; 
             return alert('Duplicate Product Category: \nThis Product Category already exists. Kindly enter a new Product Category');
         }
     }

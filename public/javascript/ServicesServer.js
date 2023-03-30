@@ -338,16 +338,22 @@ const duplicateServiceType = async(serviceTypeName) => {
 const updateServiceType = async(servCat) => {
     try {
 
-        config.then(async function (connection) {
+        const update = config.then(async function (connection) {
             const servCatRep = connection.getRepository(ServiceCategory);
             const servCatToUpdate = await servCatRep.findOneBy({
                 name: servCat.oldName,
                 isDeleted: false
             })
-
+            
+            const dup = await duplicateServiceType(servCat.name);
+            if(dup) return dup
             servCatToUpdate.name = servCat.name;
             await servCatRep.save(servCatToUpdate);
+
+            return dup
         })
+
+        return await update
         
     } catch (error) {
         console.log('update service type '+error);
@@ -357,7 +363,7 @@ const updateServiceType = async(servCat) => {
 const deleteServiceType = async(servCat) => {
     try {
 
-        config.then(async function (connection) {
+        const deleted = config.then(async function (connection) {
             const servCatRep = connection.getRepository(ServiceCategory);
             const servCatToUpdate = await servCatRep.findOneBy({
                 name: servCat.name,
@@ -367,6 +373,8 @@ const deleteServiceType = async(servCat) => {
             servCatToUpdate.isDeleted = true;
             await servCatRep.save(servCatToUpdate);
         })
+
+        return await deleted
         
     } catch (error) {
         console.log('delete service category '+error);
