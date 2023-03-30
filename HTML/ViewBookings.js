@@ -69,8 +69,9 @@ function fillBookDateSelect(){
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'bookId') bookedId = value;
             if(key == 'books') {
-                var dateSplit = value.bookDate.split("T");
-                var dateTime = `${bookedId} | ${dateSplit[0]} ${value.bookStartTime}`
+                var dateSplit = new Date(value.bookDate)
+                var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                var dateTime = `${bookedId} | ${currDate} ${value.bookStartTime}`
                 if(!orderDateArray.includes(dateTime)) orderDateArray.push(dateTime)
             }
         });
@@ -128,8 +129,9 @@ function fillSelects(){
     allBookings.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key === 'books') {
-                var dateSplit = value.bookDate.split("T");
-                if(!dates.includes(dateSplit[0])) dates.push(dateSplit[0])
+                var dateSplit = new Date(value.bookDate)
+                var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(!dates.includes(currDate)) dates.push(currDate)
 
                 var bookStats = value.bookStatuses.type;
                 if(!statuses.includes(bookStats)) statuses.push(bookStats);
@@ -179,9 +181,10 @@ function searchByDateClick(){
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'bookId') bookedId = value;
             if(key === 'books') {
-                var dateSplit = value.bookDate.split("T");
-                if(selectedDate == dateSplit[0]){
-                    var dateTime = `${bookedId} | ${dateSplit[0]} ${value.bookStartTime}`
+                var dateSplit = new Date(value.bookDate)
+                var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(selectedDate == currDate){
+                    var dateTime = `${bookedId} | ${currDate} ${value.bookStartTime}`
                     var option = document.createElement("option");
                     option.text = dateTime;
                     option.value = dateTime;
@@ -206,8 +209,9 @@ function searchByStatusClick(){
             if(key == 'bookId') bookedId = value;
             if(key == 'books') {
                 if(selectedStats == value.bookStatuses.type){
-                    var dateSplit = value.bookDate.split("T");
-                    var dateTime = `${bookedId} | ${dateSplit[0]} ${value.bookStartTime}`
+                    var dateSplit = new Date(value.bookDate)
+                    var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                    var dateTime = `${bookedId} | ${currDate} ${value.bookStartTime}`
                     if(!orderDateArray.includes(dateTime)) orderDateArray.push(dateTime)
                 }
             }

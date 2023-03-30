@@ -355,6 +355,7 @@ async function getAllServiceReceipts(){
     const response = await fetch('/getAllServiceReceipts', options);
     const dataStream = await response.json()
     getServiceList = dataStream;
+    console.log(`Service List:`);
     console.log(getServiceList);
 }
 
@@ -368,7 +369,8 @@ async function getAllProductReceipts(){
     const response = await fetch('/getAllProductReceipts', options);
     const dataStream = await response.json()
     getProductList = dataStream;
-    console.log(getProductList);
+    console.log(`Product List:`);
+    console.log(getProductList)
 }
 
 var getReceiptList = {}
@@ -381,7 +383,8 @@ async function getAllReceiptsList(){
     const response = await fetch('/getAllReceipts', options);
     const dataStream = await response.json()
     getReceiptList = dataStream;
-    console.log(getReceiptList);
+    console.log(`Receipt List:`);
+    console.log(getReceiptList)
 }
 
 //FILL RECEIPTS
@@ -399,8 +402,8 @@ async function fillTableReceiptsByAll(){
     getServiceList.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                currDate = dateSplit[0];
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
             }
             if(key == 'services') {
                 servicesStore = `${value.name}`;
@@ -434,8 +437,8 @@ async function fillTableReceiptsByAll(){
                 productQuantity = `${value}`
             } 
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                currDate = dateSplit[0];
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
             }
             if(key == 'products') {
                 productsStore = `${value.name}`;
@@ -487,8 +490,8 @@ function fillTableReceiptsByDate(date){
     getServiceList.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                currDate = dateSplit[0];
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
             }
             if(key == 'services') {
                 servicesStore = `${value.name}`;
@@ -524,8 +527,8 @@ function fillTableReceiptsByDate(date){
                 productQuantity = `${value}`
             } 
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                currDate = dateSplit[0];
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
             }
             if(key == 'products') {
                 productsStore = `${value.name}`;
@@ -552,11 +555,17 @@ function fillTableReceiptsByDate(date){
 
     document.getElementById("displayTotalProduct").innerHTML = productTotal;
 
+    console.log(date);
+    currDate = '';
     var discountTotal = 0;
     getReceiptList.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
-            if(key == 'discount') {
-                discountTotal += parseInt(value)
+            if(key == 'date') {
+                var dateSplit = new Date(value)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+            }
+            if(key == 'discount') { 
+                if(currDate == date) discountTotal += parseInt(value);
             } 
         });
     });
@@ -568,12 +577,13 @@ function fillTableReceiptsByDate(date){
 
 function fillDate(){
     var allDate = [];
-
+    var currDate = '';
     getServiceList.forEach(obj => {
         Object.entries(obj).forEach(async([key, value]) => {
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                if(!allDate.includes(dateSplit[0])) allDate.push(dateSplit[0]);
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(!allDate.includes(currDate)) allDate.push(currDate);
             }
         });
     });
@@ -581,11 +591,14 @@ function fillDate(){
     getProductList.forEach(obj => {
         Object.entries(obj).forEach(async([key, value]) => {
             if(key == 'receipts') {
-                var dateSplit = value.date.split("T");
-                if(!allDate.includes(dateSplit[0])) allDate.push(dateSplit[0]);
+                var dateSplit = new Date(value.date)
+                currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(!allDate.includes(currDate)) allDate.push(currDate);
             }
         });
     });
+
+    allDate.sort((a, b) => new Date(a) - new Date(b));
 
     var selectDate = document.getElementById("searchByDate");
     while(selectDate.options.length > 0){ selectDate.remove(0); }

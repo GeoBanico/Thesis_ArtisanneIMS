@@ -130,8 +130,9 @@ function fillSelects(){
     allOrders.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
             if(key === 'carts') {
-                var dateSplit = value.dateOrdered.split("T");
-                if(!dates.includes(dateSplit[0])) dates.push(dateSplit[0])
+                var dateSplit = new Date(value.dateOrdered)
+                var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(!dates.includes(currDate)) dates.push(currDate)
 
                 var bookStats = value.deliveryStatuses.type;
                 if(!statuses.includes(bookStats)) statuses.push(bookStats);
@@ -182,8 +183,9 @@ function searchByDateClick(){
         Object.entries(obj).forEach(([key, value]) => {
             if(key == 'cartId') cartsId = value;
             if(key == 'carts') {
-                var dateSplit = value.dateOrdered.split("T");
-                if(selectedDate == dateSplit[0]){
+                var dateSplit = new Date(value.dateOrdered)
+                var currDate = `${dateSplit.getFullYear()}-${dateSplit.getMonth()+1}-${dateSplit.getDate()}`;
+                if(selectedDate == currDate){
                     var dataToInput = `${cartsId} | ${value.orderNumber}`
                     if(!orderNumArray.includes(dataToInput)) orderNumArray.push(dataToInput)
                 }
