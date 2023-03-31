@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="../css/Format.css">
     <link rel="stylesheet" href="../css/ViewBookings.css">
     <link rel="stylesheet" href="../css/CustomerGoods.css">
-    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap" rel="stylesheet">
+    <title>ARTISANNE</title>
 </head>
 <body>
     <nav>
@@ -31,9 +35,9 @@
             <li id="forEmployee">
                 <a href="#" class="itemSeparate">Advance Settings</a>
                 <ul class="dropdown">
-                    <li><div class="forOwnerManager"><a href="ViewFinances.html" class="itemSeparate">View Finances</a></div></li>
-                    <li><a href="ViewBookings.html" class="itemSeparate">View Bookings</a></li>
-                    <li> <a href="ViewDeliveries.html" class="itemSeparate">View Delivery</a></li>
+                    <li><div class="forOwnerManager"><a href="ViewFinances.html" class="itemSeparate">Finances</a></div></li>
+                    <li><a href="ViewBookings.html" class="itemSeparate">All Bookings</a></li>
+                    <li> <a href="ViewDeliveries.html" class="itemSeparate">All Delivery</a></li>
                     <li><div class="forOwnerManager"><a href="AdvanceSettings.html" class="itemSeparate">More Options</a></div></li>
                 </ul>
             </li>
@@ -42,10 +46,10 @@
 
     <div class="main divBody">
         <div class="contentBody">
-            <h1>ACCOUNT</h1>
+            <h1>ACCOUNT DETAILS</h1>
             <div class="main-div">
                 <div class="container category">
-                    <h2>Current Cart</h2>
+                    <h2>- Current Cart</h2>
                     <div>
                         <div class="detail-container">
                             <label class="lbldesc" for="orderNumber">Orders:</label>
@@ -73,7 +77,7 @@
                 </div>
                 
                 <div class="container category">
-                    <h2>Appointments</h2>
+                    <h2>- Appointments</h2>
                     <div class="detail-container">
                         <label class="lbldesc" class="lbldesc" for="bookDate">Schedules:</label>
                         <select name="appointmentDate" id="bookDate" onchange="onChangeBookDateSelect()"></select><br>
@@ -91,7 +95,7 @@
             
             <div class="main-div">
                 <div class="container category">
-                    <h2>Profile</h2>
+                    <h2>- User Profile</h2>
                     <div>
                         <button class="stickRight" id="editProfile" onclick="editProfileClick()">edit</button>
                         <div class="detail-container">
