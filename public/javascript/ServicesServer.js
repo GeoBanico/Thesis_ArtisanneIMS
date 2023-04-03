@@ -207,6 +207,8 @@ const editService = async(newService) => {
             console.log('[Server] Service Saved');
         })
 
+        return await edit
+
     } catch (error) {
         console.log('insert service '+ error);
     }
