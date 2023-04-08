@@ -72,7 +72,7 @@ const insertOrder = async(data) => {
 
 async function hasSufficientQuantity(connection, productOrdered, quantities){
     const productRep = connection.getRepository(Product);
-    const insufficientQuantityList = '';
+    var insufficientQuantityList = '';
 
     //check database for quantity deficiency
     for (let i = 0; i < productOrdered.length; i++) {
@@ -80,6 +80,8 @@ async function hasSufficientQuantity(connection, productOrdered, quantities){
             name: productOrdered[i]
         })
         
+        console.log(productToOrder.storeQuantity);
+        console.log(quantities[i]);
         if(productToOrder.storeQuantity < quantities[i]) insufficientQuantityList += `${productToOrder.name}\n`;
     }
 

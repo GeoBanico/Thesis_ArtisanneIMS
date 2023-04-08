@@ -3,18 +3,16 @@ const express = require('express'),
     index = require('./src/index');
 const app = express();
 
-const port = process.env.PORT || 5000;
-
-app.listen(port,()=>{
-    console.log(`Server stated at ${port}`);
-});
-
 app.use(express.static('HTML'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.json({ limit: '1mb'}));
 app.use(express.urlencoded({
     extended: true
 }));
+
+app.get('', (req, res) => {
+    res.sendFile(__dirname + '/index.html')
+})
 
 //------------------------------------------------
 //-------------------- CUSTOMER ------------------
@@ -537,3 +535,5 @@ app.post('/getAllReceipts', async(req, res) => {
 
     res.json(allReceipt);
 });
+
+module.exports = app;
