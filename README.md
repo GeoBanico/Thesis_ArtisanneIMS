@@ -6,7 +6,7 @@ Steps to run this project:
 3. Enjoy
 
 List of Sample Accounts
-1. Customer | Just make new account :D
-2. Employee | Username: sampleEmployee Password: employee123
-3. Manager  | Username: sampleAdmin    Password: admin123
-4. Owner    | Username: admin1         Password: admin123
+1. Customer | Username: Customer_1      Password: customer123
+2. Employee | Username: sampleEmployee  Password: employee123
+3. Manager  | Username: sampleAdmin     Password: admin123
+4. Owner    | Username: admin1          Password: admin123

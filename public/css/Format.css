@@ -14,7 +14,7 @@ nav{
     display: flex;
     background: #1bcde0;
     height: 100px;
-    width: 100%;
+    width: 1920px;
 }
 
 .logo{
@@ -73,6 +73,7 @@ ul li:hover ul.dropdown {
 .divBody{
     height: 100vh;
     height: 100dvh;
+    width: 1536px;
     display: flex;
     justify-content: center;
     padding: 20px;
